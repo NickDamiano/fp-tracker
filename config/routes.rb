@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   #     end
   #   end
   post 'twilio/voice' => 'twilio#voice'
+  post 'notifications/notify' => 'notifications#notify'
 
   # Example resource route with sub-resources:
   #   resources :products do
