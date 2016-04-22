@@ -10,7 +10,7 @@ class TwilioController < ApplicationController
  
   def voice
   	response = Twilio::TwiML::Response.new do |r|
-  	  r.Say 'Hi Sexy Rocio. You are so sexy and i love you.', :voice => 'alice'
+  	  r.Say 'Got to get tough. Yo Joe.', :voice => 'alice'
          r.Play 'http://linode.rabasa.com/cantina.mp3'
   	end
  
