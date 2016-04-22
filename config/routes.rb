@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   #       get 'sold'
   #     end
   #   end
+  post 'twilio/voice' => 'twilio#voice'
 
   # Example resource route with sub-resources:
   #   resources :products do
