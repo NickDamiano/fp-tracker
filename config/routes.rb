@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'personnel_update/depart'
+
+  get 'personnel_update/arrive'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
