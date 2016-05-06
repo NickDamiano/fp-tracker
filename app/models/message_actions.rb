@@ -6,7 +6,8 @@ class MessageActions
 		names = parse_names(message)
 		from = parse_location_from(message)
 		to = parse_location_to(message)
-		{ names: names, from: from, to: to }
+		result = { names: names, from: from, to: to }
+		p "result izzzz #{result}"
 	end
 
 	def self.arrive(message)
