@@ -4,6 +4,7 @@ class MessageActions
 	end
 
 	def self.arrive
+		puts 'message action arrive message called !!!!'
 	end
 
 	def self.emergency
