@@ -1,16 +1,33 @@
 class MessageActions
+	# parses out names, location from, and to (if included in message)
+	# returns hash {names: names, from: from, to: to }
 	def self.depart
-		puts 'message actions depart message called'
+		puts 'depart was totally called broski'
+		names = parse_names(message)
+		from = parse_location_from(message)
+		to = parse_location_to(message)
+		{ names: names, from: from, to: to }
 	end
 
 	def self.arrive(message)
-		puts "message action #{message} message called !!!!"
-		puts 'fart'
+		puts "arrive was totally called bro"
 	end
 
 	def self.emergency
 	end
 
 	def self.sitrep
+	end
+
+	def parse_names(message)
+		['nick', 'fred', 'bart']
+	end
+
+	def parse_location_from(message)
+		'al yamama'
+	end
+
+	def parse_location_to(message)
+		'psab'
 	end
 end

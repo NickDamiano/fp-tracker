@@ -18,11 +18,12 @@ class NotificationsController < ApplicationController
 		when /depart|left/
 			p "it's depart"
 			# call depart method
-			MessageActions.depart
+			result = MessageActions.depart(message)
+			p "result is #{result}"
 		when /arrive/
 			p "it's arrive"
 			# call arrive method
-			MessageActions.arrive
+			MessageActions.arrive(message)
 		else
 			p 'forward the message to nick'
 		end
