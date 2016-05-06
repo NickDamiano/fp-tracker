@@ -11,7 +11,7 @@ class MessageActions
 	end
 
 	def self.arrive(message)
-		puts "arrive was totally called bro"
+		puts "is this thing working? damn man."
 	end
 
 	def self.emergency
