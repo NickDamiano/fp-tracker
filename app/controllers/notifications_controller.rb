@@ -10,22 +10,23 @@ class NotificationsController < ApplicationController
 		case message
 		when /^911/
 			p "It's an emergency"
+			# call emergency method
 		when /^sitrep/
 			p "It's requesting sitrep"
+			# call sitrep method from message_parse class
+			# respond to sending number with 
+		when /depart|left/
+			p "it's depart"
+			# call depart method
+			MessageActions.depart
+		when /arrive/
+			p "it's arrive"
+			# call arrive method
+			MessageActions.arrive
 		else
-			p "It's a depart/arrive"
+			p 'forward the message to nick'
 		end
-		# case statement for 
-		# emergency
-		# mass distro message for TASS or for king air guys
-		# SITREP reports on who is where. lists out location
-			# followed by indented names 
-		# LFG feature later
-		# else it's a report for departing or arriving
-
 	end
-
-
 
 
 end
