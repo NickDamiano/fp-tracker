@@ -4,7 +4,7 @@ class NotificationsController < ApplicationController
 
 	def parse
 		#call this 
-		p params
+		p params["Body"]
 	end
 
 end
