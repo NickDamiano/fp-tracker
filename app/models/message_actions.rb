@@ -3,8 +3,9 @@ class MessageActions
 		puts 'message actions depart message called'
 	end
 
-	def self.arrive
-		puts 'message action arrive message called !!!!'
+	def self.arrive(message)
+		puts "message action #{message} message called !!!!"
+		puts 'fart'
 	end
 
 	def self.emergency
