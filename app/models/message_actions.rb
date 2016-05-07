@@ -10,13 +10,16 @@ class MessageActions
 	end
 
 	def self.arrive(message)
-		puts "is this thing working? damn"
+		puts "arrival message_actions called"
 	end
 
-	def self.emergency
+	def self.emergency(message, sender)
 	end
 
-	def self.sitrep
+	def self.sitrep(sender)
+	end
+
+	def self.history(message, sender)
 	end
 
 	def self.parse_names(message)
@@ -31,7 +34,10 @@ class MessageActions
 
 	def self.parse_location_from(message)
 		'from location'
+	end
 
+	def self.forward_unparsed(message, sender)
+		# build and send message with TwiML back to sender
 	end
 
 	def self.parse_location_to(message)
