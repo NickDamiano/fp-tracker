@@ -20,7 +20,7 @@ class MessageActions
 	end
 
 	def self.parse_names(message)
-		# message is ["bart, lisa, marge left al yamama"]
+		# message is ["bart, lisa, marge left al yamama to psab"]
 		first = message.split(',')
 		# gets last name and pushes them all together. 
 		# Returns ["bart, lisa, marge"]
@@ -31,9 +31,13 @@ class MessageActions
 
 	def self.parse_location_from(message)
 		'from location'
+
 	end
 
 	def self.parse_location_to(message)
-		'to location'
+		# if the message contains the word to 
+		if message =~ /\sto\s/
+			return message.split('to')[-1].strip!
+		end
 	end
 end

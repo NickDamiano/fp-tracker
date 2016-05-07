@@ -17,16 +17,22 @@ class NotificationsController < ApplicationController
 			# respond to sending number with 
 		when /depart|left|leaving|going/
 			p "it's depart"
-			# call depart method
-			result = MessageActions.depart(message)
-			p "result is #{result}"
+			Message.store_departure(message)
+			# update database
 		when /arrive/
 			p "it's arrive"
 			# call arrive method
-			MessageActions.arrive(message)
+			Message.store_arrival(message)
+		when /autoforward/
+			p 'autoforwarding enabled or disabled'
+			Message.toggle_autoforward
 		else
 			p 'forward the message to nick'
+			# call forward to nick method
+			Message.forward_unparsed(message)
 		end
+
+		# necessary because no page is rendered with this controller method
 		render :nothing => true
 
 	end
