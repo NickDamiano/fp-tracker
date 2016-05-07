@@ -1,28 +1,16 @@
 == README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+FP-Tracker (Force Protection Tracker) is a text-messaging-based application used to track departures and arrivals for overseas personnel leaving a secure area and going to and from work or other destinations. 
 
-Things you may want to cover:
+FP-Tracker is designed to replace or supplement existing systems of communications where employees text their supervisor when they exit / enter a compound / base. 
 
-* Ruby version
+Some highlights:
 
-* System dependencies
+- It eliminates redundant messages where multiple people in departing group text the supervisor the same message.
 
-* Configuration
+- It prevents the supervisor from having to keep track of all incoming messages and personnel departures and arrivals. Instead he can text "sitrep" and he receives a list of personnel locations. He can also toggle on/off the autoforwarding of all messages to whichever number. Finally he can get an hourly summary of all departures and arrivals.
 
-* Database creation
+- 911 feature allows anyone to text 911 followed by a message which will then be broadcasted to all personnel in case of emergency
 
-* Database initialization
+Because of existing database tracking locations, names, numbers, etc, reporting and tracking is simplified. Messages consist of names separated by commas going to destination, for example: "damiano, austin, perdue, and fischer went to embassy.""
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
