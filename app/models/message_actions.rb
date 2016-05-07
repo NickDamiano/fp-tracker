@@ -20,14 +20,20 @@ class MessageActions
 	end
 
 	def self.parse_names(message)
-		['nick', 'fred', 'bart']
+		# message is ["bart, lisa, marge left al yamama"]
+		first = message.split(',')
+		# gets last name and pushes them all together. 
+		# Returns ["bart, lisa, marge"]
+		last = first[-1]
+		last_name = last.lstrip.split(' ')[0]
+		first[0...-1].each{ | name | name.strip!}.push(last_name)
 	end
 
 	def self.parse_location_from(message)
-		'al yamama'
+		'from location'
 	end
 
 	def self.parse_location_to(message)
-		'psab'
+		'to location'
 	end
 end

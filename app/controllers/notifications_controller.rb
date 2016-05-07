@@ -15,7 +15,7 @@ class NotificationsController < ApplicationController
 			p "It's requesting sitrep"
 			# call sitrep method from message_parse class
 			# respond to sending number with 
-		when /depart|left/
+		when /depart|left|leaving|going/
 			p "it's depart"
 			# call depart method
 			result = MessageActions.depart(message)
@@ -28,7 +28,7 @@ class NotificationsController < ApplicationController
 			p 'forward the message to nick'
 		end
 		render :nothing => true
-		
+
 	end
 
 
