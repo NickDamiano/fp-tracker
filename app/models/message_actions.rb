@@ -9,6 +9,9 @@ class MessageActions
 	end
 
 	def self.arrive(message)
+		# filter out if it says all arrived who the sender is, look at the last
+		# message from the sender to see the names and mark all as being at the 
+		# destination
 		puts "arrival message_actions called"
 	end
 
@@ -23,6 +26,9 @@ class MessageActions
 	end
 
 	def self.sitrep(sender)
+	end
+
+	def self.add_employee(message)
 	end
 
 	def self.history(message, sender)

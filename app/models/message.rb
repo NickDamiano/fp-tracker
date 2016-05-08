@@ -12,6 +12,7 @@ class Message < ActiveRecord::Base
 	end
 
 	def self.store_arrival(message)
+
 		result = MessageActions.arrive(message)
 		p "result is #{result}"
 		#iterate through each name and update database with arrival
@@ -38,6 +39,22 @@ class Message < ActiveRecord::Base
 		# send all messages back to sender from now until hours back
 	end
 
+	def self.add_employee(message)
+		result = MessageActions.add_employee(message)
+		# admin message
+	end
+
+	def self.remove_employee(message)
+		# removes employees leaving permanently
+		# admin message
+	end
+
+	def self.toggle_employee_saudi_presence(message)
+		# if employee leaves the country or arrives, toggle their status so they
+		# don't receive alerts and are marked as out of saudi
+		# admin message
+	end
+
 	def self.toggle_autoforward(sender)
 		# look at sender. check autoforward status and toggle
 		# check to see if user has autoforward privledges?
@@ -52,6 +69,10 @@ class Message < ActiveRecord::Base
 		# maybe it pulls it from a yaml file and responds to the message
 		# 'return a message explaining how to report departure, arrival,
 		# 911, autoforward, sitrep (for those who have privledges'
+	end
+
+	def self.report_location(message, sender)
+		result = MessageActions.report_location(message)
 	end
 
 end

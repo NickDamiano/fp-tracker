@@ -13,6 +13,9 @@ class NotificationsController < ApplicationController
 		when /^911/
 			p "It's an emergency"
 			Message.report_emergency(message, sender)
+		when /^add employee/
+			p 'adding someone to the database'
+			Message.add_employee(message)
 		when /^sitrep/
 			p "It's requesting sitrep"
 			Message.send_sitrep(sender)
@@ -31,6 +34,10 @@ class NotificationsController < ApplicationController
 		when /history/
 			p 'give user history of messages within last x amount of hours'
 			Message.message_history(message, sender)
+		when /where/
+			# asking for location of a specific person
+			'reporting location for specific person'
+			Message.report_location(message, sender)
 		else
 			p 'forward the message to nick'
 			Message.forward_unparsed(message, sender)
