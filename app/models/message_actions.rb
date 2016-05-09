@@ -31,6 +31,14 @@ class MessageActions
 	def self.add_employee(message)
 	end
 
+	def self.checkDuplicateLastName(names)
+		names.each do | name | 
+			if Employee.count(last_name: "#{name}", in_saudi: true)
+				duplicates.push(name)
+			end
+		end
+	end
+
 	def self.history(message, sender)
 	end
 

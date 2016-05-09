@@ -6,9 +6,12 @@ class Message < ActiveRecord::Base
 	belongs_to :employee
 
 	def self.store_departure(message)
-		result = MessageActions.depart(message)
+		parsed_data = MessageActions.depart(message)
+		names = parsed_date["names"]
+		result = MessageActions.checkDuplicateLastName(names)
 		# iterate through each name and update database
 		p "result is #{result}"
+
 	end
 
 	def self.store_arrival(message)
