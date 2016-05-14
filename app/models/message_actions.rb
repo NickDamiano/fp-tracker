@@ -32,11 +32,43 @@ class MessageActions
 	end
 
 	def self.checkDuplicateLastName(names)
+		duplicates = []
+		employees = []
 		names.each do | name | 
-			if Employee.count(last_name: "#{name}", in_saudi: true)
+			# check for duplicates, if there are, push them into
+			if Employee.where(last_name: "#{name}", in_saudi: true).count > 1
 				duplicates.push(name)
 			end
+			# retrieve employee, convert to hash, store in array to be returned
+			employee = Employee.find_by(last_name: name).as_json
+			employees.push(employee)
 		end
+		# if there are duplicate names then see if they exceed the number of names in database
+				# i.e. if there are only two johnsons in saudi, and two johnsons were put down in text
+				# then no need to check which ones. If there are three johnsons then get the right ones
+		if duplicates[0]
+			# sort out unique names from duplicates, get number of ocurrence in duplicates array
+			# call duplicate message that takes the last names, creates a text message
+			# sends it back to the origin number
+			unique_names = duplicates.uniq 
+			unique_names.each do | name |
+				number_occur = duplicates.count(name)
+				# if there are more in country with last name than listed
+				if number_occur > Employee.where(last_name: "#{name}", in_saudi: true).count
+					# call duplicate message for last name to get which of those guys it is
+				else
+					# all instances of that last name in country are leaving, get all of that name and push those results to the database
+					duplicate_names_to_push = Employee.where(last_name: "#{name}", in_saudi: true).as_json
+					employees.push(duplicate_names_to_push)
+				end
+			end
+		end
+		# return the objects of non-duplicates
+		employees
+	end
+
+	def self.send_duplicate_check_message(name)
+		# take name, compose message with all first names of that last name, have them respond and if multiple
 	end
 
 	def self.history(message, sender)
