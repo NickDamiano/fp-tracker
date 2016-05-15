@@ -7,7 +7,9 @@ class Message < ActiveRecord::Base
 
 	def self.store_departure(message)
 		parsed_data = MessageActions.depart(message)
-		names = parsed_date["names"]
+		p "parsed data is #{parsed_data}"
+		names = parsed_data[:names]
+		p "names is #{names}"
 		result = MessageActions.checkDuplicateLastName(names)
 		# iterate through each name and update database
 		p "result is #{result}"

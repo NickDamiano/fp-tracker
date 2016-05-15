@@ -36,25 +36,36 @@ class MessageActions
 		employees = []
 		names.each do | name | 
 			# check for duplicates, if there are, push them into
+			
+			puts "name is #{name}"
+			puts "count is "
+			puts Employee.where(last_name: "#{name}", in_saudi: true).count
+			puts "end of count"
 			if Employee.where(last_name: "#{name}", in_saudi: true).count > 1
+				puts "There are duplicates!"
 				duplicates.push(name)
+			else
+				# If the name is unique to people in saudi, retrieve employee, convert to hash, and 
+					# store in array to be returned
+				employee = Employee.find_by(last_name: name).as_json
+				employees.push(employee)
 			end
-			# retrieve employee, convert to hash, store in array to be returned
-			employee = Employee.find_by(last_name: name).as_json
-			employees.push(employee)
 		end
 		# if there are duplicate names then see if they exceed the number of names in database
 				# i.e. if there are only two johnsons in saudi, and two johnsons were put down in text
 				# then no need to check which ones. If there are three johnsons then get the right ones
+		puts "Duplicatessssss are #{duplicates}"
+		puts "Names should not include butt. Here are employee names: #{employees}"
 		if duplicates[0]
 			# sort out unique names from duplicates, get number of ocurrence in duplicates array
 			# call duplicate message that takes the last names, creates a text message
 			# sends it back to the origin number
 			unique_names = duplicates.uniq 
 			unique_names.each do | name |
-				number_occur = duplicates.count(name)
+				number_occur_text = duplicates.count(name)
+				puts "number_occur is #{number_occur_text}!!!!!!!!!!!!!!!!!!!!!!"
 				# if there are more in country with last name than listed
-				if number_occur > Employee.where(last_name: "#{name}", in_saudi: true).count
+				if number_occur_text < Employee.where(last_name: "#{name}", in_saudi: true).count
 					# call duplicate message for last name to get which of those guys it is
 				else
 					# all instances of that last name in country are leaving, get all of that name and push those results to the database
