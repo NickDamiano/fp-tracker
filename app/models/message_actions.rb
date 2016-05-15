@@ -15,6 +15,16 @@ class MessageActions
 		puts "arrival message_actions called"
 	end
 
+	def self.updateDatabase(employees, destination)
+		# takes names and loops through updating database with new location for each one
+		# names is array of hashes of employee objects
+		employees.each do | employee | 
+			employee_temp = Employee.find_by(first_name: employee["first_name"], last_name: employee["last_name"])
+			employee_temp.location = "driving to #{destination}"
+			employee_temp.save
+		end
+	end
+
 	def self.parse_location_to(message)
 		# if the message contains the word to 
 		if message =~ /\sto\s/

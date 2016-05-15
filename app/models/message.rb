@@ -9,10 +9,12 @@ class Message < ActiveRecord::Base
 		parsed_data = MessageActions.depart(message)
 		p "parsed data is #{parsed_data}"
 		names = parsed_data[:names]
+		to = parsed_data[:to]
 		p "names is #{names}"
 		result = MessageActions.checkDuplicateLastName(names)
 		# iterate through each name and update database
 		p "result is #{result}"
+		MessageActions.updateDatabase(result, to)
 
 	end
 
