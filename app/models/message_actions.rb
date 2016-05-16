@@ -13,6 +13,25 @@ class MessageActions
 		# message from the sender to see the names and mark all as being at the 
 		# destination
 		puts "arrival message_actions called"
+		# sometimes people forget to text a departure. should handle both "all arrived" follow-up
+			# as well as damiano, smith, blah, arrived at al yamama
+		# if it starts with arrived - look at who sent it, find last message from them, parse out names and location from 
+		# the departed message and update database with them being located there. (or if an acknowledging text is sent, parse
+			# the last text sent to that number and update database)
+				# call parse_arrived_short
+		# if it doesn't start with arrive, then it should be a list of names (nick, bart, butt arrived at al yamama) - strip
+		# off any punctuation marks at the end. also strip out preopositions following arrived like on/at/in. 
+			# call parse_arrived_long
+	end
+
+	def self.parse_arrived_short(message)
+		# look at message history for sending number for most recent containing the word depart
+		# parse that message again through the parser and return a result. result will be updated in db
+	end
+
+	def self.parse_arrived_long(message)
+		# parse by commas and arrived to get who and where. 
+		# send back to message.rb to update database with arrived
 	end
 
 	def self.updateDatabase(employees, destination)
