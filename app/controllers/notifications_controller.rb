@@ -8,6 +8,7 @@ class NotificationsController < ApplicationController
 		message = params["Body"]
 		sender = params["From"]
 		message.downcase!
+		Message.save_message(message, sender)
 
 		case message
 		when /^911/

@@ -5,6 +5,12 @@
 class Message < ActiveRecord::Base
 	belongs_to :employee
 
+	def self.save_message(message, sender)
+		sender_employee = Employee.find_by(phone_num1: "#{sender}")
+		Message.create(from: sender, body: message, employee_id: sender_employee.id)
+		p sender_employee
+	end
+
 	def self.store_departure(message)
 		parsed_data = MessageActions.depart(message)
 		p "parsed data is #{parsed_data}"
@@ -48,6 +54,8 @@ class Message < ActiveRecord::Base
 
 	def self.add_employee(message)
 		result = MessageActions.add_employee(message)
+		# maybe this is done by the employee by texting and it asks a series of questions 
+			# and then registers them after confirming all information is correct. 
 		# admin message
 	end
 
@@ -56,7 +64,7 @@ class Message < ActiveRecord::Base
 		# admin message
 	end
 
-	def self.toggle_employee_saudi_presence(message)
+	def self.toggle_employee_saudi_presence(employee)
 		# if employee leaves the country or arrives, toggle their status so they
 		# don't receive alerts and are marked as out of saudi
 		# admin message
