@@ -25,7 +25,7 @@ class NotificationsController < ApplicationController
 			Message.store_departure(message)
 		when /arrive/
 			p "it's arrive"
-			Message.store_arrival(message)
+			Message.store_arrival(message, sender)
 		when /autoforward/
 			p 'autoforwarding enabled or disabled'
 			Message.toggle_autoforward(sender)

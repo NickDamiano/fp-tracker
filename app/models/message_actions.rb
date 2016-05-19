@@ -1,40 +1,41 @@
 class MessageActions
-	# parses out names, location from, and to (if included in message)
-	# returns hash {names: names, from: from, to: to }
-	def self.depart(message)
-		puts 'depart was totally called broski'
+
+	def self.get_depart_info(message)
 		names = parse_names(message)
 		to = parse_location_to(message)
 		result = { names: names, to: to }
 	end
 
-	def self.arrive(message)
-		# filter out if it says all arrived who the sender is, look at the last
-		# message from the sender to see the names and mark all as being at the 
-		# destination
-		puts "arrival message_actions called"
-		# sometimes people forget to text a departure. should handle both "all arrived" follow-up
-			# as well as damiano, smith, blah, arrived at al yamama
-		# if it starts with arrived - look at who sent it, find last message from them, parse out names and location from 
-		# the departed message and update database with them being located there. (or if an acknowledging text is sent, parse
-			# the last text sent to that number and update database)
-				# call parse_arrived_short
-		# if it doesn't start with arrive, then it should be a list of names (nick, bart, butt arrived at al yamama) - strip
-		# off any punctuation marks at the end. also strip out preopositions following arrived like on/at/in. 
-			# call parse_arrived_long
+	def self.arrive(message, sender)
+		if message == "arrived"
+			parse_arrived_short(message, sender)
+		else
+			parse_arrived_long(message)
+		end
 	end
 
-	def self.parse_arrived_short(message)
-		# look at message history for sending number for most recent containing the word depart
-		# parse that message again through the parser and return a result. result will be updated in db
+	def self.parse_arrived_short(message, sender)
+		depart_message = Message.where(from: sender).last
+		# returns hash with keys names and to 
+		get_depart_info(depart_message["body"])
 	end
 
 	def self.parse_arrived_long(message)
 		# parse by commas and arrived to get who and where. 
 		# send back to message.rb to update database with arrived
+		names = parse_names(message)
+		
 	end
 
-	def self.updateDatabase(employees, destination)
+	def self.updateDatabaseArrive(employees, destination)
+		employees.each do | employee | 
+			employee_temp = Employee.find_by(first_name: employee["first_name"], last_name: employee["last_name"])
+			employee_temp.location = destination
+			employee_temp.save
+		end
+	end
+
+	def self.updateDatabaseDepart(employees, destination)
 		# takes names and loops through updating database with new location for each one
 		# names is array of hashes of employee objects
 		employees.each do | employee | 

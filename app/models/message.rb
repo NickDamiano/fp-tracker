@@ -12,23 +12,20 @@ class Message < ActiveRecord::Base
 	end
 
 	def self.store_departure(message)
-		parsed_data = MessageActions.depart(message)
-		p "parsed data is #{parsed_data}"
+		parsed_data = MessageActions.get_depart_info(message)
 		names = parsed_data[:names]
 		to = parsed_data[:to]
-		p "names is #{names}"
 		result = MessageActions.checkDuplicateLastName(names)
 		# iterate through each name and update database
-		p "result is #{result}"
-		MessageActions.updateDatabase(result, to)
+		MessageActions.updateDatabaseDepart(result, to)
 
 	end
 
-	def self.store_arrival(message)
+	def self.store_arrival(message, sender)
 
-		result = MessageActions.arrive(message)
-		p "result is #{result}"
-		#iterate through each name and update database with arrival
+		result = MessageActions.arrive(message, sender)
+		p "result is #{result}!!!!!!!!!!!!!!!!"
+		MessageActions.updateDatabaseDepart
 	end
 
 	def self.report_emergency(message, sender)
