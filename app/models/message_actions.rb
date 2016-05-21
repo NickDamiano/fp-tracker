@@ -34,6 +34,7 @@ class MessageActions
 			temp_employee = Employee.find(employee.employee_id)
 			temp_employee.location = employee.destination
 			temp_employee.save
+			employee.destroy
 		end
 	end
 
