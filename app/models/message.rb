@@ -11,21 +11,33 @@ class Message < ActiveRecord::Base
 		p sender_employee
 	end
 
-	def self.store_departure(message)
+	def self.store_departure(message, sender)
 		parsed_data = MessageActions.get_depart_info(message)
 		names = parsed_data[:names]
 		to = parsed_data[:to]
 		result = MessageActions.checkDuplicateLastName(names)
 		# iterate through each name and update database
 		MessageActions.updateDatabaseDepart(result, to)
+		# MessageActions.createTransitRecord(result, to, sender)
+		# Save a transit record to be referenced for arrive
+		result.each do | employee | 
+			TransitEmployee.create(sender: sender, destination: to, employee_id: employee["id"])
+		end
 
 	end
 
 	def self.store_arrival(message, sender)
+		# there needs to be a new model like "Depart_message" that is created after the database is updated with transit. 
+			# so damiano, butt, and fart are going to al yamama
+			# creates new join table for 1) Employee, 2) destination, 3) sender
+			# then when the arrived message is sent, it looks at that join table by sender to get name records, updates
+			# names with being at destination, and deletes records sent by that sender so that join table stays clean only for
+			# active transit guys. 
 
 		result = MessageActions.arrive(message, sender)
 		p "result is #{result}!!!!!!!!!!!!!!!!"
-		MessageActions.updateDatabaseDepart
+		to = result[:to]
+		MessageActions.updateDatabaseArrive(sender)
 	end
 
 	def self.report_emergency(message, sender)

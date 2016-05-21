@@ -15,9 +15,10 @@ class MessageActions
 	end
 
 	def self.parse_arrived_short(message, sender)
-		depart_message = Message.where(from: sender).last
+		depart_message = Message.where(from: sender).last(2)[0]
 		# returns hash with keys names and to 
 		get_depart_info(depart_message["body"])
+
 	end
 
 	def self.parse_arrived_long(message)
@@ -27,11 +28,12 @@ class MessageActions
 		
 	end
 
-	def self.updateDatabaseArrive(employees, destination)
-		employees.each do | employee | 
-			employee_temp = Employee.find_by(first_name: employee["first_name"], last_name: employee["last_name"])
-			employee_temp.location = destination
-			employee_temp.save
+	def self.updateDatabaseArrive(sender)
+		transit_employees = TransitEmployee.where(sender: sender)
+		transit_employees.each do | employee | 
+			temp_employee = Employee.find(employee.employee_id)
+			temp_employee.location = employee.destination
+			temp_employee.save
 		end
 	end
 
@@ -44,6 +46,12 @@ class MessageActions
 			employee_temp.save
 		end
 	end
+
+	# def self.createTransitRecord(employees, destination, sender)
+	# 	employees.each do | employee | 
+	# 		TransitEmployee.create(sender: sender, destination: destination, employee_id: employee["id"])
+	# 	end
+	# end
 
 	def self.parse_location_to(message)
 		# if the message contains the word to 
@@ -118,6 +126,8 @@ class MessageActions
 	def self.parse_names(message)
 		# message is ["bart, lisa, marge left al yamama to psab"]
 		# remove "and"
+		p message 
+		p "message abooveee!!!!!"
 		message = message.gsub!(/and/, '')
 		first = message.split(',')
 		# gets last name and pushes them all together. 

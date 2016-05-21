@@ -22,7 +22,7 @@ class NotificationsController < ApplicationController
 			Message.send_sitrep(sender)
 		when /depart|left|leaving|going/
 			p "it's depart"
-			Message.store_departure(message)
+			Message.store_departure(message, sender)
 		when /arrive/
 			p "it's arrive"
 			Message.store_arrival(message, sender)
