@@ -23,19 +23,10 @@ class Message < ActiveRecord::Base
 		result.each do | employee | 
 			TransitEmployee.create(sender: sender, destination: to, employee_id: employee["id"])
 		end
-
 	end
 
 	def self.store_arrival(message, sender)
-		# there needs to be a new model like "Depart_message" that is created after the database is updated with transit. 
-			# so damiano, butt, and fart are going to al yamama
-			# creates new join table for 1) Employee, 2) destination, 3) sender
-			# then when the arrived message is sent, it looks at that join table by sender to get name records, updates
-			# names with being at destination, and deletes records sent by that sender so that join table stays clean only for
-			# active transit guys. 
-
 		result = MessageActions.arrive(message, sender)
-		p "result is #{result}!!!!!!!!!!!!!!!!"
 		to = result[:to]
 		MessageActions.updateDatabaseArrive(sender)
 	end

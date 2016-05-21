@@ -41,6 +41,7 @@ class MessageActions
 	def self.updateDatabaseDepart(employees, destination)
 		# takes names and loops through updating database with new location for each one
 		# names is array of hashes of employee objects
+		puts "EMPLOYEES #{employees}!!!!!!!!!!FUCKAFADKFJADASDFASDFASDFASDFASDFASDF"
 		employees.each do | employee | 
 			employee_temp = Employee.find_by(first_name: employee["first_name"], last_name: employee["last_name"])
 			employee_temp.location = "driving to #{destination}"
@@ -129,8 +130,8 @@ class MessageActions
 		# remove "and"
 		p message 
 		p "message abooveee!!!!!"
-		message = message.gsub!(/and/, '')
-		first = message.split(',')
+		message_without_ands = message.gsub(/and/, '')
+		first = message_without_ands.split(',')
 		# gets last name and pushes them all together. 
 		# Returns ["bart, lisa, marge"]
 		last = first[-1]
