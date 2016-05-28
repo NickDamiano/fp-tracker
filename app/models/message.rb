@@ -16,9 +16,7 @@ class Message < ActiveRecord::Base
 		names = parsed_data[:names]
 		to = parsed_data[:to]
 		result = MessageActions.checkDuplicateLastName(names)
-		# iterate through each name and update database
 		MessageActions.updateDatabaseDepart(result, to)
-		# MessageActions.createTransitRecord(result, to, sender)
 		# Save a transit record to be referenced for arrive
 		result.each do | employee | 
 			TransitEmployee.create(sender: sender, destination: to, employee_id: employee["id"])
