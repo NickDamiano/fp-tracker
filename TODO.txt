@@ -1,0 +1,21 @@
+TODO
+
+-------------------1- create message logging 
+2 - finish arrive methods and db update
+3 - add sitrep
+4 - add emergency
+5 - add duplicate handler
+6 - add "Add employee"
+7 - add "remove employee"
+8 - add history of texts or maybe it's a summary so it will take text and sstore message in history as "nick, butt, fred, departed al yamama at 1900 driving to psab", "nick, fart, butt reported arriving at psab at 2100"
+9 - toggle saudi presence
+10 - toggle autoforward
+11 - respond with instructions page for commands
+12 - create page to enter in bulk employees or maybe new employee
+13 - create authenticaiton
+14 - create page to show all records and then click edit to modify them, add to add them, or delete to remove them
+15 - Add ETA to depart
+16 - If you just send "going to psab" it recognizes the number being sent and gets the person and updates them
+17 - If more than one person texts the same people going to the same place, it creates all possible messages, but then when that employee is texted
+as arriving, it removes all instances of them in the transit table. and then if someone texts arrived and there are no one in the table, then it doesn't
+throw an error. 
