@@ -8,7 +8,6 @@ class Message < ActiveRecord::Base
 	def self.save_message(message, sender)
 		sender_employee = Employee.find_by(phone_num1: "#{sender}")
 		Message.create(from: sender, body: message, employee_id: sender_employee.id)
-		p sender_employee
 	end
 
 	def self.store_departure(message, sender)
