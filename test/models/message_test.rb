@@ -32,4 +32,10 @@ class MessageTest < ActiveSupport::TestCase
    	result = MessageActions.parse_names(message)
    	assert_equal ["skywalker", "vader", "solo"], result
    end
+
+   test "should parse location to" do 
+      message = "skywalker going to endor"
+      result = MessageActions.parse_location_to(message)
+      assert "endor", result
+   end
 end
