@@ -6,26 +6,16 @@ class MessageActions
 		result = { names: names, to: to }
 	end
 
-	# def self.arrive(message, sender)
-	# 	if message == "arrived"
-	# 		updateDatabaseArrive(sender)
-	# 	else
-	# 		parse_arrived_long(message)
-	# 	end
-	# end
-
-	# def self.parse_arrived_short(message, sender)
-	# 	# finds the last message sent by the sender (except the one just sent saying arrived)
-	# 	depart_message = Message.where(from: sender).last(2)[0]
-	# 	# returns hash with keys names and to 
-	# 	result = get_depart_info(depart_message["body"])
-	# end
-
 	def self.parse_arrived_long(message)
 		# parse by commas and arrived to get who and where. 
 		# send back to message.rb to update database with arrived
 		names = parse_names(message)
-		
+		names_without_duplicates = checkDuplicateLastName(names)
+		location = message.split("arrived")[-1].split(" at ")[-1].lstrip
+		names_without_duplicates.each do | employee |
+			employee.location = location 
+			employee.save 
+		end
 	end
 
 	# There are transit employee records for anyone who has departed but not yet
@@ -87,7 +77,7 @@ class MessageActions
 			else
 				# If the name is unique to people in saudi, retrieve employee, convert to hash, and 
 					# store in array to be returned
-				employee = Employee.find_by(last_name: name).as_json
+				employee = Employee.find_by(last_name: name)
 				employees.push(employee)
 			end
 		end
@@ -145,3 +135,19 @@ class MessageActions
 
 	
 end
+
+
+	# def self.arrive(message, sender)
+	# 	if message == "arrived"
+	# 		updateDatabaseArrive(sender)
+	# 	else
+	# 		parse_arrived_long(message)
+	# 	end
+	# end
+
+	# def self.parse_arrived_short(message, sender)
+	# 	# finds the last message sent by the sender (except the one just sent saying arrived)
+	# 	depart_message = Message.where(from: sender).last(2)[0]
+	# 	# returns hash with keys names and to 
+	# 	result = get_depart_info(depart_message["body"])
+	# end

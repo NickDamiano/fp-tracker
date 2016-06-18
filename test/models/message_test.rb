@@ -3,6 +3,17 @@ require 'pry-byebug'
 
 class MessageTest < ActiveSupport::TestCase
 
+   test "should parse out names where more than one person has that name in the db" do 
+      names = ["solo", "organa", "skywalker"]
+      result = MessageActions.checkDuplicateLastName(names)
+
+      assert_equal "han", result[0]["first_name"]
+      assert_equal "leia", result[1]["first_name"]
+      assert_equal "luke", result[2]["first_name"]
+
+      # add a duplicate name to the names above and assert that the dup location is same
+   end
+
    test "should save a message with message and sender" do 
    	message = "skywalker, vader, and solo going to psab"
    	sender = "1112223333"
@@ -43,13 +54,35 @@ class MessageTest < ActiveSupport::TestCase
       assert_equal "dantooine", Employee.find_by(last_name: "vader").location
    end
 
+   # when sender just puts "arrived"
    test 'should update database for short arrival' do 
       message = "arrived"
       sender = "1112223333"
       Message.store_arrival(message, sender)
 
       assert_equal "dantooine", Employee.find_by(last_name: "vader").location
+   end
 
+   test 'parse_arrived_long method' do 
+      # should take a message, parse out names and to location and return hash
+      # {names: "leia, luke, chew, han", to: "the death star"}
+      # should 
+      message = "organa, skywalker, baca, and solo arrived at the death star"
+      MessageActions.parse_arrived_long(message)
+      han = Employee.find_by(last_name: "solo")
+      leia = Employee.find_by(last_name: "organa")
+      luke = Employee.find_by(last_name: "skywalker")
+      chew = Employee.find_by(last_name: "baca")
+
+      assert_equal "the death star", han.location
+      assert_equal "the death star", leia.location
+      assert_equal "the death star", luke.location
+      assert_equal "the death star", chew.location
+   end
+
+   # when sender sends a message like "luke, leia, and han arrived at the death star"
+   test 'should update database for long arrival' do 
+      # message_action
    end
 
    test "should parse names" do 
