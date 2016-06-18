@@ -5,57 +5,64 @@
 # below each fixture, per the syntax in the comments below
 #
 
-one:
-    first_name: Christopher
-    last_name: Conn
+luke:
+    id: 1
+    first_name: luke
+    last_name: skywalker
     phone_num1: "1112223333"
     phone_num2: "1112223334"
-    location: al yamama
+    location: psab
     job_title: engineer
     in_saudi: true
     permanent: true
-two:
-    first_name: Benjamin
-    last_name: Rubin
+darth:
+    id: 2
+    first_name: darth
+    last_name: vader
     phone_num1: "2223334444"
     phone_num2: "2223334445"
     location: psab
     job_title: engineer
     in_saudi: true
     permanent: false
-three:
-    first_name: Amber
-    last_name: Wiggins
+ben:
+    id: 3
+    first_name: ben
+    last_name: kenobi
     phone_num1: "3334445555"
     location: psab
     job_title: trainer
     in_saudi: false
     permanent: false
-four:
-    first_name: Isaac
-    last_name: Wiggins
+han:
+    id: 4
+    first_name: han
+    last_name: solo
     phone_num1: "4445556666"
     location: psab
     job_title: trainer	
     in_saudi: true
     permanent: true
-five:
-    first_name: Wesley
-    last_name: Wompler
+leia:
+    id: 5
+    first_name: leia
+    last_name: oragana
     phone_num1: "5556667777"
     location: al yamama
     in_saudi: true
     permanent: true
-six:
-    first_name: Wendy
-    last_name: Wompler
+boba:
+    id: 6
+    first_name: boba
+    last_name: fett
     phone_num1: "5556667778"
     location: al yamama
     in_saudi: true
     permanent: true
-seven: 
-    first_name: Wayne
-    last_name: Wompler
+chew: 
+    id: 7
+    first_name: chew
+    last_name: baca
     phone_num1: "5556667779"
     location: al yamama
     in_saudi: true

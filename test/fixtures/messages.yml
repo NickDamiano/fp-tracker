@@ -1,11 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-# This model initially had no columns defined.  If you add columns to the
-# model remove the '{}' from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
-one: {}
-# column: value
-#
-two: {}
-#  column: value
+--- !omap
+- first_message:
+    from: "1112223333"
+    to: "9998887777"
+    body: "arrived"
+- second_message: 
+    from: "1112223333"
+    to: "9998887777"
+    body: "skywalker, vader, and solo going to dantooine"
+    employee_id: luke    

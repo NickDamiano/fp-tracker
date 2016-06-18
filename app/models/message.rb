@@ -5,11 +5,13 @@
 class Message < ActiveRecord::Base
 	belongs_to :employee
 
+	# Test covered
 	def self.save_message(message, sender)
 		sender_employee = Employee.find_by(phone_num1: "#{sender}")
 		Message.create(from: sender, body: message, employee_id: sender_employee.id)
 	end
 
+	# Test covered
 	def self.store_departure(message, sender)
 		parsed_data = MessageActions.get_depart_info(message)
 		names = parsed_data[:names]
@@ -22,6 +24,7 @@ class Message < ActiveRecord::Base
 		end
 	end
 
+	# 
 	def self.store_arrival(message, sender)
 		result = MessageActions.arrive(message, sender)
 		to = result[:to]

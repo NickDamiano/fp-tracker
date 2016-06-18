@@ -18,8 +18,7 @@ class MessageActions
 		# finds the last message sent by the sender (except the one just sent saying arrived)
 		depart_message = Message.where(from: sender).last(2)[0]
 		# returns hash with keys names and to 
-		get_depart_info(depart_message["body"])
-
+		result = get_depart_info(depart_message["body"])
 	end
 
 	def self.parse_arrived_long(message)
@@ -29,6 +28,12 @@ class MessageActions
 		
 	end
 
+	# There are transit employee records for anyone who has departed but not yet
+	# arrived. Transit employees are saved with an employee id and a phone number
+	# related to who sent the departure message. Here, transit employees are looked
+	# up by sender phone number and iterated over. During the iteration, the employee
+	# is looked up, their destination is updated with the one in transit employee, and
+	# then they are saved back to the database. The transit record is then destroyed.
 	def self.updateDatabaseArrive(sender)
 		transit_employees = TransitEmployee.where(sender: sender)
 		transit_employees.each do | employee | 
@@ -42,7 +47,6 @@ class MessageActions
 	def self.updateDatabaseDepart(employees, destination)
 		# takes names and loops through updating database with new location for each one
 		# names is array of hashes of employee objects
-		puts "EMPLOYEES #{employees}!!!!!!!!!!FUCKAFADKFJADASDFASDFASDFASDFASDFASDF"
 		employees.each do | employee | 
 			employee_temp = Employee.find_by(first_name: employee["first_name"], last_name: employee["last_name"])
 			employee_temp.location = "driving to #{destination}"
@@ -50,17 +54,12 @@ class MessageActions
 		end
 	end
 
-	# def self.createTransitRecord(employees, destination, sender)
-	# 	employees.each do | employee | 
-	# 		TransitEmployee.create(sender: sender, destination: destination, employee_id: employee["id"])
-	# 	end
-	# end
-
 	def self.parse_location_to(message)
 		# if the message contains the word to 
 		if message =~ /\sto\s/
-			return message.split('to')[-1].strip!
+			return message.split(' to ')[-1]
 		end
+
 	end
 
 	def self.emergency(message, sender)
