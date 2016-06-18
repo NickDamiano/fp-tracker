@@ -26,9 +26,11 @@ class Message < ActiveRecord::Base
 
 	# 
 	def self.store_arrival(message, sender)
-		result = MessageActions.arrive(message, sender)
-		to = result[:to]
-		MessageActions.updateDatabaseArrive(sender)
+		if message == "arrived"
+			MessageActions.updateDatabaseArrive(sender)
+		else
+			result = parse_arrived_long(message, sender)
+		end
 	end
 
 	def self.report_emergency(message, sender)

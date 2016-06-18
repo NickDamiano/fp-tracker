@@ -6,20 +6,20 @@ class MessageActions
 		result = { names: names, to: to }
 	end
 
-	def self.arrive(message, sender)
-		if message == "arrived"
-			parse_arrived_short(message, sender)
-		else
-			parse_arrived_long(message)
-		end
-	end
+	# def self.arrive(message, sender)
+	# 	if message == "arrived"
+	# 		updateDatabaseArrive(sender)
+	# 	else
+	# 		parse_arrived_long(message)
+	# 	end
+	# end
 
-	def self.parse_arrived_short(message, sender)
-		# finds the last message sent by the sender (except the one just sent saying arrived)
-		depart_message = Message.where(from: sender).last(2)[0]
-		# returns hash with keys names and to 
-		result = get_depart_info(depart_message["body"])
-	end
+	# def self.parse_arrived_short(message, sender)
+	# 	# finds the last message sent by the sender (except the one just sent saying arrived)
+	# 	depart_message = Message.where(from: sender).last(2)[0]
+	# 	# returns hash with keys names and to 
+	# 	result = get_depart_info(depart_message["body"])
+	# end
 
 	def self.parse_arrived_long(message)
 		# parse by commas and arrived to get who and where. 
