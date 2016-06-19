@@ -41,6 +41,7 @@ gem 'twilio-ruby', '~> 3.12'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'pry-byebug'
+  gem 'simplecov', :require => false, :group => :test
 end
 
 group :development do

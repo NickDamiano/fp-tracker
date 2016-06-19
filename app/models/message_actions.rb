@@ -17,7 +17,7 @@ class MessageActions
 			employee.save 
 		end
 	end
-
+	# Test covered
 	# There are transit employee records for anyone who has departed but not yet
 	# arrived. Transit employees are saved with an employee id and a phone number
 	# related to who sent the departure message. Here, transit employees are looked
@@ -34,6 +34,7 @@ class MessageActions
 		end
 	end
 
+	# Test covered
 	def self.updateDatabaseDepart(employees, destination)
 		# takes names and loops through updating database with new location for each one
 		# names is array of hashes of employee objects
@@ -61,6 +62,7 @@ class MessageActions
 	def self.add_employee(message)
 	end
 
+	# Test covered
 	def self.checkDuplicateLastName(names)
 		duplicates = []
 		employees = []
