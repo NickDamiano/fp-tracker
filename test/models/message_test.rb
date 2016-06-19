@@ -3,6 +3,14 @@ require 'pry-byebug'
 
 class MessageTest < ActiveSupport::TestCase
 
+   test "should get depart info from a depart text" do 
+      message = "boba, jango, and jarjar going to naboo"
+
+      result = MessageActions.get_depart_info(message)
+      assert_equal ["boba", "jango", "jarjar"], result[:names]
+      assert_equal "naboo", result[:to]
+   end
+
    test "should parse out names where more than one person has that name in the db" do 
       names = ["solo", "organa", "skywalker"]
       result = MessageActions.checkDuplicateLastName(names)
@@ -97,19 +105,16 @@ class MessageTest < ActiveSupport::TestCase
       assert_equal result, "endor"
    end
 
-   test "should parse arrived location when simply 'arrived' " do
-      message = "arrived"
-      sender = Employee.find_by(first_name: "luke")
-      p 'test'
-   end
+
 
 end
 
 
-
-
-
-
+   # test "should parse arrived location when simply 'arrived' " do
+   #    message = "arrived"
+   #    sender = Employee.find_by(first_name: "luke")
+   #    p 'test'
+   # end
 
    # test "should store short arrival" do 
    #    # Note, two messages are saved in database under luke id 

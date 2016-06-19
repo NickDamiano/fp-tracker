@@ -17,7 +17,6 @@ class Message < ActiveRecord::Base
 		names = parsed_data[:names]
 		to = parsed_data[:to]
 		result = MessageActions.checkDuplicateLastName(names)
-		binding.pry
 		MessageActions.updateDatabaseDepart(result, to)
 		# Save a transit record to be referenced for arrive
 		result.each do | employee | 
@@ -25,7 +24,7 @@ class Message < ActiveRecord::Base
 		end
 	end
 
-	# 
+	# covered
 	def self.store_arrival(message, sender)
 		if message == "arrived"
 			MessageActions.updateDatabaseArrive(sender)

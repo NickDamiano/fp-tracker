@@ -6,6 +6,7 @@ class MessageActions
 		result = { names: names, to: to }
 	end
 
+	# Covered
 	def self.parse_arrived_long(message)
 		# parse by commas and arrived to get who and where. 
 		# send back to message.rb to update database with arrived
@@ -17,6 +18,7 @@ class MessageActions
 			employee.save 
 		end
 	end
+
 	# Test covered
 	# There are transit employee records for anyone who has departed but not yet
 	# arrived. Transit employees are saved with an employee id and a phone number
@@ -45,6 +47,7 @@ class MessageActions
 		end
 	end
 
+	# Covered
 	def self.parse_location_to(message)
 		# if the message contains the word to 
 		if message =~ /\sto\s/
@@ -117,11 +120,10 @@ class MessageActions
 	def self.history(message, sender)
 	end
 
+	# Covered
 	def self.parse_names(message)
 		# message is ["bart, lisa, marge left al yamama to psab"]
 		# remove "and"
-		p message 
-		p "message abooveee!!!!!"
 		message_without_ands = message.gsub(/and/, '')
 		first = message_without_ands.split(',')
 		# gets last name and pushes them all together. 
