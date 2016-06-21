@@ -1,10 +1,14 @@
 TODO
 
--------------------1- create message logging 
-2 - finish arrive methods and db update
+biggest things - duplicate handler, web page and authentication and front end test for creating a form to update names and data with drop downs. Also having texts pass back and forth between ricci/matt and whoever sends them. 
+
+I forgot about the scenario where someone mispells a name. 
+
+beyond that, the emergency, and other texts should be relatively simple. 
+
 3 - add sitrep
 4 - add emergency
-5 - add duplicate handler
+5 - add duplicate handler (biggest point - also check duplicate against phone number. If number matches the duplicate name then assume that's the right of the duplicates. )
 6 - add "Add employee"
 7 - add "remove employee"
 8 - add history of texts or maybe it's a summary so it will take text and sstore message in history as "nick, butt, fred, departed al yamama at 1900 driving to psab", "nick, fart, butt reported arriving at psab at 2100"

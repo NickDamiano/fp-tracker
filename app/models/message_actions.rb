@@ -1,5 +1,6 @@
 class MessageActions
 
+	# Covered
 	def self.get_depart_info(message)
 		names = parse_names(message)
 		to = parse_location_to(message)
@@ -19,7 +20,7 @@ class MessageActions
 		end
 	end
 
-	# Test covered
+	# Covered
 	# There are transit employee records for anyone who has departed but not yet
 	# arrived. Transit employees are saved with an employee id and a phone number
 	# related to who sent the departure message. Here, transit employees are looked
@@ -36,7 +37,7 @@ class MessageActions
 		end
 	end
 
-	# Test covered
+	# Covered
 	def self.updateDatabaseDepart(employees, destination)
 		# takes names and loops through updating database with new location for each one
 		# names is array of hashes of employee objects
@@ -65,31 +66,33 @@ class MessageActions
 	def self.add_employee(message)
 	end
 
-	# Test covered
+	# Covered
 	def self.checkDuplicateLastName(names)
 		duplicates = []
 		employees = []
 		names.each do | name | 
 			# check for duplicates, if there are, push them into
+			employee_check = Employee.where(last_name: name, in_saudi: true)
 			
-			puts "name is #{name}"
-			puts "count is "
-			puts Employee.where(last_name: "#{name}", in_saudi: true).count
-			puts "end of count"
-			if Employee.where(last_name: "#{name}", in_saudi: true).count > 1
+			# If there is more than one person in saudi with the same last name, push the possible 
+			# duplicate into duplicates array
+			if employee_check.count > 1
 				puts "There are duplicates!"
 				duplicates.push(name)
+			elsif employee_check == []
+				puts "there was a problem and employee wasn't found"
+				# call employee_spell_checker to get a list of names it could possibly be and send a text asking
 			else
-				# If the name is unique to people in saudi, retrieve employee, convert to hash, and 
-					# store in array to be returned
-				employee = Employee.find_by(last_name: name)
+				# If the name is unique to people in saudi, retrieve employee, and 
+				 # store in array to be returned
+				employee = Employee.find_by(last_name: name, in_saudi: true)
 				employees.push(employee)
 			end
 		end
 		# if there are duplicate names then see if they exceed the number of names in database
 				# i.e. if there are only two johnsons in saudi, and two johnsons were put down in text
 				# then no need to check which ones. If there are three johnsons then get the right ones
-		puts "Duplicatessssss are #{duplicates}"
+		puts "Duplicates are #{duplicates}"
 		puts "Names should not include butt. Here are employee names: #{employees}"
 		if duplicates[0]
 			# sort out unique names from duplicates, get number of ocurrence in duplicates array
@@ -102,6 +105,10 @@ class MessageActions
 				# if there are more in country with last name than listed
 				if number_occur_text < Employee.where(last_name: "#{name}", in_saudi: true).count
 					# call duplicate message for last name to get which of those guys it is
+					# should there be a wait while it confirms message was sent?
+					handle_duplicates(name, count)
+					# so this is going to send off one name, but what if there are two smiths going
+					# but there are three smiths in country. It currently asks which smith
 				else
 					# all instances of that last name in country are leaving, get all of that name and push those results to the database
 					duplicate_names_to_push = Employee.where(last_name: "#{name}", in_saudi: true).as_json
@@ -113,8 +120,14 @@ class MessageActions
 		employees
 	end
 
-	def self.send_duplicate_check_message(name)
+	# Takes duplicate name, and how many were sent in the text (two smiths or five jacksons)
+	def self.handle_duplicates(name, count)
 		# take name, compose message with all first names of that last name, have them respond and if multiple
+		# build message
+		# send message
+		# save sent message somehow with pending status. handle incoming text in controller so 
+		# it doesn't get misrouted. 
+		# when response is received, it should route to pending message method
 	end
 
 	def self.history(message, sender)
