@@ -67,3 +67,11 @@ chew:
     location: al yamama
     in_saudi: true
     permanent: true
+jango:
+    id: 8
+    first_name: jango
+    last_name: fett
+    phone_num1: "+15129998888"
+    location: al yamama
+    in_saudi: true
+    permanent: true
