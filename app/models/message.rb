@@ -11,6 +11,12 @@ class Message < ActiveRecord::Base
 		Message.create(from: sender, body: message, employee_id: sender_employee.id)
 	end
 
+	def self.auto_reply(message, sender)
+		my_num = Rails.applications.secrets.twilio_number
+		message = message + " but what am I?"
+		SmsActions.compose(sender, my_num, message)
+	end
+
 	# Covered
 	def self.store_departure(message, sender)
 		parsed_data = MessageActions.get_depart_info(message)

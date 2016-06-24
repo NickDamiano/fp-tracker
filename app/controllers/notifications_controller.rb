@@ -39,6 +39,8 @@ class NotificationsController < ApplicationController
 			# asking for location of a specific person
 			'reporting location for specific person'
 			Message.report_location(message, sender)
+		when /^test/
+			Message.auto_reply(message, sender)
 		else
 			p 'forward the message to nick'
 			Message.forward_unparsed(message, sender)
