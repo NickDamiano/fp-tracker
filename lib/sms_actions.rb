@@ -1,3 +1,5 @@
+require 'twilio-ruby'
+
 class SmsActions
 	# should this be a hash as one variable
 	def self.compose_message(to, from, body)
