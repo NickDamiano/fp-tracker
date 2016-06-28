@@ -9,15 +9,16 @@ class Message < ActiveRecord::Base
 	def self.save_message(message, sender)
 		# if this is from a different user that's not in the database (like a new one registering)
 		# then it needs to handle this TODO
-		sender_employee = Employee.find_by(phone_num1: "#{sender}")
+		sender_employee = Employee.find_by(phone_num1: sender)
+		p "sender_employee is #{sender_employee}"
 		Message.create(from: sender, body: message, employee_id: sender_employee.id)
 	end
 
 	def self.auto_reply(message, sender)
 		p "in auto reply"
-		my_num = Rails.applications.secrets.twilio_number
-		message = message + " but what am I?"
-		SmsActions.compose(sender, my_num, message)
+		my_num = Rails.application.secrets.twilio_number
+		message = "test received"
+		SmsActions.compose_message(sender, my_num, message)
 	end
 
 	# Covered

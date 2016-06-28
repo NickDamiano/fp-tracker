@@ -2,6 +2,7 @@ require 'test_helper'
 require 'pry-byebug'
 
 class SmsTest < ActiveSupport::TestCase
+	
 	test "should build a text message" do 
 		# Twilio provided number passes all validations for from
 		from = "+15005550006"
@@ -9,7 +10,9 @@ class SmsTest < ActiveSupport::TestCase
 		body = "Hi Jango!."
 
 		sms = SmsActions.compose_message(to, from, body)
-		binding.pry
+
 		assert_equal "Sent from your Twilio trial account - " + body, sms.body
+		assert_equal from, sms.from
+		assert_equal to, sms.to
 	end
 end
