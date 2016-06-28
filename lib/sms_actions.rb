@@ -7,7 +7,6 @@ class SmsActions
 		auth_token = Rails.application.secrets.twilio_auth_token
 		@client = Twilio::REST::Client.new(account_sid, auth_token)
 
-		test = @client.account.messages.create({body: body, to: to, from: from})
-		puts "test"
+		@client.account.messages.create({body: body, to: to, from: from})
 	end
 end

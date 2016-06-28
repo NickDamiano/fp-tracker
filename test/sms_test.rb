@@ -9,6 +9,7 @@ class SmsTest < ActiveSupport::TestCase
 		body = "Hi Jango!."
 
 		sms = SmsActions.compose_message(to, from, body)
+		binding.pry
 		assert_equal "Sent from your Twilio trial account - " + body, sms.body
 	end
 end
