@@ -40,6 +40,7 @@ class NotificationsController < ApplicationController
 			'reporting location for specific person'
 			Message.report_location(message, sender)
 		when /^test/
+			p "test path called"
 			Message.auto_reply(message, sender)
 		else
 			p 'forward the message to nick'

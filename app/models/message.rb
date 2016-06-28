@@ -14,10 +14,10 @@ class Message < ActiveRecord::Base
 	end
 
 	def self.auto_reply(message, sender)
-		puts "in auto reply"
-		# my_num = Rails.applications.secrets.twilio_number
-		# message = message + " but what am I?"
-		# SmsActions.compose(sender, my_num, message)
+		p "in auto reply"
+		my_num = Rails.applications.secrets.twilio_number
+		message = message + " but what am I?"
+		SmsActions.compose(sender, my_num, message)
 	end
 
 	# Covered
