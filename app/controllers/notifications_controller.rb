@@ -11,6 +11,7 @@ class NotificationsController < ApplicationController
 		Message.save_message(message, sender)
 
 		case message
+			p "in case statement"
 		when /^911/
 			p "It's an emergency"
 			Message.report_emergency(message, sender)
