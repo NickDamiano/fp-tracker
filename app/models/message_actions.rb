@@ -58,8 +58,11 @@ class MessageActions
 	end
 
 	def self.emergency(message, sender)
+		Employee.where(in_saudi: true)
+
 	end
 
+	# 
 	def self.sitrep(sender)
 	end
 

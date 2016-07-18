@@ -105,6 +105,12 @@ class MessageTest < ActiveSupport::TestCase
       assert_equal result, "endor"
    end
 
+   test 'Should forward the message to all personnel in saudi' do 
+      message = "you did it kid, now let's go home!"
+      
+
+   end
+
 
 
 end
