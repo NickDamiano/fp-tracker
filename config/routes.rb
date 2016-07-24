@@ -29,6 +29,7 @@ Rails.application.routes.draw do
   #       get 'sold'
   #     end
   #   end
+  post 'twilio/callback' => 'twilio#callback'
   post 'twilio/voice' => 'twilio#voice'
   post 'notifications/notify' => 'notifications#notify'
   post 'twilio/text' => 'notifications#parse' # gets initial message to parse to call

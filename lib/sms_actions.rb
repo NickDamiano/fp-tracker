@@ -1,4 +1,5 @@
 require 'twilio-ruby'
+require 'pry-byebug'
 
 class SmsActions
 	# should this be a hash as one variable
@@ -9,10 +10,21 @@ class SmsActions
 
 		@client = Twilio::REST::Client.new(account_sid, auth_token)
 
-		@client.account.messages.create({
+		message = @client.account.messages.create({
 			body: body, 
 			to: to, 
-			from: from
+			from: from,
+			statusCallback: "http://fptracker.herokuapp.com/twilio/callback"
 		})
+
+		#TODO 
+		# log the message here something like
+		Message.create(body: message.body, messageSid: message.sid, from: message.from,
+		to: message.to, status: "unknown" )
+
+		# then when the message is delivered the callback hits 
+		# the route and updates the message by SID as delivered
+
+
 	end
 end

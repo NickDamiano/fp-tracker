@@ -1,5 +1,12 @@
 TODO
 
+1) write test for auto forwarding and method
+2) add controller method which calls that method if the line begins with 911
+
+
+
+
+
 biggest things - duplicate handler, web page and authentication and front end test for creating a form to update names and data with drop downs. Also having texts pass back and forth between ricci/matt and whoever sends them. 
 
 I forgot about the scenario where someone mispells a name. 

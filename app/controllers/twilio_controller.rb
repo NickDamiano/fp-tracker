@@ -16,4 +16,11 @@ class TwilioController < ApplicationController
  
   	render_twiml response
   end
+
+  def callback
+    # capture message status (comes as parameter MessageStatus)
+    status = params["MessageStatus"]
+    
+
+  end
 end

@@ -24,15 +24,15 @@ class MessageTest < ActiveSupport::TestCase
 
    test "should save a message with message and sender" do 
    	message = "skywalker, vader, and solo going to psab"
-   	sender = "1112223333"
+   	sender = "+11112223333"
    	saved_message = Message.save_message(message, sender)
    	assert saved_message.id
-   	assert saved_message["from"], "1112223333"
+   	assert saved_message["from"], "+11112223333"
    end
 
    test "should store a departure" do
       message = "skywalker, vader, and solo going to al yamama"
-      sender = "1112223333"
+      sender = "+11112223333"
 
       # Assert skywalker is at psab
       luke = Employee.find_by(last_name: "skywalker")
@@ -45,7 +45,7 @@ class MessageTest < ActiveSupport::TestCase
       assert_equal "driving to al yamama", luke["location"]
 
       # Assert that there are three employees in transit (as sent by luke)
-      transit_employee_count = TransitEmployee.where(sender: "1112223333").count
+      transit_employee_count = TransitEmployee.where(sender: "+11112223333").count
       # 6 is expected because there are 3 hard-coded fixtures already
       assert_equal 6, transit_employee_count
 
@@ -58,14 +58,14 @@ class MessageTest < ActiveSupport::TestCase
 
       # call updatedatabaseArrive to have have his location updated through
       # transit messages
-      MessageActions.updateDatabaseArrive("1112223333")
+      MessageActions.updateDatabaseArrive("+11112223333")
       assert_equal "dantooine", Employee.find_by(last_name: "vader").location
    end
 
    # when sender just puts "arrived"
    test 'should update database for short arrival' do 
       message = "arrived"
-      sender = "1112223333"
+      sender = "+11112223333"
       Message.store_arrival(message, sender)
 
       assert_equal "dantooine", Employee.find_by(last_name: "vader").location
@@ -107,8 +107,17 @@ class MessageTest < ActiveSupport::TestCase
 
    test 'Should forward the message to all personnel in saudi' do 
       message = "you did it kid, now let's go home!"
-      
+      sender = "+15005550006" # han solo
+      result = MessageActions.emergency(message, sender)
+      message_count = Message.where(from: sender, body: message).count
+      assert_equal 7, message_count
+      # call method that forwards messages and pass parameters
+      # check to see if an outgoing message is logged where the message is the above and number is the sender
+      # see if the number of messages matches what the number should be. 
+   end
 
+   test 'Should handle a failed sent message by texting admin' do 
+      # makme sure it doesn't do it for a failed one to admin so it doesn't go into an endless loop
    end
 
 

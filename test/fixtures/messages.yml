@@ -1,11 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 --- !omap
 - first_message:
-    from: "1112223333"
-    to: "9998887777"
+    from: "+11112223333"
+    to: "+19998887777"
     body: "arrived"
 - second_message: 
-    from: "1112223333"
-    to: "9998887777"
+    from: "+11112223333"
+    to: "+19998887777"
     body: "skywalker, vader, and solo going to dantooine"
     employee_id: luke    

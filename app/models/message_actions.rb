@@ -1,3 +1,5 @@
+require 'pry-byebug'
+
 class MessageActions
 
 	# Covered
@@ -58,8 +60,11 @@ class MessageActions
 	end
 
 	def self.emergency(message, sender)
-		Employee.where(in_saudi: true)
-
+		saudi_employees = Employee.where(in_saudi: true)
+		saudi_employees.each do | employee | 
+			to = employee.phone_num1
+			SmsActions.compose_message(to, sender, message)
+		end
 	end
 
 	# 
