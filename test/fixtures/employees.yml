@@ -9,8 +9,8 @@ luke:
     id: 1
     first_name: luke
     last_name: skywalker
-    phone_num1: "+11112223333"
-    phone_num2: "+11112223334"
+    phone_num1: "+15122223333"
+    phone_num2: "+15122223334"
     location: psab
     job_title: engineer
     in_saudi: true
@@ -19,8 +19,8 @@ darth:
     id: 2
     first_name: darth
     last_name: vader
-    phone_num1: "+12223334444"
-    phone_num2: "+12223334445"
+    phone_num1: "+15123334444"
+    phone_num2: "+15123334445"
     location: psab
     job_title: engineer
     in_saudi: true
@@ -29,7 +29,7 @@ ben:
     id: 3
     first_name: ben
     last_name: kenobi
-    phone_num1: "+13334445555"
+    phone_num1: "+15124445555"
     location: psab
     job_title: trainer
     in_saudi: false
@@ -38,7 +38,7 @@ han:
     id: 4
     first_name: han
     last_name: solo
-    phone_num1: "+14445556666"
+    phone_num1: "+15125556666"
     location: psab
     job_title: trainer	
     in_saudi: true
@@ -47,7 +47,7 @@ leia:
     id: 5
     first_name: leia
     last_name: organa
-    phone_num1: "+15556667777"
+    phone_num1: "+15126667777"
     location: al yamama
     in_saudi: true
     permanent: true
@@ -55,7 +55,7 @@ boba:
     id: 6
     first_name: boba
     last_name: fett
-    phone_num1: "+15556667778"
+    phone_num1: "+15126667778"
     location: al yamama
     in_saudi: true
     permanent: true
@@ -63,7 +63,7 @@ chew:
     id: 7
     first_name: chew
     last_name: baca
-    phone_num1: "+15556667779"
+    phone_num1: "+15126667779"
     location: al yamama
     in_saudi: true
     permanent: true

@@ -1,17 +1,17 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  sender: "1112223333"
+  sender: "+15122223333"
   destination: dantooine
   string: MyString
   employee_id: 1
 two:
-  sender: "1112223333"
+  sender: "+15122223333"
   destination: dantooine
   string: MyString
   employee_id: 2
 three:
-  sender: "1112223333"
+  sender: "+15122223333"
   destination: dantooine
   string: MyString
   employee_id: 4

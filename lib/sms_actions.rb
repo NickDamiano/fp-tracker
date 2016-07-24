@@ -22,6 +22,8 @@ class SmsActions
 		Message.create(body: message.body, messageSid: message.sid, from: message.from,
 		to: message.to, status: "unknown" )
 
+		
+
 		# then when the message is delivered the callback hits 
 		# the route and updates the message by SID as delivered
 
