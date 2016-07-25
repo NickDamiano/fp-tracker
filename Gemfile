@@ -15,7 +15,7 @@ gem 'coffee-rails', '~> 4.1.0'
 # gem 'therubyracer', platforms: :ruby
 
 # using pry in heroku
-gem 'pry-rails'
+gem 'pry-debugger'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
