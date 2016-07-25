@@ -19,6 +19,8 @@ class TwilioController < ApplicationController
 
   def callback
     # capture message status (comes as parameter MessageStatus)
+    p StatusCallbackEvent
+    p params["StatusCallbackEvent"]
     status = params["MessageStatus"]
     p params 
     p "params above"
