@@ -3,7 +3,36 @@ TODO
 1) write test for auto forwarding and method
 2) add controller method which calls that method if the line begins with 911
 
+TODO for Monday - 
 
+-Add callback functionality
+
+- solve the duplicate handler
+- capture message sid, list the employees with number next to them and have them reply with the number
+
+Tuesday 
+
+- solve for misspelled names with name suggestions
+- add test and sitrep
+
+Wednesday
+
+- handle if multiple people in the car text leave and arrive
+- add front end page with authentication and form for adding employees and editing employees
+	using javascript to click and edit forms and ajax to save it after that line is saved
+
+Thursday
+- add ETA and alerts checking
+- add evening alerts if no one checks in having arrived
+
+Friday 
+- Add solo trips
+- add ricci/admin texts like (autoforward, history, etc)
+
+Saturday
+clean up everything and document it
+
+Sunday finish last bits and start on penny-arcade
 
 
 
@@ -14,7 +43,6 @@ I forgot about the scenario where someone mispells a name.
 beyond that, the emergency, and other texts should be relatively simple. 
 
 3 - add sitrep
-4 - add emergency
 5 - add duplicate handler (biggest point - also check duplicate against phone number. If number matches the duplicate name then assume that's the right of the duplicates. )
 6 - add "Add employee"
 7 - add "remove employee"
