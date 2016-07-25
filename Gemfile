@@ -28,7 +28,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Hirb prettifies rails console
 gem 'hirb'
 
-gem 'twilio-ruby', '~> 3.12'
+gem 'twilio-ruby', '~> 4.11.1'
 
 gem 'pry-byebug'
 

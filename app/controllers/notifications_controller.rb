@@ -2,6 +2,14 @@ class NotificationsController < ApplicationController
 
 	skip_before_action :verify_authenticity_token
 
+	rescue_from StandardError do |exception|
+		trigger_sms_alerts(exception)
+	end
+
+	def trigger_sms_alerts(e)
+		@alert_message = "An error ocurred nick, Exception#{e}."
+	end
+
 	def parse
 		# log message to history
 		p params["Body"]
