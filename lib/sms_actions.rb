@@ -5,17 +5,19 @@ class SmsActions
 	# should this be a hash as one variable
 	def self.compose_message(to, from, body)
 		p "in compose message"
-		account_sid = Rails.application.secrets.twilio_account_sid
-		auth_token = Rails.application.secrets.twilio_auth_token
+		# account_sid = Rails.application.secrets.twilio_account_sid
+		# auth_token = Rails.application.secrets.twilio_auth_token
 
-		@client = Twilio::REST::Client.new(account_sid, auth_token)
+		# @client = Twilio::REST::Client.new(account_sid, auth_token)
 
-		message = @client.account.messages.create({
-			from: from,
-			to: to,
-			body: body,
-			statusCallback: "http://fptracker.herokuapp.com/twilio/callback"
-		})
+		# message = @client.account.messages.create({
+		# 	from: from,
+		# 	to: to,
+		# 	body: body,
+		# 	statusCallback: "http://fptracker.herokuapp.com/twilio/callback"
+		# })
+
+p ' this is so frustrating'
 
 		#TODO 
 		# log the message here something like
