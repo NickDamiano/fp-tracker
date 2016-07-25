@@ -32,7 +32,7 @@ gem 'twilio-ruby', '~> 3.12'
 
 gem 'pry-byebug'
 
-#
+# pry is above
 
 
 # Use ActiveModel has_secure_password
