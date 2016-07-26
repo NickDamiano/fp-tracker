@@ -6,25 +6,20 @@ class SmsActions
 
 		p "in compose message"
 		account_sid = Rails.application.secrets.twilio_account_sid
-		# auth_token = Rails.application.secrets.twilio_auth_token
-		# account_sid = ENV["TWILIO_ACCOUNT_SID"]
-		auth_token = ENV["TWILIO_AUTH_TOKEN"]
+		auth_token = Rails.application.secrets.twilio_auth_token
+
 
 		@client = Twilio::REST::Client.new(account_sid, auth_token)
 		p 'client created'
 		p "account sid is #{account_sid}"
 
-		# message = @client.account.messages.create({
-		# 	from: from,
-		# 	to: to,
-		# 	body: body,
-		# 	statusCallback: "http://fptracker.herokuapp.com/twilio/callback"
-		# })
 		message = @client.account.messages.create({
 			from: from,
 			to: to,
-			body: body
-			})
+			body: body,
+			statusCallback: "http://fptracker.herokuapp.com/twilio/callback"
+		})
+
 
 		p 'end of smsactions'
 
