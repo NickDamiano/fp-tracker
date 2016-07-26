@@ -10,8 +10,8 @@ class SmsActions
 
 
 		@client = Twilio::REST::Client.new(account_sid, auth_token)
+		logger.debug "account sid is #{account_sid}"
 		p 'client created'
-		p "account sid is #{account_sid}"
 
 		message = @client.account.messages.create({
 			from: from,
