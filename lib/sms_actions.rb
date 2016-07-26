@@ -20,6 +20,11 @@ class SmsActions
 		# 	body: body,
 		# 	statusCallback: "http://fptracker.herokuapp.com/twilio/callback"
 		# })
+		message = @client.account.messages.create({
+			from: from,
+			to: to,
+			body: body
+			})
 
 		p 'end of smsactions'
 
