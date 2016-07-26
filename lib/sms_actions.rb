@@ -14,14 +14,14 @@ class SmsActions
 		p 'client created'
 		p "account sid is #{account_sid}"
 
-		message = @client.account.messages.create({
-			from: from,
-			to: to,
-			body: body,
-			statusCallback: "http://fptracker.herokuapp.com/twilio/callback"
-		})
+		# message = @client.account.messages.create({
+		# 	from: from,
+		# 	to: to,
+		# 	body: body,
+		# 	statusCallback: "http://fptracker.herokuapp.com/twilio/callback"
+		# })
 
-		p "message is #{message}"
+		p 'end of smsactions'
 
 		#TODO 
 		# log the message here something like
