@@ -1,3 +1,5 @@
+require 'twilio-ruby'
+
 class NotificationsController < ApplicationController
 	include Webhookable
 
