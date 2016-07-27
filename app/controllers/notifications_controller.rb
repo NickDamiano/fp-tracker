@@ -54,8 +54,8 @@ class NotificationsController < ApplicationController
 			Message.report_location(message, sender)
 		when /^test/
 			p "test path called"
-			SmsTest.run 
-			# Message.auto_reply(message, sender)
+			# SmsTest.run 
+			Message.auto_reply(message, sender)
 		else
 			p 'forward the message to nick'
 			Message.forward_unparsed(message, sender)
