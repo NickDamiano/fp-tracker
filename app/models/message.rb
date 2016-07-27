@@ -21,8 +21,10 @@ class Message < ActiveRecord::Base
 		compose_message(sender, my_num, message)
 	end
 
-	def self.compose_message(to, from, body)
+	def self.compose_message(message, to)
 		p "in compose message"
+		my_num = Rails.application.secrets.twilio_number
+		message = "test received"
 		account_sid = Rails.application.secrets.twilio_account_sid
 		auth_token = Rails.application.secrets.twilio_auth_token
 
