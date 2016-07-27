@@ -17,21 +17,6 @@ class TwilioController < ApplicationController
   	render_twiml response
   end
 
-  def testola
-    account_sid = Rails.application.secrets.twilio_account_sid
-    auth_token = Rails.application.secrets.twilio_auth_token
-
-
-    @client = Twilio::REST::Client.new(account_sid, auth_token)
-    p 'client created'
-
-    message = @client.account.messages.create({
-      from: "+19032924343",
-      to: "+15129944596",
-      body: 'this is a message. pew pew pew.',
-      statusCallback: "http://fptracker.herokuapp.com/twilio/callback"
-    })
-  end
 
   def callback
     # capture message status (comes as parameter MessageStatus)
