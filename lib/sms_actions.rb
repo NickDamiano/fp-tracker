@@ -2,6 +2,10 @@ require 'twilio-ruby'
 
 class SmsActions
 	include Webhookable
+
+	after_filter :set_header
+
+	skip_before_action :verify_authenticity_token
 	# should this be a hash as one variable
 	def self.compose_message(to, from, body)
 
