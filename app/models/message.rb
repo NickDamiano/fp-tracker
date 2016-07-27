@@ -1,8 +1,10 @@
 # Entire message = params
 # Message = body of text
 # Sender = "+19034343121" (example)
+require 'twilio-ruby'
 
 class Message < ActiveRecord::Base
+	include Webhookable
 	belongs_to :employee
 
 	# Covered
