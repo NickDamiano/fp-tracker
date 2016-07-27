@@ -4,7 +4,6 @@
 require 'twilio-ruby'
 
 class Message < ActiveRecord::Base
-	include Webhookable
 	belongs_to :employee
 
 	# Covered
@@ -24,23 +23,9 @@ class Message < ActiveRecord::Base
 	end
 
 	def self.compose_message(message, to)
-		p "in compose message"
-		my_num = Rails.application.secrets.twilio_number
-		message = "test received"
-		body = message
-		account_sid = Rails.application.secrets.twilio_account_sid
-		auth_token = Rails.application.secrets.twilio_auth_token
-		from = my_num
+		from = Rails.application.secrets.twilio_number
 
-		@client = Twilio::REST::Client.new(account_sid, auth_token)
-		p "client is #{@client}"
-
-		message = @client.account.sms.messages.create({
-			from: from,
-			to: to,
-			body: body,
-			statusCallback: "http://fptracker.herokuapp.com/twilio/callback"
-		})
+		SendMessage.run(to, message, from)
 
 		#TODO 
 		# log the message here something like
@@ -51,8 +36,6 @@ class Message < ActiveRecord::Base
 
 		# then when the message is delivered the callback hits 
 		# the route and updates the message by SID as delivered
-
-
 	end
 
 	# Covered

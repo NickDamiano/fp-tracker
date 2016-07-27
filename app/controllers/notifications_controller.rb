@@ -57,6 +57,28 @@ class NotificationsController < ApplicationController
 		render :nothing => true
 
 	end
-
-
 end
+
+# I know this class shouldn't be here. But This class/method lives here because I spent 5 days 
+	# trying to get it to work where a Message
+	# model method would be called from here in the same pattern as the others, but the only time
+	# the message would be sent while deployed on heroku is if it was created in the controller 
+	# file (though it works locally). See stack overflow 
+	# http://stackoverflow.com/questions/38587420/rails-twilio-app-hangs-when-sending-text-in-heroku-on-run-but-works-in-rail-con
+
+class SendMessage
+	def self.run(to, body, from)
+		account_sid = Rails.application.secrets.twilio_account_sid
+		auth_token = Rails.application.secrets.twilio_auth_token
+
+		@client = Twilio::REST::Client.new(account_sid, auth_token)
+		message = @client.account.messages.create({
+			from: from,
+			to: to,
+			body: body,
+			statusCallback: "http://fptracker.herokuapp.com/twilio/callback"
+		})
+	end
+end
+
+	
