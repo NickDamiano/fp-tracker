@@ -41,7 +41,9 @@ class Message < ActiveRecord::Base
 			body: body,
 			statusCallback: "http://fptracker.herokuapp.com/twilio/callback"
 		})
-	end
+
+		p "Message is #{message}"
+	
 		#TODO 
 		# log the message here something like
 		# Message.create(body: message.body, messageSid: message.sid, from: message.from,
