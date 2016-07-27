@@ -23,8 +23,9 @@ class Message < ActiveRecord::Base
 	end
 
 	def self.compose_message(message, to)
-		from = Rails.application.secrets.twilio_number
 
+		from = Rails.application.secrets.twilio_number
+		p "from is #{from}!!!!!!!!!!!!!!!!!"
 		SendMessage.run(to, message, from)
 
 		#TODO 
