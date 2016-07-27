@@ -3,7 +3,7 @@ require 'twilio-ruby'
 class NotificationsController < ApplicationController
 	include Webhookable
 
-	after_filtewr :set_header
+	after_filter :set_header
 
 	skip_before_action :verify_authenticity_token
 
