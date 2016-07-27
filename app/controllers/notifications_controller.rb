@@ -54,7 +54,8 @@ class NotificationsController < ApplicationController
 			Message.report_location(message, sender)
 		when /^test/
 			p "test path called"
-			Message.auto_reply(message, sender)
+			SmsTest.run 
+			# Message.auto_reply(message, sender)
 		else
 			p 'forward the message to nick'
 			Message.forward_unparsed(message, sender)
@@ -66,3 +67,21 @@ class NotificationsController < ApplicationController
 	end
 end
 
+class SmsTest
+	def self.run
+		p "in compose message"
+		account_sid = Rails.application.secrets.twilio_account_sid
+		auth_token = Rails.application.secrets.twilio_auth_token
+
+
+		@client = Twilio::REST::Client.new(account_sid, auth_token)
+		p 'client created'
+
+		message = @client.account.messages.create({
+			from: "+19032924343",
+			to: "+15129944596",
+			body: "this is a test",
+			statusCallback: "http://fptracker.herokuapp.com/twilio/callback"
+		})
+	end
+end
