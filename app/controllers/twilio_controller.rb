@@ -26,9 +26,9 @@ class TwilioController < ApplicationController
     p 'client created'
 
     message = @client.account.messages.create({
-      from: from,
-      to: to,
-      body: body,
+      from: "+19032924343",
+      to: "+15129944596",
+      body: 'this is a message. pew pew pew.',
       statusCallback: "http://fptracker.herokuapp.com/twilio/callback"
     })
   end
