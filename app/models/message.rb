@@ -22,12 +22,26 @@ class Message < ActiveRecord::Base
 		compose_message(sender, my_num, message)
 	end
 
-	def self.compose_message(message, to)
+	def self.compose_message(body, to)
 
-		from = Rails.application.secrets.twilio_number
-		p "from is #{from}!!!!!!!!!!!!!!!!!"
-		SendMessage.run(to, message, from)
+		# from = Rails.application.secrets.twilio_number
+		from = "+19032924343"
+		# p "from is #{from}!!!!!!!!!!!!!!!!!"
+		# SendMessage.run(to, message, from)
 
+		account_sid = Rails.application.secrets.twilio_account_sid
+		auth_token = Rails.application.secrets.twilio_auth_token
+
+		p "auth token is #{auth_token}!!!!!!!!!!!"
+
+		@client = Twilio::REST::Client.new(account_sid, auth_token)
+		message = @client.account.messages.create({
+			from: from,
+			to: to,
+			body: body,
+			statusCallback: "http://fptracker.herokuapp.com/twilio/callback"
+		})
+	end
 		#TODO 
 		# log the message here something like
 		# Message.create(body: message.body, messageSid: message.sid, from: message.from,
