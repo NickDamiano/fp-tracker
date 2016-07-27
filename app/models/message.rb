@@ -2,7 +2,15 @@
 # Message = body of text
 # Sender = "+19034343121" (example)
 
+require 'twilio-ruby'
+
 class Message < ActiveRecord::Base
+	include Webhookable
+
+	after_filter :set_header
+
+	skip_before_action :verify_authenticity_token
+
 	belongs_to :employee
 
 	# Covered
