@@ -1,4 +1,5 @@
 class NotificationsController < ApplicationController
+	include Webhookable
 
 	skip_before_action :verify_authenticity_token
 
