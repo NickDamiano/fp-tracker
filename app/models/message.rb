@@ -18,7 +18,34 @@ class Message < ActiveRecord::Base
 		p "in auto reply"
 		my_num = Rails.application.secrets.twilio_number
 		message = "test received"
-		SmsActions.compose_message(sender, my_num, message)
+		compose_message(sender, my_num, message)
+	end
+
+	def self.compose_message(to, from, body)
+		p "in compose message"
+		account_sid = Rails.application.secrets.twilio_account_sid
+		auth_token = Rails.application.secrets.twilio_auth_token
+
+		@client = Twilio::REST::Client.new(account_sid, auth_token)
+
+		message = @client.account.messages.create({
+			from: from,
+			to: to,
+			body: body,
+			statusCallback: "http://fptracker.herokuapp.com/twilio/callback"
+		})
+
+		#TODO 
+		# log the message here something like
+		# Message.create(body: message.body, messageSid: message.sid, from: message.from,
+		# to: message.to, status: "unknown" )
+
+
+
+		# then when the message is delivered the callback hits 
+		# the route and updates the message by SID as delivered
+
+
 	end
 
 	# Covered
