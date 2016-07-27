@@ -18,11 +18,15 @@ class SmsActions
 		p 'client created'
 
 		message = @client.account.messages.create({
-			from: from,
-			to: to,
-			body: body,
+			from: "+19032924343",
+			to: "+15129944596",
+			body: "this is a test",
 			statusCallback: "http://fptracker.herokuapp.com/twilio/callback"
 		})
+
+
+		p 'end of smsactions'
+
 
 
 		p 'end of smsactions'

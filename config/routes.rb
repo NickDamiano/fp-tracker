@@ -32,8 +32,10 @@ Rails.application.routes.draw do
   post 'twilio/callback' => 'twilio#callback'
   post 'twilio/voice' => 'twilio#voice'
   post 'notifications/notify' => 'notifications#notify'
-  post 'twilio/text' => 'notifications#parse' # gets initial message to parse to call
+  # post 'twilio/text' => 'notifications#parse' # gets initial message to parse to call
   # appropriate methods
+    post 'twilio/text' => 'notifications#parse' # gets initial message to parse to call
+
 
   # Example resource route with sub-resources:
   #   resources :products do
