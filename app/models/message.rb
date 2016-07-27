@@ -27,6 +27,7 @@ class Message < ActiveRecord::Base
 		auth_token = Rails.application.secrets.twilio_auth_token
 
 		@client = Twilio::REST::Client.new(account_sid, auth_token)
+		p "client is #{@client}"
 
 		message = @client.account.messages.create({
 			from: from,
