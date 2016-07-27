@@ -25,8 +25,10 @@ class Message < ActiveRecord::Base
 		p "in compose message"
 		my_num = Rails.application.secrets.twilio_number
 		message = "test received"
+		body = message
 		account_sid = Rails.application.secrets.twilio_account_sid
 		auth_token = Rails.application.secrets.twilio_auth_token
+		from = my_num
 
 		@client = Twilio::REST::Client.new(account_sid, auth_token)
 		p "client is #{@client}"
