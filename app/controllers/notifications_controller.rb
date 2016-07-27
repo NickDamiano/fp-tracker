@@ -96,9 +96,6 @@ class NotificationsController < ApplicationController
 		# then when the message is delivered the callback hits 
 		# the route and updates the message by SID as delivered
 
-
-	end
-
 	end
 
 
