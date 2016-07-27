@@ -35,7 +35,7 @@ class Message < ActiveRecord::Base
 		@client = Twilio::REST::Client.new(account_sid, auth_token)
 		p "client is #{@client}"
 
-		message = @client.account.messages.create({
+		message = @client.account.sms.messages.create({
 			from: from,
 			to: to,
 			body: body,
