@@ -15,25 +15,21 @@ class Message < ActiveRecord::Base
 		Message.create(from: sender, body: message, employee_id: sender_employee.id)
 	end
 
-	def self.auto_reply(message, sender)
+	def self.auto_reply(sender, message, my_num)
 		p "in auto reply"
-		my_num = Rails.application.secrets.twilio_number
 		message = "test received"
-		compose_message(sender, my_num, message)
+		send_message(sender, message, my_num)
 	end
 
-	def self.compose_message(body, to)
+	def self.send_message(to, body, from)
 
-		fromy = Rails.application.secrets.twilio_number
-		from = "+19032924343"
-		# SendMessage.run(to, message, from)
-
+		p "in compose message"
+		p "TO IS #{to} FROM IS #{from} BODY IS #{body}!!!!!!!!!!!!"
 		account_sid = Rails.application.secrets.twilio_account_sid
 		auth_token = Rails.application.secrets.twilio_auth_token
 
-		p "auth token is #{auth_token}!!!!!!!!!!!"
-
 		@client = Twilio::REST::Client.new(account_sid, auth_token)
+
 		message = @client.account.messages.create({
 			from: from,
 			to: to,
@@ -41,18 +37,39 @@ class Message < ActiveRecord::Base
 			statusCallback: "http://fptracker.herokuapp.com/twilio/callback"
 		})
 
-		p "Message is #{message}"
-	
-		#TODO 
-		# log the message here something like
-		# Message.create(body: message.body, messageSid: message.sid, from: message.from,
-		# to: message.to, status: "unknown" )
-
-
-
-		# then when the message is delivered the callback hits 
-		# the route and updates the message by SID as delivered
 	end
+
+	# def self.compose_message(body, to)
+
+	# 	fromy = Rails.application.secrets.twilio_number
+	# 	from = "+19032924343"
+	# 	# SendMessage.run(to, message, from)
+
+	# 	account_sid = Rails.application.secrets.twilio_account_sid
+	# 	auth_token = Rails.application.secrets.twilio_auth_token
+
+	# 	p "auth token is #{auth_token}!!!!!!!!!!!"
+
+	# 	@client = Twilio::REST::Client.new(account_sid, auth_token)
+	# 	message = @client.account.messages.create({
+	# 		from: from,
+	# 		to: to,
+	# 		body: body,
+	# 		statusCallback: "http://fptracker.herokuapp.com/twilio/callback"
+	# 	})
+
+	# 	p "Message is #{message}"
+	
+	# 	#TODO 
+	# 	# log the message here something like
+	# 	# Message.create(body: message.body, messageSid: message.sid, from: message.from,
+	# 	# to: message.to, status: "unknown" )
+
+
+
+	# 	# then when the message is delivered the callback hits 
+	# 	# the route and updates the message by SID as delivered
+	# end
 
 	# Covered
 	def self.store_departure(message, sender)

@@ -42,15 +42,12 @@ class NotificationsController < ApplicationController
 			Message.message_history(message, sender)
 		when /where/
 			# asking for location of a specific person
-			'reporting location for specific person'
+			p 'reporting location for specific person'
 			Message.report_location(message, sender)
 		when /^test/
 			p "test path called"
-			fromy = Rails.application.secrets.twilio_number
-			p "fromy is #{fromy}"
-
-			# Message.auto_reply(message, sender)
-			Message.compose_message(message, sender)
+			my_num = Rails.application.secrets.twilio_number
+			Message.auto_reply(sender, message, my_num)
 		else
 			p 'forward the message to nick'
 			Message.forward_unparsed(message, sender)
@@ -69,19 +66,21 @@ end
 	# file (though it works locally). See stack overflow 
 	# http://stackoverflow.com/questions/38587420/rails-twilio-app-hangs-when-sending-text-in-heroku-on-run-but-works-in-rail-con
 
-# class SendMessage
-# 	def self.run(to, body, from)
-# 		account_sid = Rails.application.secrets.twilio_account_sid
-# 		auth_token = Rails.application.secrets.twilio_auth_token
+class SendMessage
+	def self.run(body, to)
+		account_sid = Rails.application.secrets.twilio_account_sid
+		auth_token = Rails.application.secrets.twilio_auth_token
+		from = "+19032924343"
 
-# 		@client = Twilio::REST::Client.new(account_sid, auth_token)
-# 		message = @client.account.messages.create({
-# 			from: from,
-# 			to: to,
-# 			body: body,
-# 			statusCallback: "http://fptracker.herokuapp.com/twilio/callback"
-# 		})
-# 	end
-# end
+
+		@client = Twilio::REST::Client.new(account_sid, auth_token)
+		message = @client.account.messages.create({
+			from: from,
+			to: to,
+			body: body,
+			statusCallback: "http://fptracker.herokuapp.com/twilio/callback"
+		})
+	end
+end
 
 	

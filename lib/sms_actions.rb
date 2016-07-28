@@ -3,8 +3,9 @@ require 'pry-byebug'
 
 class SmsActions
 	# should this be a hash as one variable
-	def self.compose_message(to, from, body)
+	def self.compose_message(to, body, from)
 		p "in compose message"
+		p "TO IS #{to} FROM IS #{from} BODY IS #{body}!!!!!!!!!!!!"
 		account_sid = Rails.application.secrets.twilio_account_sid
 		auth_token = Rails.application.secrets.twilio_auth_token
 
