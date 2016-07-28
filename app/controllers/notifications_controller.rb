@@ -47,6 +47,7 @@ class NotificationsController < ApplicationController
 		when /^test/
 			p "test path called"
 			my_num = Rails.application.secrets.twilio_number
+			p "MY NUM IS #{my_num}!!!!!!!!!!!!"
 			Message.auto_reply(sender, message, my_num)
 		else
 			p 'forward the message to nick'
