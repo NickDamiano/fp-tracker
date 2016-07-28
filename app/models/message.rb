@@ -24,9 +24,9 @@ class Message < ActiveRecord::Base
 
 	def self.compose_message(body, to)
 
-		# from = Rails.application.secrets.twilio_number
+		fromy = Rails.application.secrets.twilio_number
 		from = "+19032924343"
-		# p "from is #{from}!!!!!!!!!!!!!!!!!"
+		p "fromy is #{fromy}!!!!!!!!!!!!!!!!!"
 		# SendMessage.run(to, message, from)
 
 		account_sid = Rails.application.secrets.twilio_account_sid
