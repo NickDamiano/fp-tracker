@@ -46,6 +46,9 @@ class NotificationsController < ApplicationController
 			Message.report_location(message, sender)
 		when /^test/
 			p "test path called"
+			fromy = Rails.application.secrets.twilio_number
+			p "fromy is #{fromy}"
+
 			# Message.auto_reply(message, sender)
 			Message.compose_message(message, sender)
 		else
