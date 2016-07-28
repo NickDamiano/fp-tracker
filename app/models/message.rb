@@ -19,7 +19,7 @@ class Message < ActiveRecord::Base
 	end
 
 	def self.send_message(to, body, from)
-
+		callback_address = 
 		account_sid = Rails.application.secrets.twilio_account_sid
 		auth_token = Rails.application.secrets.twilio_auth_token
 
@@ -31,10 +31,10 @@ class Message < ActiveRecord::Base
 			body: body,
 			statusCallback: "http://fptracker.herokuapp.com/twilio/callback"
 		})
-
+		p "MESSAGE SID = #{msesage.sid}!!!!!!"
 		employee = Employee.find_by(first_name: "twilio_app")
 		employee.messages.create( messageSid: message.sid, from: from, to: to, 
-			body: message.body )
+			body: message.body, status: "webhook sent" )
 
 	end
 	

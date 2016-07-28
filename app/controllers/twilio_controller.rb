@@ -20,7 +20,8 @@ class TwilioController < ApplicationController
   def callback
     # capture message status (comes as parameter MessageStatus)
     p params 
-    p "params above"
+    p "params above!!!!!!!!!!!!!!"
+    p "#{params.MessageStatus}"
     
 
   end
