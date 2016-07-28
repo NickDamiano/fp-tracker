@@ -2,6 +2,9 @@
 class MessageActions
 
 	# Covered
+
+
+
 	def self.get_depart_info(message)
 		names = parse_names(message)
 		to = parse_location_to(message)
@@ -58,11 +61,13 @@ class MessageActions
 
 	end
 
-	def self.emergency(message, sender)
+	def self.emergency(message, sender, twilio_number)
 		saudi_employees = Employee.where(in_saudi: true)
 		saudi_employees.each do | employee | 
 			to = employee.phone_num1
-			SmsActions.compose_message(to, sender, message)
+			employee_name = employee.first_name + " " + employee.last_name
+			body = "Important message from #{employee_name}: #{message}"
+			Message.send_message(to, body, twilio_number)
 		end
 	end
 

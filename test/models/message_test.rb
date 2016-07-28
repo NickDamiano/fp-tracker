@@ -3,12 +3,26 @@ require 'pry-byebug'
 
 class MessageTest < ActiveSupport::TestCase
 
+   Twilio_number_test = "+15005550006"
+
    test "should get depart info from a depart text" do 
       message = "boba, jango, and jarjar going to naboo"
 
       result = MessageActions.get_depart_info(message)
       assert_equal ["boba", "jango", "jarjar"], result[:names]
       assert_equal "naboo", result[:to]
+   end
+
+   test "should build a text message" do 
+      # Twilio provided number passes all validations for from
+      to = Employee.find_by(last_name: "fett", first_name: "jango").phone_num1
+      body = "Hi Jango!."
+
+      sms = Message.send_message(to, body, Twilio_number_test)
+
+      assert_equal "Sent from your Twilio trial account - " + body, sms.body
+      assert_equal Twilio_number_test, sms.from
+      assert_equal to, sms.to
    end
 
    test "should parse out names where more than one person has that name in the db" do 
@@ -106,59 +120,18 @@ class MessageTest < ActiveSupport::TestCase
    end
 
    test 'Should forward the message to all personnel in saudi' do 
+
       message = "you did it kid, now let's go home!"
       sender = "+15005550006" # han solo
-      result = MessageActions.emergency(message, sender)
-      message_count = Message.where(from: sender, body: "Sent from your Twilio trial account - #{message}").count
-      assert_equal 7, message_count
-      # call method that forwards messages and pass parameters
-      # check to see if an outgoing message is logged where the message is the above and number is the sender
-      # see if the number of messages matches what the number should be. 
+      initial_count = Message.count
+
+      result = MessageActions.emergency(message, sender, Twilio_number_test )
+      final_count = Message.count
+
+      assert_equal initial_count, final_count - 7
    end
 
    test 'Should handle a failed sent message by texting admin' do 
       # makme sure it doesn't do it for a failed one to admin so it doesn't go into an endless loop
    end
-
-
-
 end
-
-
-   # test "should parse arrived location when simply 'arrived' " do
-   #    message = "arrived"
-   #    sender = Employee.find_by(first_name: "luke")
-   #    p 'test'
-   # end
-
-   # test "should store short arrival" do 
-   #    # Note, two messages are saved in database under luke id 
-   #       # The first message shows him leaving to dantooine, the second shows arrived
-   #       # Those two messages would have been created by controller and the tested method
-   #       # for short arrival looks up the second to the last message to see where they were
-   #       # going. 
-   #    message = "skywalker, vader, and solo going to dantooine"
-   #    sender = "1112223333"
-   #    sender_id = Employee.find_by(phone_num1: sender).id
-
-   #    # Assert skywalker is at psab
-   #    luke = Employee.find_by(last_name: "skywalker")
-   #    assert_equal "psab", luke["location"]
-
-   #    # store arrival
-   #    arrived_message = "arrived"
-   #    Message.store_arrival(arrived_message, sender)
-
-   #    # check to see if arrival is done
-   #    luke = Employee.find_by(last_name: "skywalker")
-   #    assert_equal "dantooine", luke["location"]
-
-   # end
-
-
-   # test "should save a message" do 
-   #  message = Message.create(from: "123", body: "test message buddy")
-   #  assert message.save
-   #  mes = Message.find_by(from: "123")
-   #  assert_equal message, mes
-   # end

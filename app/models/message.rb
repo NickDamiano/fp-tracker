@@ -1,30 +1,25 @@
-# Entire message = params
-# Message = body of text
-# Sender = "+19034343121" (example)
 require 'twilio-ruby'
 
 class Message < ActiveRecord::Base
 	belongs_to :employee
 
+	Twilio_number = Rails.application.secrets.twilio_number.to_s
+
 	# Covered
 	def self.save_message(message, sender)
-		# if this is from a different user that's not in the database (like a new one registering)
-		# then it needs to handle this TODO
 		sender_employee = Employee.find_by(phone_num1: sender) || Employee.find_by(first_name: "not in the system") #TODO add seed for this
-		p "sender_employee is #{sender_employee}"
 		Message.create(from: sender, body: message, employee_id: sender_employee.id)
 	end
 
-	def self.auto_reply(sender, message, my_num)
+	def self.auto_reply(sender, message)
+		from = Twilio_number
 		p "in auto reply"
 		message = "test received"
-		send_message(sender, message, my_num)
+		send_message(sender, message, from)
 	end
 
 	def self.send_message(to, body, from)
 
-		p "in compose message"
-		p "TO IS #{to} FROM IS #{from} BODY IS #{body}!!!!!!!!!!!!"
 		account_sid = Rails.application.secrets.twilio_account_sid
 		auth_token = Rails.application.secrets.twilio_auth_token
 
@@ -37,28 +32,11 @@ class Message < ActiveRecord::Base
 			statusCallback: "http://fptracker.herokuapp.com/twilio/callback"
 		})
 
+		employee = Employee.find_by(first_name: "twilio_app")
+		employee.messages.create( messageSid: message.sid, from: from, to: to, 
+			body: message.body )
+
 	end
-
-	# def self.compose_message(body, to)
-
-	# 	fromy = Rails.application.secrets.twilio_number
-	# 	from = "+19032924343"
-	# 	# SendMessage.run(to, message, from)
-
-	# 	account_sid = Rails.application.secrets.twilio_account_sid
-	# 	auth_token = Rails.application.secrets.twilio_auth_token
-
-	# 	p "auth token is #{auth_token}!!!!!!!!!!!"
-
-	# 	@client = Twilio::REST::Client.new(account_sid, auth_token)
-	# 	message = @client.account.messages.create({
-	# 		from: from,
-	# 		to: to,
-	# 		body: body,
-	# 		statusCallback: "http://fptracker.herokuapp.com/twilio/callback"
-	# 	})
-
-	# 	p "Message is #{message}"
 	
 	# 	#TODO 
 	# 	# log the message here something like
@@ -93,14 +71,16 @@ class Message < ActiveRecord::Base
 		end
 	end
 
-	def self.report_emergency(message, sender)
-		p "it's an emergency"
-		result = MessageActions.emergency(message, sender)
-		# Generally used if employee tries to call manager and gets no response
+
+	# Generally used if employee tries to call manager and gets no response
 		# when medical or accident or life threatening thing
 		# send out alert to all phone numbers for people in country including
 		# sender so they can see it went out. Also sender gets response confirming
 		# successful delivery to names
+	def self.report_emergency(message, sender, from)
+		# sender is who needs help in an emergency
+		p "it's an emergency"
+		result = MessageActions.emergency(message, sender, Twilio_number)
 	end
 
 	def self.send_sitrep(sender)
