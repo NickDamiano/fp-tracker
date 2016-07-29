@@ -24,14 +24,16 @@ class Message < ActiveRecord::Base
 		auth_token = Rails.application.secrets.twilio_auth_token
 
 		@client = Twilio::REST::Client.new(account_sid, auth_token)
-
+		p "ABOUT TO SEND THE MESSAGE"
 		message = @client.account.messages.create({
 			from: from,
 			to: to,
 			body: body,
-			statusCallback: "http://fptracker.herokuapp.com/twilio/callback"
+			# statusCallback: "http://fptracker.herokuapp.com/twilio/callback"
+			statusCallback: "http://8ad4a1ef.ngrok.io/twilio/callback"
 		})
-		p "MESSAGE SID = #{msesage.sid}!!!!!!"
+		p "MESSAGE SENT"
+		p "MESSAGE SID = #{message.sid}!!!!!!"
 		employee = Employee.find_by(first_name: "twilio_app")
 		employee.messages.create( messageSid: message.sid, from: from, to: to, 
 			body: message.body, status: "webhook sent" )

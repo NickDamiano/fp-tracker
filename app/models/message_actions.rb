@@ -24,6 +24,10 @@ class MessageActions
 		end
 	end
 
+	def self.update_message_status(status)
+		
+	end
+
 	# Covered
 	# There are transit employee records for anyone who has departed but not yet
 	# arrived. Transit employees are saved with an employee id and a phone number

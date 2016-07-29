@@ -10,19 +10,36 @@ class TwilioController < ApplicationController
  
   def voice
   	response = Twilio::TwiML::Response.new do |r|
-  	  r.Say 'Pew Pew pew pew.PEYYYOOOOOOOH!.', :voice => 'alice'
-         r.Play 'http://66.90.91.26/ost/best-of-nintendo-music/jfvbkyklty/53.-mega-man-2-wood-man.mp3'
-  	end
- 
+  	  r.Say 'This is the Force Protection Tracker Application, created by Nick Domiahno', :voice => 'alice'
+    end
   	render_twiml response
+  end
+
+  def record
+    response = Twilio::TwiML::Response.new do |r|
+      r.Say 'Record your message'
+      # r.Record :maxLength => '6', :action => '/twilio/process_recording' :method => 'post'
+    end.text
+  end
+
+  def process_recording
+    Twilio::TwiML::Response.new do |r|
+      recording = params['RecordingUrl']
+      r.Play recording 
+      r.Say 'That is what you sound like'
+    end.text
   end
 
   def callback
     # capture message status (comes as parameter MessageStatus)
-    p params 
-    p "params above!!!!!!!!!!!!!!"
-    p "#{params.MessageStatus}"
-    
+    messageSid = params["MessageSid"]
+    status = params["MessageStatus"]
+    message = Message.find_by(messageSid: messageSid)
+    message.status = status 
+    result = message.save
 
+    render :nothing => true
   end
+
+
 end

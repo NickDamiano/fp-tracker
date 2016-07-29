@@ -29,6 +29,8 @@ Rails.application.routes.draw do
   #       get 'sold'
   #     end
   #   end
+  get 'twilo/record' => 'twilio#record'
+  post 'twilio/process_recording' => 'twilio#process_recording'
   post 'twilio/callback' => 'twilio#callback'
   post 'twilio/voice' => 'twilio#voice'
   post 'notifications/notify' => 'notifications#notify'

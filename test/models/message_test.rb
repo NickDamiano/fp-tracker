@@ -5,6 +5,9 @@ class MessageTest < ActiveSupport::TestCase
 
    Twilio_number_test = "+15005550006"
 
+   
+
+
    test "should get depart info from a depart text" do 
       message = "boba, jango, and jarjar going to naboo"
 
