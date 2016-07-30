@@ -6,8 +6,6 @@ TODO
 
 Friday - 
 
-do test for notifications controller 
-
 - add duplicate handler
 - add sitrep ( should be easy ) # maybe it only shows those off psab?
 - add solo (going to psab) where it looks up by sender for arrive and depart
