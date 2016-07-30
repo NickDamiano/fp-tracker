@@ -14,6 +14,22 @@ class MessageTest < ActiveSupport::TestCase
       assert_equal "naboo", result[:to]
    end
 
+   test 'should send a follow-up message if there is a duplicate last name in text' do 
+      # message = "fett and solo going to jabbas place"
+
+   end
+
+   test 'should handle duplicates in text if there is equal number in country' do 
+      message = "fett, solo, and fett are going to naboo"
+      sender = "+15126667778"
+
+      Message.store_departure(message, sender)
+      fetts = Employee.where(last_name: "fett")
+
+      assert_equal "driving to naboo", fett[0].location 
+      assert_equal "driving to naboo", fett[1].location 
+   end
+
    test "should build a text message" do 
       # Twilio provided number passes all validations for from
       to = Employee.find_by(last_name: "fett", first_name: "jango").phone_num1
@@ -27,7 +43,7 @@ class MessageTest < ActiveSupport::TestCase
    end
 
    test "should parse out names where more than one person has that name in the db" do 
-      names = ["solo", "organa", "skywalker"]
+      names = ["solo", "organa", "skywalker", "fett"]
       result = MessageActions.checkDuplicateLastName(names)
 
       assert_equal "han", result[0]["first_name"]
