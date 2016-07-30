@@ -21,10 +21,6 @@ class MessageActions
 		end
 	end
 
-	def self.update_message_status(status)
-
-	end
-
 	# Covered
 	# There are transit employee records for anyone who has departed but not yet
 	# arrived. Transit employees are saved with an employee id and a phone number
@@ -45,7 +41,7 @@ class MessageActions
 	# Covered
 	def self.updateDatabaseDepart(employees, destination)
 		# takes names and loops through updating database with new location for each one
-		# names is array of hashes of employee objects
+		# employees is array of hashes of employee objects
 		employees.each do | employee | 
 			employee_temp = Employee.find_by(first_name: employee["first_name"], last_name: employee["last_name"])
 			employee_temp.location = "driving to #{destination}"
@@ -106,9 +102,11 @@ class MessageActions
 		employees
 	end
 
+	# needs test
 	def self.handle_duplicates(duplicates, sender)
 		employee_array = []
 		sender = Employee.find_by(phone_num1: sender)
+		duplicate_names = []
 
 		duplicate_count = duplicates.each_with_object(Hash.new(0)) {|name, counts | counts[name] +=1 }
 		duplicate_count.each do | name, count |
@@ -121,9 +119,31 @@ class MessageActions
 			# matches the sender, push that employee(sender) into the array
 			elsif count == 1 and name == sender.last_name
 				employee_array.push(sender)
+			#if there is one instance of duplicate, and sender is not the duplicate
+			elsif count ==1 and name != sender.last_name
+				# call duplicate_message_handler(name)
+				duplicate_names.push(name)
+				duplicate_message_handler(name, sender)
+			# if there is more than 1 instance of name - like 2 smiths in this group,
+				# but 3 smiths in country. 
+			elsif count > 1 and name != sender.last_name
+				# send a message with the name and a list and you return with the numbers 
+				# separated by space like 1 3 selects 1st name and 3rd name
 			end
 		end
 		employee_array.flatten
+	end
+
+	# Needs test
+	def self.duplicate_message_handler(name, sender)
+		message="Which #{name} did you mean?\n"
+		employees = Employee.where(last_name: name)
+		employees.each.with_index(1) do | employee, index | 
+			message += "#{index}. #{employee.first_name.capitalize} #{employee.last_name.capitalize}\n"
+		end
+
+		message = message + "\nRespond with the corresponding number"
+		Message.send_message(sender.phone_num1, message)
 	end
 
 	def self.history(message, sender)
