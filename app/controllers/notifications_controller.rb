@@ -12,7 +12,7 @@ class NotificationsController < ApplicationController
 		p params["Body"]
 		message = params["Body"]
 		sender = params["From"]
-		message.downcase!
+		message.downcase! 
 		Message.save_message(message, sender)
 
 		case message

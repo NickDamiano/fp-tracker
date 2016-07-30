@@ -3,7 +3,12 @@ require 'twilio-ruby'
 class Message < ActiveRecord::Base
 	belongs_to :employee
 
-	Twilio_number = Rails.application.secrets.twilio_number.to_s
+	if Rails.env.test? 
+		Twilio_number = "+15005550006"
+	else
+		Twilio_number = Rails.application.secrets.twilio_number.to_s
+	end
+
 
 	# Covered
 	def self.save_message(message, sender)
@@ -18,7 +23,7 @@ class Message < ActiveRecord::Base
 		send_message(sender, message, from)
 	end
 
-	def self.send_message(to, body, from)
+	def self.send_message(to, body)
 		callback_address = 
 		account_sid = Rails.application.secrets.twilio_account_sid
 		auth_token = Rails.application.secrets.twilio_auth_token
@@ -26,7 +31,7 @@ class Message < ActiveRecord::Base
 		@client = Twilio::REST::Client.new(account_sid, auth_token)
 		p "ABOUT TO SEND THE MESSAGE"
 		message = @client.account.messages.create({
-			from: from,
+			from: Twilio_number,
 			to: to,
 			body: body,
 			# statusCallback: "http://fptracker.herokuapp.com/twilio/callback"
@@ -35,7 +40,7 @@ class Message < ActiveRecord::Base
 		p "MESSAGE SENT"
 		p "MESSAGE SID = #{message.sid}!!!!!!"
 		employee = Employee.find_by(first_name: "twilio_app")
-		employee.messages.create( messageSid: message.sid, from: from, to: to, 
+		employee.messages.create( messageSid: message.sid, from: Twilio_number, to: to, 
 			body: message.body, status: "webhook sent" )
 
 	end
@@ -79,10 +84,10 @@ class Message < ActiveRecord::Base
 		# send out alert to all phone numbers for people in country including
 		# sender so they can see it went out. Also sender gets response confirming
 		# successful delivery to names
-	def self.report_emergency(message, sender, from)
+	def self.report_emergency(message, sender)
 		# sender is who needs help in an emergency
 		p "it's an emergency"
-		result = MessageActions.emergency(message, sender, Twilio_number)
+		result = MessageActions.emergency(message, sender)
 	end
 
 	def self.send_sitrep(sender)

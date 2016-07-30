@@ -6,7 +6,6 @@ TODO
 
 Friday - 
 
-Finish tests for twilio controller
 do test for notifications controller 
 
 - add duplicate handler

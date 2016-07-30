@@ -5,8 +5,6 @@ class MessageTest < ActiveSupport::TestCase
 
    Twilio_number_test = "+15005550006"
 
-   
-
 
    test "should get depart info from a depart text" do 
       message = "boba, jango, and jarjar going to naboo"
@@ -21,7 +19,7 @@ class MessageTest < ActiveSupport::TestCase
       to = Employee.find_by(last_name: "fett", first_name: "jango").phone_num1
       body = "Hi Jango!."
 
-      sms = Message.send_message(to, body, Twilio_number_test)
+      sms = Message.send_message(to, body)
 
       assert_equal "Sent from your Twilio trial account - " + body, sms.body
       assert_equal Twilio_number_test, sms.from
@@ -128,7 +126,7 @@ class MessageTest < ActiveSupport::TestCase
       sender = "+15005550006" # han solo
       initial_count = Message.count
 
-      result = MessageActions.emergency(message, sender, Twilio_number_test )
+      result = MessageActions.emergency(message, sender )
       final_count = Message.count
 
       assert_equal initial_count, final_count - 7
