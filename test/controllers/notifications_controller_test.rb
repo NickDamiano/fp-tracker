@@ -7,9 +7,7 @@ class TwiliosControllerTest < ActionDispatch::IntegrationTest
 			From: "+15122223333"}
 		assert_response :success
 	end
-
 end
-# class NotificationsControllerTest < ActionController::Testcase
-# 	test 'should parse 911 message' do 
-# 		get :
+
+#TODO add methods for parse case statements to see if the correct method gets called. 
 
