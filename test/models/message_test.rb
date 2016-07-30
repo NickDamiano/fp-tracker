@@ -14,9 +14,18 @@ class MessageTest < ActiveSupport::TestCase
       assert_equal "naboo", result[:to]
    end
 
-   test 'should send a follow-up message if there is a duplicate last name in text' do 
+   test 'should handle duplicates if there is one in text and multiples in country and
+   the senders phone number matches the duplicate name' do
+   #for example - if fett, solo, and skywalker are going somewhere and boba fett texts
+   # the message, it should assume that boba fett is the fett in the message 
       # message = "fett and solo going to jabbas place"
+      message = "fett, solo, and skywalker going to the death star"
+      from = "+15126667778" #boba fett
+      Message.store_departure(message, from)
 
+      boba = Employee.find_by(first_name: "boba", last_name: "fett")
+
+      assert_equal "driving to the death star", boba.location
    end
 
    test 'should handle duplicates in text if there is equal number in country' do 
@@ -26,8 +35,8 @@ class MessageTest < ActiveSupport::TestCase
       Message.store_departure(message, sender)
       fetts = Employee.where(last_name: "fett")
 
-      assert_equal "driving to naboo", fett[0].location 
-      assert_equal "driving to naboo", fett[1].location 
+      assert_equal "driving to naboo", fetts[0].location 
+      assert_equal "driving to naboo", fetts[1].location 
    end
 
    test "should build a text message" do 
@@ -44,7 +53,8 @@ class MessageTest < ActiveSupport::TestCase
 
    test "should parse out names where more than one person has that name in the db" do 
       names = ["solo", "organa", "skywalker", "fett"]
-      result = MessageActions.checkDuplicateLastName(names)
+      sender = "+15125556666" #han
+      result = MessageActions.checkDuplicateLastName(names, sender)
 
       assert_equal "han", result[0]["first_name"]
       assert_equal "leia", result[1]["first_name"]
@@ -107,7 +117,9 @@ class MessageTest < ActiveSupport::TestCase
       # {names: "leia, luke, chew, han", to: "the death star"}
       # should 
       message = "organa, skywalker, baca, and solo arrived at the death star"
-      MessageActions.parse_arrived_long(message)
+      sender = "15125556666" #solo
+
+      MessageActions.parse_arrived_long(message, sender)
       han = Employee.find_by(last_name: "solo")
       leia = Employee.find_by(last_name: "organa")
       luke = Employee.find_by(last_name: "skywalker")
@@ -148,7 +160,4 @@ class MessageTest < ActiveSupport::TestCase
       assert_equal initial_count, final_count - 7
    end
 
-   test 'Should handle a failed sent message by texting admin' do 
-      # makme sure it doesn't do it for a failed one to admin so it doesn't go into an endless loop
-   end
 end

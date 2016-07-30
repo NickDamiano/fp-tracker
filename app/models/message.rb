@@ -61,7 +61,7 @@ class Message < ActiveRecord::Base
 		parsed_data = MessageActions.get_depart_info(message)
 		names = parsed_data[:names]
 		to = parsed_data[:to]
-		result = MessageActions.checkDuplicateLastName(names)
+		result = MessageActions.checkDuplicateLastName(names, sender)
 		MessageActions.updateDatabaseDepart(result, to)
 		# Save a transit record to be referenced for arrive
 		result.each do | employee | 

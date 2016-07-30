@@ -9,11 +9,11 @@ class MessageActions
 	end
 
 	# Covered
-	def self.parse_arrived_long(message)
+	def self.parse_arrived_long(message, sender)
 		# parse by commas and arrived to get who and where. 
 		# send back to message.rb to update database with arrived
 		names = parse_names(message)
-		names_without_duplicates = checkDuplicateLastName(names)
+		names_without_duplicates = checkDuplicateLastName(names, sender)
 		location = message.split("arrived")[-1].split(" at ")[-1].lstrip
 		names_without_duplicates.each do | employee |
 			employee.location = location 
@@ -79,7 +79,7 @@ class MessageActions
 	end
 
 	# Covered
-	def self.checkDuplicateLastName(names)
+	def self.checkDuplicateLastName(names, sender)
 		duplicates = []
 		employees = []
 		names.each do | name | 
@@ -99,15 +99,17 @@ class MessageActions
 		end
 		
 		if duplicates[0]
-			result = handle_duplicates(duplicates)
+			result = handle_duplicates(duplicates, sender)
 			employees.push(result).flatten!
 		end
 		#TODO push the result into employees
 		employees
 	end
 
-	def self.handle_duplicates(duplicates)
+	def self.handle_duplicates(duplicates, sender)
 		employee_array = []
+		sender = Employee.find_by(phone_num1: sender)
+
 		duplicate_count = duplicates.each_with_object(Hash.new(0)) {|name, counts | counts[name] +=1 }
 		duplicate_count.each do | name, count |
 			employees = Employee.where(last_name: "#{name}", in_saudi: true)
@@ -115,9 +117,10 @@ class MessageActions
 			#  follow up text (two Smiths mentioned in text and only two smiths in country)
 			if employees.count == count 
 				employee_array.push(employees)
-			#else we need to resolve which smith is in the car with a follow-up text
-			else
-
+			#elsif there is only one duplicate instance of that name and the last name
+			# matches the sender, push that employee(sender) into the array
+			elsif count == 1 and name == sender.last_name
+				employee_array.push(sender)
 			end
 		end
 		employee_array.flatten
