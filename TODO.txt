@@ -1,5 +1,11 @@
 TODO
 
+- somehow transit employee isn't working for displaying status for transit, but when they call arrived, it updates with correct one
+- how am i going to handle guys who leave to go one place, then change destinations??? FUCK SO MANY EDGE CASES. 
+
+
+
+
 1) write test for auto forwarding and method
 2) add controller method which calls that method if the line begins with 911
 

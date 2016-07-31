@@ -39,13 +39,14 @@ class MessageActions
 	end
 
 	# Covered
-	def self.updateDatabaseDepart(employees, destination)
+	def self.updateDatabaseDepart(employees, destination, sender)
 		# takes names and loops through updating database with new location for each one
 		# employees is array of hashes of employee objects
 		employees.each do | employee | 
 			employee_temp = Employee.find_by(first_name: employee["first_name"], last_name: employee["last_name"])
 			employee_temp.location = "driving to #{destination}"
 			employee_temp.save
+			TransitEmployee.create(sender: sender, destination: destination, employee_id: employee["id"])
 		end
 	end
 
@@ -156,15 +157,12 @@ class MessageActions
 		sent_message.save
 	end
 
-	# TODO create method that takes a message from a sender with their number,
-	# the response body, the original destination, and updates the transit employee database
-	# and the message to turn off boolean for pending response (as long as the message was parsed
-		#correctly. man this seems so convoluted, there must be a better cleaner way...)
 	def self.duplicate_message_responder(original_message, response)
 		# original_message is one asking about duplicates
 		# response is response to original message
-		# destination_message is the one sent by user
 		names = []
+		employee_objects = []
+		sender = original_message.to
 		location = original_message.location
 		# location = parse_location_to(original_message)
 		names_with_numbers = original_message.body.split("\n")[1..-3]
@@ -172,10 +170,21 @@ class MessageActions
 		original_message.save
 		names_with_numbers.each do |name|
 			names.push(name[3..-1])
-			binding.pry
-			p 'stuff'
 		end
+		selections = response.split(',').map{|num| num.to_i }
+		selections.each do | selection |
+			name = names[ selection - 1 ]
+			# get first and last name
+			first_and_last = name.split(' ') 
+			employee = Employee.find_by( first_name: first_and_last[0].downcase,
+				last_name: first_and_last[1].downcase )
+			employee_objects.push(employee)
+			binding.pry
+		end
+		updateDatabaseDepart(employee_objects, location, sender)
+		p ' stuff'
 	end
+
 
 	def self.history(message, sender)
 	end

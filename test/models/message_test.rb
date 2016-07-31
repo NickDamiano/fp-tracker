@@ -54,7 +54,8 @@ class MessageTest < ActiveSupport::TestCase
    test "should parse out names where more than one person has that name in the db" do 
       names = ["solo", "organa", "skywalker", "fett"]
       sender = "+15125556666" #han
-      result = MessageActions.checkDuplicateLastName(names, sender)
+      destination = "dagobah"
+      result = MessageActions.checkDuplicateLastName(names, sender, destination)
 
       assert_equal "han", result[0]["first_name"]
       assert_equal "leia", result[1]["first_name"]
