@@ -13,6 +13,8 @@ class NotificationsController < ApplicationController
 		message = params["Body"]
 		sender = params["From"]
 		message.downcase! 
+		# gets the last message matching this criteria
+		original_message = Message.find_by(to: sender, pending_response: true)
 		Message.save_message(message, sender)
 
 		case message
@@ -49,6 +51,11 @@ class NotificationsController < ApplicationController
 			my_num = Rails.application.secrets.twilio_number
 			p "MY NUM IS #{my_num}!!!!!!!!!!!!"
 			Message.auto_reply(sender, message)
+		when /^[0-9]/
+			if original_message
+				p "responsding to a duplicate message"
+				MessageActions.duplicate_message_responder(original_message, message)
+			end
 		else
 			p 'forward the message to nick'
 			Message.forward_unparsed(message, sender)

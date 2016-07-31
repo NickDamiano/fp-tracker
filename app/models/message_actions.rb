@@ -13,7 +13,7 @@ class MessageActions
 		# parse by commas and arrived to get who and where. 
 		# send back to message.rb to update database with arrived
 		names = parse_names(message)
-		names_without_duplicates = checkDuplicateLastName(names, sender)
+		names_without_duplicates = checkDuplicateLastName(names, sender, nil)
 		location = message.split("arrived")[-1].split(" at ")[-1].lstrip
 		names_without_duplicates.each do | employee |
 			employee.location = location 
@@ -75,7 +75,7 @@ class MessageActions
 	end
 
 	# Covered
-	def self.checkDuplicateLastName(names, sender)
+	def self.checkDuplicateLastName(names, sender, destination)
 		duplicates = []
 		employees = []
 		names.each do | name | 
@@ -95,7 +95,7 @@ class MessageActions
 		end
 		
 		if duplicates[0]
-			result = handle_duplicates(duplicates, sender)
+			result = handle_duplicates(duplicates, sender, destination)
 			employees.push(result).flatten!
 		end
 		#TODO push the result into employees
@@ -103,7 +103,9 @@ class MessageActions
 	end
 
 	# needs test
-	def self.handle_duplicates(duplicates, sender)
+	def self.handle_duplicates(duplicates, sender, destination)
+		# should get messageSid from the one it's going to respond to, and do something
+		# either create new field "response_sid"
 		employee_array = []
 		sender = Employee.find_by(phone_num1: sender)
 		duplicate_names = []
@@ -123,7 +125,7 @@ class MessageActions
 			elsif count ==1 and name != sender.last_name
 				# call duplicate_message_handler(name)
 				duplicate_names.push(name)
-				duplicate_message_handler(name, sender)
+				duplicate_message_sender(name, sender, destination)
 			# if there is more than 1 instance of name - like 2 smiths in this group,
 				# but 3 smiths in country. 
 			elsif count > 1 and name != sender.last_name
@@ -135,7 +137,7 @@ class MessageActions
 	end
 
 	# Needs test
-	def self.duplicate_message_handler(name, sender)
+	def self.duplicate_message_sender(name, sender, destination)
 		message="Which #{name} did you mean?\n"
 		employees = Employee.where(last_name: name)
 		employees.each.with_index(1) do | employee, index | 
@@ -143,7 +145,36 @@ class MessageActions
 		end
 
 		message = message + "\nRespond with the corresponding number"
-		Message.send_message(sender.phone_num1, message)
+		message_result = Message.send_message(sender.phone_num1, message)
+
+		#Update the sent message with true pending status
+		sent_message = Message.find_by(messageSid: message_result.messageSid)
+		sent_message.pending_response = true
+		# get response_sid from message just sent by sender
+		sent_message.location = destination # add location reference
+		
+		sent_message.save
+	end
+
+	# TODO create method that takes a message from a sender with their number,
+	# the response body, the original destination, and updates the transit employee database
+	# and the message to turn off boolean for pending response (as long as the message was parsed
+		#correctly. man this seems so convoluted, there must be a better cleaner way...)
+	def self.duplicate_message_responder(original_message, response)
+		# original_message is one asking about duplicates
+		# response is response to original message
+		# destination_message is the one sent by user
+		names = []
+		location = original_message.location
+		# location = parse_location_to(original_message)
+		names_with_numbers = original_message.body.split("\n")[1..-3]
+		original_message.pending_response = false
+		original_message.save
+		names_with_numbers.each do |name|
+			names.push(name[3..-1])
+			binding.pry
+			p 'stuff'
+		end
 	end
 
 	def self.history(message, sender)

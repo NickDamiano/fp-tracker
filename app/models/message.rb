@@ -45,23 +45,12 @@ class Message < ActiveRecord::Base
 
 	end
 	
-	# 	#TODO 
-	# 	# log the message here something like
-	# 	# Message.create(body: message.body, messageSid: message.sid, from: message.from,
-	# 	# to: message.to, status: "unknown" )
-
-
-
-	# 	# then when the message is delivered the callback hits 
-	# 	# the route and updates the message by SID as delivered
-	# end
-
 	# Covered
 	def self.store_departure(message, sender)
 		parsed_data = MessageActions.get_depart_info(message)
 		names = parsed_data[:names]
 		to = parsed_data[:to]
-		result = MessageActions.checkDuplicateLastName(names, sender)
+		result = MessageActions.checkDuplicateLastName(names, sender, to)
 		MessageActions.updateDatabaseDepart(result, to)
 		# Save a transit record to be referenced for arrive
 		result.each do | employee | 
