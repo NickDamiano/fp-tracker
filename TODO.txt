@@ -3,6 +3,13 @@ TODO
 1) write test for auto forwarding and method
 2) add controller method which calls that method if the line begins with 911
 
+Add an additional column for pending response and if the text comes in and it has a pending response, it runs through that to see if it answers the question, otherwise it executes the rest of stuff. 
+
+When name correction comes it shouldl create transit employees
+based off of phone number
+
+what happens if two different people text but only one texts
+arrival?
 
 Friday - 
 
