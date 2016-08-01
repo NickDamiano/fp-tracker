@@ -58,6 +58,7 @@ class MessageActions
 		end
 	end
 
+	# Covered
 	def self.emergency(message, sender)
 		saudi_employees = Employee.where(in_saudi: true)
 		saudi_employees.each do | employee | 
@@ -104,13 +105,12 @@ class MessageActions
 	end
 
 	# needs test
+	# Takes array of last names, sender's phone number, and destination
 	def self.handle_duplicates(duplicates, sender, destination)
-		# should get messageSid from the one it's going to respond to, and do something
-		# either create new field "response_sid"
 		employee_array = []
 		sender = Employee.find_by(phone_num1: sender)
 		duplicate_names = []
-
+		# Outputs {"skywalker"=>2, "fett"=>1} if there are two skywalkers in text and 1 fett (and there are more in db)
 		duplicate_count = duplicates.each_with_object(Hash.new(0)) {|name, counts | counts[name] +=1 }
 		duplicate_count.each do | name, count |
 			employees = Employee.where(last_name: "#{name}", in_saudi: true)
@@ -129,9 +129,9 @@ class MessageActions
 				duplicate_message_sender(name, sender, destination)
 			# if there is more than 1 instance of name - like 2 smiths in this group,
 				# but 3 smiths in country. 
-			elsif count > 1 and name != sender.last_name
-				# send a message with the name and a list and you return with the numbers 
-				# separated by space like 1 3 selects 1st name and 3rd name
+			# elsif count > 1 and name != sender.last_name
+			# 	# send a message with the name and a list and you return with the numbers 
+			# 	# separated by space like 1 3 selects 1st name and 3rd name
 			end
 		end
 		employee_array.flatten
@@ -179,7 +179,6 @@ class MessageActions
 			employee = Employee.find_by( first_name: first_and_last[0].downcase,
 				last_name: first_and_last[1].downcase )
 			employee_objects.push(employee)
-			binding.pry
 		end
 		updateDatabaseDepart(employee_objects, location, sender)
 		p ' stuff'

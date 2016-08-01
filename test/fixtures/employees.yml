@@ -32,7 +32,7 @@ ben:
     phone_num1: "+15124445555"
     location: psab
     job_title: trainer
-    in_saudi: false
+    in_saudi: true
     permanent: false
 han:
     id: 4
@@ -80,4 +80,35 @@ twilio:
     first_name: twilio_app
     last_name: twilio_app
     phone_num1: "15005550006"
-    
+harry:
+    id: 10
+    first_name: harry
+    last_name: fett
+    phone_num1: "+15129998889"
+    location: al yamama
+    in_saudi: true
+    permanent: true
+bail: 
+    id: 11
+    first_name: bail
+    last_name: organa
+    phone_num1: "+15129998890"
+    location: alderaan
+    in_saudi: true
+    permanent: false
+maul: 
+    id: 12
+    first_name: darth
+    last_name: maul
+    phone_num1: "+15129998891"
+    location: ma
+    in_saudi: false
+    permanent: true
+cornelius: 
+    id: 13
+    first_name: cornelius
+    last_name: crumb
+    phone_num1: "+15129998892"
+    location: ma
+    in_saudi: false
+    permanent: true
