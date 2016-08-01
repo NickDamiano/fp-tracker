@@ -164,32 +164,75 @@ class MessageTest < ActiveSupport::TestCase
       assert_equal "driving to naboo", organas[1].location 
    end
 
-   test 'should handle duplicates' do 
-      duplicates = ["fett"]
-   # Takes an array of last names ["solo", "fett"]
-   # Takes sender which is the number who sent the text
-   # Takes destination 
-   # If the count of duplicate employees in text is the same as the number
-      # in the db, it returns an array of employee objects
-   # If there is only one name reported in text and it's duplicate
-      # it should match the phone number to the name without having to ask
-   # If 
+   test 'should handle duplicates when equal number in text as in database' do 
+      duplicates = ["organa", "organa"]
+      sender = "+15129998890"
+      destination = "coruscant"
+      # returns an array of objects for the employees - normally passed back to checkDuplicates
+      results = MessageActions.handle_duplicates(duplicates, sender, destination)
+      organas = Employee.where(last_name: "organa")
+      # Should return an array of active record objects for each organa. 
+      assert_equal organas, results
    end
 
-   test 'should send duplicate message' do 
+   test 'should handle duplicates when the only name in the text message is the duplicate' do 
+      duplicates = ["organa"] #bail
+      sender = "+15129998890" # bail
+      destination = "not alderaan"
+
+      result = MessageActions.handle_duplicates(duplicates, sender, destination)
+      organa = Employee.where(last_name: "organa", first_name: "bail")
+      # should return an array with one active record object matching bail organa
+      assert_equal organa, result
+   end
+
+   test 'should handle one duplicate when there are more in db than in message by '\
+   'sending a text with selection information' do 
+      duplicates = ["organa"] # bail/leia
+      sender = "+15129998889" # harry fett!
+      destination = "hoth"
+
+      message = Message.find_by(pending_response: true)
+      assert_nil message
+
+      MessageActions.handle_duplicates(duplicates, sender, destination)
+      message = Message.find_by(pending_response: true)
+      refute_nil message
+   end
+
+   test 'should send duplicate message via duplicate_message_sender method' do 
       # Takes the name that needs to be resolved, the sender of the original
          # report, and destination
       # composes the text message that is sent out listing the people it could be
       # Saves the message with the location
+      name = "fett"
+      sender = Employee.find_by(phone_num1: "+15129998888")
+      destination = "that water planet with the jumping bird-whale things"
+
+      message = Message.find_by(pending_response: true)
+      assert_nil message
+
+      MessageActions.duplicate_message_sender(name, sender, destination)
+      message = Message.find_by(pending_response: true)
+      refute_nil message
    end
 
-   test 'should respond to duplicate response' do 
+   test 'should respond to duplicate response with duplicate_message_responder method' do 
       # takes original message - the one sent by twilio asking which duplicate
       # takes the response message that is a number or series of numbers 
          # identifying which duplicate
       # calls updateDatabaseDepart with the array of employee objects, destination
          # and sender of original text report. This in turn updates the database
          # with transit employees and Employee.location
-   end
+      original_message = Message.create(from: "+15005550006", to: "+15129998888", 
+         body:  "Sent from your Twilio trial account - Which organa did you mean?\n1. Leia Organa\n2. Bail Organa\n\nRespond with the corresponding number", 
+         employee_id: 9, pending_response: true,
+         location: "hoth")
 
+      response_message = "2"
+
+      result = MessageActions.duplicate_message_responder(original_message, response_message)
+      bail = Employee.find_by(first_name: "bail")
+      assert_equal "driving to hoth", bail.location
+   end
 end

@@ -104,8 +104,13 @@ class MessageActions
 		employees
 	end
 
-	# needs test
-	# Takes array of last names, sender's phone number, and destination
+	# Takes an array of last names ["solo", "fett"]
+	# Takes sender which is the number who sent the text
+	# Takes destination 
+	# If the count of duplicate employees in text is the same as the number
+	   # in the db, it returns an array of employee objects
+	# If there is only one name reported in text and it's duplicate
+	   # it should match the phone number to the name without having to ask
 	def self.handle_duplicates(duplicates, sender, destination)
 		employee_array = []
 		sender = Employee.find_by(phone_num1: sender)
@@ -127,11 +132,6 @@ class MessageActions
 				# call duplicate_message_handler(name)
 				duplicate_names.push(name)
 				duplicate_message_sender(name, sender, destination)
-			# if there is more than 1 instance of name - like 2 smiths in this group,
-				# but 3 smiths in country. 
-			# elsif count > 1 and name != sender.last_name
-			# 	# send a message with the name and a list and you return with the numbers 
-			# 	# separated by space like 1 3 selects 1st name and 3rd name
 			end
 		end
 		employee_array.flatten
@@ -153,7 +153,6 @@ class MessageActions
 		sent_message.pending_response = true
 		# get response_sid from message just sent by sender
 		sent_message.location = destination # add location reference
-		
 		sent_message.save
 	end
 
@@ -181,7 +180,6 @@ class MessageActions
 			employee_objects.push(employee)
 		end
 		updateDatabaseDepart(employee_objects, location, sender)
-		p ' stuff'
 	end
 
 
