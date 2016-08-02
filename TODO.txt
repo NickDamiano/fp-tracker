@@ -1,9 +1,6 @@
 TODO
 
-- after i solve that, need to add tests for all new methods
-- maybe add controller test to handle more stuff for notifications test. 
 
-# parse arrived long should resolve transit_employees
 
 When name correction comes it shouldl create transit employees
 based off of phone number
@@ -11,16 +8,17 @@ based off of phone number
 what happens if two different people text but only one texts
 arrival? so they all will arrive but what happens to the transit employee entries
 
-Friday - 
+Wednesday
 
 - add duplicate handler (IN PROGRESSSSS)
 - add sitrep ( should be easy ) # maybe it only shows those off psab?
 - add solo (going to psab) where it looks up by sender for arrive and depart
 - 
 
-OH SWEET LORD THERE IS SO MUCH MORE STUFF TO ADD
+Thursday - record video explaining it to yourself. 
 
-Saturday - 
+
+After vacation - 
 add the whole front page and the capabilities to update personnel via text for
 adding, removing etc
 - add it where you can have multiple people in the same car reporting it and it doesn't create duplicate alerts. 

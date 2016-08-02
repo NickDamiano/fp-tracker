@@ -200,6 +200,33 @@ class MessageTest < ActiveSupport::TestCase
       refute_nil message
    end
 
+   test 'should handle two groups of duplicates with 1 duplicate and two duplicates' do 
+      duplicates = ["organa", "fett"]
+      # this is going to have to work differently. It can send out two seprate query messages
+      # and assign something to keep track of which response is for which (probably not)
+      # or it can put the other one in a queue and as soon as the first is answered it sends
+      # the second in the queue. and so on. OR it can put them all in one message and sort out
+      # the answers
+   end
+
+   test 'should handle a text with 2 multiples in text and more than 2 in database' do 
+      duplicates = ["fett", "fett"]
+      # somehow we need to handle if there are two or more names and a greater number in 
+         # the database, so fett and fett and skywalker, it should group the fetts and expect
+         # two numbers
+      # if size of duplicates is 1, send the normal process
+      # otherwise, if it's greater than 1 and the set queue true on the sender's number 
+         # send the first message
+         # for remaining messages, create messages for messageQueue
+      # when a message reply comes from the sender, handle the response but at the end, if
+      # there are still message queues, grab the oldest and send the next one, if not, set the 
+      # message queue flag to false
+
+   end
+
+   test 'should respond to a text with which personnel for more than 1 personnel and update database' do 
+   end
+
    test 'should send duplicate message via duplicate_message_sender method' do 
       # Takes the name that needs to be resolved, the sender of the original
          # report, and destination
@@ -235,4 +262,6 @@ class MessageTest < ActiveSupport::TestCase
       bail = Employee.find_by(first_name: "bail")
       assert_equal "driving to hoth", bail.location
    end
+
+
 end

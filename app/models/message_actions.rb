@@ -127,17 +127,45 @@ class MessageActions
 			# matches the sender, push that employee(sender) into the array
 			elsif count == 1 and name == sender.last_name
 				employee_array.push(sender)
-			#if there is one instance of duplicate, and sender is not the duplicate
-			elsif count ==1 and name != sender.last_name
-				# call duplicate_message_handler(name)
+			#if there is one instance of duplicate, and sender is not the duplicate and there
+				# are no other conflicts with other names (only one duplicate in message)
+			elsif count == 1 and name != sender.last_name and duplicate_count.size == 1
 				duplicate_names.push(name)
 				duplicate_message_sender(name, sender, destination)
+			# if there is more than 1 unique name in the duplicates from that message, we
+				# will need to send multiple texts for each person. We need to queue up
+				# a message to be delivered upon receipt of the first answer
+			elsif duplicate_count.size > 1
+				# call multiple duplicates and pass duplicate_count hash, sender, and destination
+			elsif count > 1 and name == sender.last_name
+				# get the names for the duplicates that are not the sender and somehow pass
+				# sender to updateDatabase?
+				# identify in the text message who is the person already identified, so
+				# besides Nick Damiano, who is the other Damiano?
+			elsif count > 1 and name!= sender.last_name
+				# send the message with all names and expect an answer with multiple numbers				
 			end
 		end
 		employee_array.flatten
 	end
 
+	def self.process_multiple_duplicates(duplicate_count, sender, destination)
+		#if there are more than 1 unique duplicate name and we need to queue messages to get
+		# clarification on those. 
+		twilio = Employee.find_by(first_name: twilio_app)
+
+      # otherwise, if it's greater than 1 and the set queue true on the sender's number 
+         # send the first message
+         # for remaining messages, create messages for messageQueue
+      # when a message reply comes from the sender, handle the response but at the end, if
+      # there are still message queues, grab the oldest and send the next one, if not, set the 
+      # message queue flag to false THIS
+	end
+
+
 	# Needs test
+	# takes a string of last name for name, the original texter's phone number, and a string
+		# for destination
 	def self.duplicate_message_sender(name, sender, destination)
 		message="Which #{name} did you mean?\n"
 		employees = Employee.where(last_name: name)
