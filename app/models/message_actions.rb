@@ -69,7 +69,6 @@ class MessageActions
 		end
 	end
 
-	# 
 	def self.sitrep(sender)
 	end
 
@@ -82,35 +81,28 @@ class MessageActions
 		employees = []
 		names.each do | name | 
 			employee_check = Employee.where(last_name: name, in_saudi: true)
-			
-			if employee_check.count > 1
+			if employee_check.count == 1
+				employee = employee_check[0] # only entry in database
+				employees.push(employee)
+			elsif employee_check.count > 1
 				puts "There are duplicates!"
 				duplicates.push(name)
 			elsif employee_check == []
 				puts "there was a problem and employee wasn't found"
 				#TODO call employee_spell_checker to get a list of names it 
 				# could possibly be and send a text asking
-			else
-				employee = Employee.find_by(last_name: name, in_saudi: true)
-				employees.push(employee)
 			end
 		end
-		
 		if duplicates[0]
 			result = handle_duplicates(duplicates, sender, destination)
 			employees.push(result).flatten!
 		end
-		#TODO push the result into employees
 		employees
 	end
 
 	# Takes an array of last names ["solo", "fett"]
 	# Takes sender which is the number who sent the text
 	# Takes destination 
-	# If the count of duplicate employees in text is the same as the number
-	   # in the db, it returns an array of employee objects
-	# If there is only one name reported in text and it's duplicate
-	   # it should match the phone number to the name without having to ask
 	def self.handle_duplicates(duplicates, sender, destination)
 		employee_array = []
 		sender = Employee.find_by(phone_num1: sender)
@@ -127,71 +119,62 @@ class MessageActions
 			# matches the sender, push that employee(sender) into the array
 			elsif count == 1 and name == sender.last_name
 				employee_array.push(sender)
-			#if there is one instance of duplicate, and sender is not the duplicate and there
-				# are no other conflicts with other names (only one duplicate in message)
-			elsif count == 1 and name != sender.last_name and duplicate_count.size == 1
-				duplicate_names.push(name)
-				duplicate_message_sender(name, sender, destination)
-			# if there is more than 1 unique name in the duplicates from that message, we
-				# will need to send multiple texts for each person. We need to queue up
-				# a message to be delivered upon receipt of the first answer BUT WHAT IF ONE OF THOSE SETS OF DUPLICATES
-				# CAN BE RESOLVED WITHOUT A MESSAGE OR BOTH? WHAT IF BOTH HAVE IT WHERE LIKE 1 DUPLICATE IS THE SENDER AND
-				# THE SECOND DUPLICATES (2) HAVE 2 IN THE DATABASE, THEN IT'S ALL RESOLVED. WE HAVE TO EVALUATE ALL MESSAGES FIRST?
-
-				# OR IF WE DO HIT THE ABOVE AND CALL DUPLICATE MESSAGE SENDER, IT SETS THE FLAG FOR QUEUED TO TRUEE AND AT THE TOP OF THIS EACH LOOP
-				# WE CHECK TO SEE IF THERE ARE PENDING MESSAGES. THEN WHEN WE GET THE DUPLICATE MESSAGE SENDER, WE ONLY SEND IT IF THERE AREN'T, BUT IF
-				# THERE ARE, THEN WE CREATE A MESSAGE WITH STATUS OF QUEUE.
-			elsif duplicate_count.size > 1
-				# call multiple duplicates and pass duplicate_count hash, sender, and destination
-			elsif count > 1 and name == sender.last_name
-				# get the names for the duplicates that are not the sender and somehow pass
-				# sender to updateDatabase?
-				# identify in the text message who is the person already identified, so
-				# besides Nick Damiano, who is the other Damiano?
-				employee_array.push(sender) # push the damiano we know it is
-				duplicate_message_sender(name, sender, destination)
-			elsif count > 1 and name!= sender.last_name
-				# send the message with all names and expect an answer with multiple numbers				
+			elsif count >= 1 
+			# if we are here, then the count is 1 and the sender is not the duplicate, OR the count is greater than 1 and we don't care if 
+			# the sender is one of the duplicates because it's simpler to treat them the same. 
+				duplicate_names.push([name,count])
 			end
 		end
+		duplicate_message_builder(duplicate_names, sender, destination)
 		employee_array.flatten
 	end
 
-	def self.process_multiple_duplicates(duplicate_count, sender, destination)
-		#if there are more than 1 unique duplicate name and we need to queue messages to get
-		# clarification on those. 
-		sender.queued_responses = true
-	end
-
-	def self.respond_for_queued_messages
-      # otherwise, if it's greater than 1 and the set queue true on the sender's number 
-         # send the first message
-         # for remaining messages, create messages for messageQueue
-      # when a message reply comes from the sender, handle the response but at the end, if
-      # there are still message queues, grab the oldest and send the next one, if not, set the 
-      # message queue flag to false THIS
-	end
-
-
 	# Needs test
-	# takes a string of last name for name, the original texter's phone number, and a string
-		# for destination
-	def self.duplicate_message_sender(name, sender, destination)
-		message="Which #{name} do you mean?\n"
-		employees = Employee.where(last_name: name).where.not(first_name: sender.first_name) #exempts the sender who is arleady found
-		employees.each.with_index(1) do | employee, index | 
+	# takes a an array of arrays [[smith, 1],[jones,2]] of last name for name, the object for the sender, and a string
+		# for destination. Builds and stores message in the database. 
+	def self.duplicate_message_builder(names, sender, destination)
+		names.each do | name_array |
+			name = name_array[0]
+			number_of_unique_name = name_array[1] # really this probably doesn't matter
 
-			message += "#{index}. #{employee.first_name.capitalize} #{employee.last_name.capitalize}\n"
+			message="Which #{name} do you mean?\n"
+			employees = Employee.where(last_name: name) 
+			employees.each.with_index(1) do | employee, index | 
+
+				message += "#{index}. #{employee.first_name.capitalize} #{employee.last_name.capitalize}\n"
+			end
+
+			message += "\nRespond with the corresponding number " 
+			if number_of_unique_name > 1 then message += message + "for the #{number_of_unique_name} #{name}'s separated by commas" end
+
+			sender.messages.create(to: sender.phone_num1, body: message, status: "pending", location: destination)
+			MessageActions.retrieve_and_send_message(sender)
+		end
+	end
+
+	# sender is active record object
+	def self.retrieve_and_send_message(sender)
+		# pulls the message out of the db and converts it to be sent by message and sends it. 
+		messages = sender.messages.where(status: "pending")
+		message = messages[0]
+		body = message.body
+		to = sender.phone_num1
+		location = message.location
+		message.destroy # want to destroy so as to not create duplicates since the message send below creates one
+
+		if messages.size == 1 # if there is only one pending message
+			sender.queries_pending = false # set the flag to false so future messages from sender are handled correctly
+			sender.save
 		end
 
-		message = message + "\nRespond with the corresponding number"
-		message_result = Message.send_message(sender.phone_num1, message)
+		# delete the pending message from database
+		message_result = Message.send_message(to, body)
 
 		#Update the sent message with true pending status
 		sent_message = Message.find_by(messageSid: message_result.messageSid)
 		sent_message.pending_response = true
 		# get response_sid from message just sent by sender
-		sent_message.location = destination # add location reference
+		sent_message.location = location # add location reference
 		sent_message.save
 	end
 
@@ -203,11 +186,10 @@ class MessageActions
 		sender_number = original_message.to
 		sender_object = Employee.find_by(phone_num1: sender_number)
 		location = original_message.location
-		queued_messages = sender_object.messages.where(status: "queued")
+
 		# location = parse_location_to(original_message)
 		names_with_numbers = original_message.body.split("\n")[1..-3]
-		original_message.pending_response = false if queued_messages
-		original_message.save
+
 		names_with_numbers.each do |name|
 			names.push(name[3..-1])
 		end
@@ -221,16 +203,12 @@ class MessageActions
 			employee_objects.push(employee)
 		end
 		updateDatabaseDepart(employee_objects, location, sender_number)
-		
-		unless queued_messages.empty?
-			# there are queued messages. if there are more than 1, we need to
-			# call duplicate_message_sender with the data from queued message
-			# delete queued message to prevent duplicate messages 
-			# flag pending_response with true
-			# 
+		# so now we've received the response and processed it by saving the employee records to the database
+		# next we need to send a follow-up if there are queued messages
+		if sender_object.queries_pending
+			retrieve_and_send_message(sender_object)
 		end
 	end
-
 
 	def self.history(message, sender)
 	end
@@ -252,19 +230,3 @@ class MessageActions
 		# build and send message with TwiML back to sender
 	end
 end
-
-
-	# def self.arrive(message, sender)
-	# 	if message == "arrived"
-	# 		updateDatabaseArrive(sender)
-	# 	else
-	# 		parse_arrived_long(message)
-	# 	end
-	# end
-
-	# def self.parse_arrived_short(message, sender)
-	# 	# finds the last message sent by the sender (except the one just sent saying arrived)
-	# 	depart_message = Message.where(from: sender).last(2)[0]
-	# 	# returns hash with keys names and to 
-	# 	result = get_depart_info(depart_message["body"])
-	# end
