@@ -147,15 +147,20 @@ class MessageActions
 			message += "\nRespond with the corresponding number " 
 			if number_of_unique_name > 1 then message += message + "for the #{number_of_unique_name} #{name}'s separated by commas" end
 
-			sender.messages.create(to: sender.phone_num1, body: message, status: "pending", location: destination)
-			MessageActions.retrieve_and_send_message(sender)
+			Message.create(to: sender.phone_num1, body: message, status: "pending", location: destination)
 		end
+		# set the query pending flag
+		sender.queries_pending = true
+		sender.save
+		MessageActions.retrieve_and_send_message(sender)
+
 	end
 
 	# sender is active record object
 	def self.retrieve_and_send_message(sender)
 		# pulls the message out of the db and converts it to be sent by message and sends it. 
-		messages = sender.messages.where(status: "pending")
+		messages = Message.where(status: "pending")
+
 		message = messages[0]
 		body = message.body
 		to = sender.phone_num1
