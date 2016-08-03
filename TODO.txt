@@ -1,5 +1,19 @@
 TODO
+need to figure out the if else statements in handler to make sure they are the most efficient. handle 2 or more different results OR if it has to send 1 message
+because 
 
+
+1 - I send message to twilio "fett, organa, and damiano going to psab"
+2 - The message gets passed to checkDuplicates and damiano is logged as going to psab. 
+3 - If fett or organa sent the message, then it gets their number and gets them
+4 - If Nick sent the message, it needs to then take the two other last names
+5 - send a query for the first one, create a message entry for the second with the status of queued
+6 - do this for any remaining messages
+
+7 - when a text comes in, it checks for a message to sender with pending response flag set. if there is one it calls duplicate_message_responder
+8 - 
+
+handler - if we need to send mmore than 2 messages, it needs to make su
 
 
 When name correction comes it shouldl create transit employees

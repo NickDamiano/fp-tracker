@@ -134,7 +134,13 @@ class MessageActions
 				duplicate_message_sender(name, sender, destination)
 			# if there is more than 1 unique name in the duplicates from that message, we
 				# will need to send multiple texts for each person. We need to queue up
-				# a message to be delivered upon receipt of the first answer
+				# a message to be delivered upon receipt of the first answer BUT WHAT IF ONE OF THOSE SETS OF DUPLICATES
+				# CAN BE RESOLVED WITHOUT A MESSAGE OR BOTH? WHAT IF BOTH HAVE IT WHERE LIKE 1 DUPLICATE IS THE SENDER AND
+				# THE SECOND DUPLICATES (2) HAVE 2 IN THE DATABASE, THEN IT'S ALL RESOLVED. WE HAVE TO EVALUATE ALL MESSAGES FIRST?
+
+				# OR IF WE DO HIT THE ABOVE AND CALL DUPLICATE MESSAGE SENDER, IT SETS THE FLAG FOR QUEUED TO TRUEE AND AT THE TOP OF THIS EACH LOOP
+				# WE CHECK TO SEE IF THERE ARE PENDING MESSAGES. THEN WHEN WE GET THE DUPLICATE MESSAGE SENDER, WE ONLY SEND IT IF THERE AREN'T, BUT IF
+				# THERE ARE, THEN WE CREATE A MESSAGE WITH STATUS OF QUEUE.
 			elsif duplicate_count.size > 1
 				# call multiple duplicates and pass duplicate_count hash, sender, and destination
 			elsif count > 1 and name == sender.last_name
@@ -142,6 +148,8 @@ class MessageActions
 				# sender to updateDatabase?
 				# identify in the text message who is the person already identified, so
 				# besides Nick Damiano, who is the other Damiano?
+				employee_array.push(sender) # push the damiano we know it is
+				duplicate_message_sender(name, sender, destination)
 			elsif count > 1 and name!= sender.last_name
 				# send the message with all names and expect an answer with multiple numbers				
 			end
@@ -152,8 +160,10 @@ class MessageActions
 	def self.process_multiple_duplicates(duplicate_count, sender, destination)
 		#if there are more than 1 unique duplicate name and we need to queue messages to get
 		# clarification on those. 
-		twilio = Employee.find_by(first_name: twilio_app)
+		sender.queued_responses = true
+	end
 
+	def self.respond_for_queued_messages
       # otherwise, if it's greater than 1 and the set queue true on the sender's number 
          # send the first message
          # for remaining messages, create messages for messageQueue
@@ -167,9 +177,10 @@ class MessageActions
 	# takes a string of last name for name, the original texter's phone number, and a string
 		# for destination
 	def self.duplicate_message_sender(name, sender, destination)
-		message="Which #{name} did you mean?\n"
-		employees = Employee.where(last_name: name)
+		message="Which #{name} do you mean?\n"
+		employees = Employee.where(last_name: name).where.not(first_name: sender.first_name) #exempts the sender who is arleady found
 		employees.each.with_index(1) do | employee, index | 
+
 			message += "#{index}. #{employee.first_name.capitalize} #{employee.last_name.capitalize}\n"
 		end
 
@@ -186,14 +197,16 @@ class MessageActions
 
 	def self.duplicate_message_responder(original_message, response)
 		# original_message is one asking about duplicates
-		# response is response to original message
+		# response is the paramaters from the response
 		names = []
 		employee_objects = []
-		sender = original_message.to
+		sender_number = original_message.to
+		sender_object = Employee.find_by(phone_num1: sender_number)
 		location = original_message.location
+		queued_messages = sender_object.messages.where(status: "queued")
 		# location = parse_location_to(original_message)
 		names_with_numbers = original_message.body.split("\n")[1..-3]
-		original_message.pending_response = false
+		original_message.pending_response = false if queued_messages
 		original_message.save
 		names_with_numbers.each do |name|
 			names.push(name[3..-1])
@@ -207,7 +220,15 @@ class MessageActions
 				last_name: first_and_last[1].downcase )
 			employee_objects.push(employee)
 		end
-		updateDatabaseDepart(employee_objects, location, sender)
+		updateDatabaseDepart(employee_objects, location, sender_number)
+		
+		unless queued_messages.empty?
+			# there are queued messages. if there are more than 1, we need to
+			# call duplicate_message_sender with the data from queued message
+			# delete queued message to prevent duplicate messages 
+			# flag pending_response with true
+			# 
+		end
 	end
 
 
