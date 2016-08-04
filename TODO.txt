@@ -1,6 +1,9 @@
 TODO
-need to figure out the if else statements in handler to make sure they are the most efficient. handle 2 or more different results OR if it has to send 1 message
-because 
+
+
+
+
+1 - The multi-text is working except the second message reply is not saving the employee to transit employee nor to arrived (probably problem with transit employee)
 
 
 1 - I send message to twilio "fett, organa, and damiano going to psab"
