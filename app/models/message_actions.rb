@@ -241,7 +241,7 @@ class MessageActions
 		message_without_ands = message.gsub(/\sand\s/, ',')
 		first = message_without_ands.split(',')
 		# necessary because of the fix above to handle and without commas in message 
-		first.reject! { |name | name.blank? }
+		first = first.reject { |name | name.blank? }
 		# gets last name and pushes them all together. 
 		# Returns ["bart, lisa, marge"]
 		last = first[-1]
