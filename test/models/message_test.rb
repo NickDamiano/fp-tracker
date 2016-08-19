@@ -20,7 +20,7 @@ class MessageTest < ActiveSupport::TestCase
 
       sms = Message.send_message(to, body)
 
-      assert_equal "Sent from your Twilio trial account - " + body, sms.body
+      assert_equal body, sms.body
       assert_equal Twilio_number_test, sms.from
       assert_equal to, sms.to
    end
@@ -253,7 +253,7 @@ class MessageTest < ActiveSupport::TestCase
          # and sender of original text report. This in turn updates the database
          # with transit employees and Employee.location
       original_message = Message.create(from: "+15005550006", to: "+15129998888", 
-         body:  "Sent from your Twilio trial account - Which organa did you mean?\n1. Leia Organa\n2. Bail Organa\n\nRespond with the corresponding number", 
+         body:  "Which organa did you mean?\n1. Leia Organa\n2. Bail Organa\n\nRespond with the corresponding number", 
          employee_id: 9, pending_response: true,
          location: "hoth")
 

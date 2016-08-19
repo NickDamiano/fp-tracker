@@ -1,7 +1,12 @@
 TODO
 
 
+Maybe have all pending messages from a guy delete after 24 hours and have it change to queued messages false? sometimes there might be errors and there should be like a garbage cleaner type thing. I'm sure there's a right way to do this...
 
+
+august 17th notes - there are two problems. first shannon isn't being selected, but possibly the second name of the second message when i hit 2 for the first. experiment with reordering the names to see the result. 
+
+SECOND problem for august 17th is that it changes the location to driving to wherever, but when i type arrived, it only marks the non-duplicate name as arrived while the duplicates go back to their previous location. FUCK. WEird man. (this was because it was pulling the oldest queued message which was a stale message sitting in there with a different destination)
 
 1 - The multi-text is working except the second message reply is not saving the employee to transit employee nor to arrived (probably problem with transit employee)
 

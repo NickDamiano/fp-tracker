@@ -208,6 +208,10 @@ class MessageActions
 			employee_objects.push(employee)
 		end
 		updateDatabaseDepart(employee_objects, location, sender_number)
+		# change the pending response for this particular message so when it pulls out the 
+			# next one it gets the right one
+		original_message.pending_response = false
+		original_message.save
 		# so now we've received the response and processed it by saving the employee records to the database
 		# next we need to send a follow-up if there are queued messages
 		if sender_object.queries_pending
