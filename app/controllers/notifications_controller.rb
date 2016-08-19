@@ -14,7 +14,7 @@ class NotificationsController < ApplicationController
 		sender = params["From"]
 		message.downcase! 
 		# gets the last message matching this criteria
-		original_message = Message.find_by(to: sender, pending_response: true)
+		original_message = Message.where(to: sender, pending_response: true).last
 		Message.save_message(message, sender)
 
 		case message
@@ -52,7 +52,7 @@ class NotificationsController < ApplicationController
 			Message.auto_reply(sender, message)
 		when /^[0-9]/
 			if original_message
-				p "responsding to a duplicate message"
+				p "responding to a duplicate message"
 				MessageActions.duplicate_message_responder(original_message, message)
 			end
 		else

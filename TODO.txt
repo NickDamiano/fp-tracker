@@ -1,7 +1,5 @@
 TODO
 1 - Handle errors if they send a response to the text that isn't 1,2,3
-2 - handle multiple names (2 damianos in text when 3 in system)
-3 - Handle text like "damiano and sievert going to psab" or "damiano, sievert going to psab"
 
 
 Maybe have all pending messages from a guy delete after 24 hours and have it change to queued messages false? sometimes there might be errors and there should be like a garbage cleaner type thing. I'm sure there's a right way to do this...

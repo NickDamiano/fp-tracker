@@ -145,7 +145,7 @@ class MessageActions
 			end
 
 			message += "\nRespond with the corresponding number " 
-			if number_of_unique_name > 1 then message += message + "for the #{number_of_unique_name} #{name}'s separated by commas" end
+			if number_of_unique_name > 1 then message +=  "for the #{number_of_unique_name} #{name}'s separated by commas" end
 
 			Message.create(to: sender.phone_num1, body: message, status: "pending", location: destination)
 		end
@@ -201,10 +201,15 @@ class MessageActions
 		selections = response.split(',').map{|num| num.to_i }
 		selections.each do | selection |
 			name = names[ selection - 1 ]
-			# get first and last name
+			#TODO handle if the number is a higher one than the options provided
+			# get first and last name if the name was
+			if name == nil 
+				send_reject_message(original_message, response)
+				return
+			end
 			first_and_last = name.split(' ') 
 			employee = Employee.find_by( first_name: first_and_last[0].downcase,
-				last_name: first_and_last[1].downcase )
+			last_name: first_and_last[1].downcase )
 			employee_objects.push(employee)
 		end
 		updateDatabaseDepart(employee_objects, location, sender_number)
@@ -219,6 +224,12 @@ class MessageActions
 		end
 	end
 
+	def self.send_reject_message(original_message, response)
+		message = "#{response} is not one of the listed options. Please try again."
+		to = original_message.to 
+		Message.send_message(to, message)
+	end
+
 	def self.history(message, sender)
 	end
 
@@ -230,8 +241,7 @@ class MessageActions
 		message_without_ands = message.gsub(/\sand\s/, ',')
 		first = message_without_ands.split(',')
 		# necessary because of the fix above to handle and without commas in message 
-		first.reject! { |name | name == " " }
-		binding.pry
+		first.reject! { |name | name.blank? }
 		# gets last name and pushes them all together. 
 		# Returns ["bart, lisa, marge"]
 		last = first[-1]
