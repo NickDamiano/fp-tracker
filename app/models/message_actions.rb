@@ -225,9 +225,13 @@ class MessageActions
 	# Covered
 	def self.parse_names(message)
 		# message is ["bart, lisa, marge left al yamama to psab"]
-		# remove "and"
-		message_without_ands = message.gsub(/and/, '')
+		# remove "and" and replace with ',' which solves when it's two names like
+			#fett and skywalker without a comma since it splits it on the next line
+		message_without_ands = message.gsub(/\sand\s/, ',')
 		first = message_without_ands.split(',')
+		# necessary because of the fix above to handle and without commas in message 
+		first.reject! { |name | name == " " }
+		binding.pry
 		# gets last name and pushes them all together. 
 		# Returns ["bart, lisa, marge"]
 		last = first[-1]
