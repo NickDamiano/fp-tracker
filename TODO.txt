@@ -1,27 +1,11 @@
 TODO
+1 - Handle errors if they send a response to the text that isn't 1,2,3
+2 - handle multiple names (2 damianos in text when 3 in system)
+3 - Handle text like "damiano and sievert going to psab" or "damiano, sievert going to psab"
 
 
 Maybe have all pending messages from a guy delete after 24 hours and have it change to queued messages false? sometimes there might be errors and there should be like a garbage cleaner type thing. I'm sure there's a right way to do this...
 
-
-august 17th notes - there are two problems. first shannon isn't being selected, but possibly the second name of the second message when i hit 2 for the first. experiment with reordering the names to see the result. 
-
-SECOND problem for august 17th is that it changes the location to driving to wherever, but when i type arrived, it only marks the non-duplicate name as arrived while the duplicates go back to their previous location. FUCK. WEird man. (this was because it was pulling the oldest queued message which was a stale message sitting in there with a different destination)
-
-1 - The multi-text is working except the second message reply is not saving the employee to transit employee nor to arrived (probably problem with transit employee)
-
-
-1 - I send message to twilio "fett, organa, and damiano going to psab"
-2 - The message gets passed to checkDuplicates and damiano is logged as going to psab. 
-3 - If fett or organa sent the message, then it gets their number and gets them
-4 - If Nick sent the message, it needs to then take the two other last names
-5 - send a query for the first one, create a message entry for the second with the status of queued
-6 - do this for any remaining messages
-
-7 - when a text comes in, it checks for a message to sender with pending response flag set. if there is one it calls duplicate_message_responder
-8 - 
-
-handler - if we need to send mmore than 2 messages, it needs to make su
 
 
 When name correction comes it shouldl create transit employees

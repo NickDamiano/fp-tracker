@@ -125,7 +125,7 @@ class MessageActions
 				duplicate_names.push([name,count])
 			end
 		end
-		duplicate_message_builder(duplicate_names, sender, destination)
+		duplicate_message_builder(duplicate_names, sender, destination) unless duplicate_names.empty?
 		employee_array.flatten
 	end
 

@@ -49,7 +49,6 @@ class NotificationsController < ApplicationController
 		when /^test/
 			p "test path called"
 			my_num = Rails.application.secrets.twilio_number
-			p "MY NUM IS #{my_num}!!!!!!!!!!!!"
 			Message.auto_reply(sender, message)
 		when /^[0-9]/
 			if original_message
