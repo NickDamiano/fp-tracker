@@ -1,107 +1,19 @@
 TODO
-1 - Handle errors if they send a response to the text that isn't 1,2,3
-
-
-Maybe have all pending messages from a guy delete after 24 hours and have it change to queued messages false? sometimes there might be errors and there should be like a garbage cleaner type thing. I'm sure there's a right way to do this...
-
-
-
-When name correction comes it shouldl create transit employees
-based off of phone number
-
-what happens if two different people text but only one texts
-arrival? so they all will arrive but what happens to the transit employee entries
-
-Wednesday
-
-- add duplicate handler (IN PROGRESSSSS)
-- add sitrep ( should be easy ) # maybe it only shows those off psab?
-- add solo (going to psab) where it looks up by sender for arrive and depart
-- 
-
-Thursday - record video explaining it to yourself. 
-
-
-After vacation - 
-add the whole front page and the capabilities to update personnel via text for
-adding, removing etc
-- add it where you can have multiple people in the same car reporting it and it doesn't create duplicate alerts. 
-Start misspelled names thing
-
-
-
-
-Sunday - 
-
-finished misspelled names thing
-add ETA feature
-add ricci admin stuff
-
-code cleanup
-do a short video demonstrating the project
-
-DONE
-
-
-
-
-
-
-
-
-
-TODO for Monday - 
-
--Add callback functionality
-
-- solve the duplicate handler
-- capture message sid, list the employees with number next to them and have them reply with the number
-
-Tuesday 
-
-- solve for misspelled names with name suggestions
-- add test and sitrep
-
-Wednesday
-
-- handle if multiple people in the car text leave and arrive
-- add front end page with authentication and form for adding employees and editing employees
-	using javascript to click and edit forms and ajax to save it after that line is saved
-
-Thursday
-- add ETA and alerts checking
-- add evening alerts if no one checks in having arrived
-
-Friday 
-- Add solo trips
-- add ricci/admin texts like (autoforward, history, etc)
-
-Saturday
-clean up everything and document it
-
-Sunday finish last bits and start on penny-arcade
-
-
-
-biggest things - duplicate handler, web page and authentication and front end test for creating a form to update names and data with drop downs. Also having texts pass back and forth between ricci/matt and whoever sends them. 
-
-I forgot about the scenario where someone mispells a name. 
-
-beyond that, the emergency, and other texts should be relatively simple. 
-
-3 - add sitrep
-5 - add duplicate handler (biggest point - also check duplicate against phone number. If number matches the duplicate name then assume that's the right of the duplicates. )
-6 - add "Add employee"
-7 - add "remove employee"
-8 - add history of texts or maybe it's a summary so it will take text and sstore message in history as "nick, butt, fred, departed al yamama at 1900 driving to psab", "nick, fart, butt reported arriving at psab at 2100"
-9 - toggle saudi presence
-10 - toggle autoforward
-11 - respond with instructions page for commands
-12 - create page to enter in bulk employees or maybe new employee
-13 - create authenticaiton
-14 - create page to show all records and then click edit to modify them, add to add them, or delete to remove them
-15 - Add ETA to depart
-16 - If you just send "going to psab" it recognizes the number being sent and gets the person and updates them
-17 - If more than one person texts the same people going to the same place, it creates all possible messages, but then when that employee is texted
-as arriving, it removes all instances of them in the transit table. and then if someone texts arrived and there are no one in the table, then it doesn't
-throw an error. 
+1 - spell checker
+2 - Garbage cleaner rake task
+3 - Create seed for star wars demo or different theme demo
+4 - Add sitrep
+5 - Add solo
+6 - Add front page where names and info can be edited (with password)
+7 - Add text based personnel add/remove/update for manager
+8 - add acknowledgement texts when marked in transit and arrived
+9 - Add ETA feature
+10 - Add evening alert
+11 - create passthrough texting feature
+12 - Toggle autoforward
+13 - instructions response for help
+14 - needs to be a way to gather all messages for departure arrival and send a summary to ricci so it's just one alert. at a minimum, it takes destinations that are spelled the same and consolidates them for alerts.
+15 - code cleanup
+16 - review
+17 - how it works video
+18 - texting light demo
