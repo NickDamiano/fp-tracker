@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160803173252) do
+ActiveRecord::Schema.define(version: 20160826183617) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 20160803173252) do
     t.boolean  "in_saudi"
     t.boolean  "permanent"
     t.boolean  "queries_pending"
+    t.boolean  "admin"
   end
 
   create_table "message_queries", force: :cascade do |t|
