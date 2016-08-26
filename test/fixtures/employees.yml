@@ -15,6 +15,7 @@ luke:
     job_title: engineer
     in_saudi: true
     permanent: true
+    admin: true
 darth:
     id: 2
     first_name: darth
