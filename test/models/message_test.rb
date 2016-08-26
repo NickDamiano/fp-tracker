@@ -249,17 +249,12 @@ class MessageTest < ActiveSupport::TestCase
       luke = Employee.find_by(last_name: "skywalker")
       luke.location = "dagobah"
       luke.save
-
       number = luke.phone_num1
+
       Message.send_sitrep(number)
       last_message = Message.where(to: number).last
+      
       assert_match "Skywalker, Luke: Dagobah", last_message.body
-
-      # check employee boba fett is wherever
-      # update boba fetts position
-      # call sitrep with number
-      # expect the last message to contain regex of that location with boba fett: 
-
    end
 
    test 'should respond to duplicate response with duplicate_message_responder method' do 
