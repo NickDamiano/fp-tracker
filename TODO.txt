@@ -2,7 +2,6 @@ TODO
 1 - spell checker
 2 - Garbage cleaner rake task
 3 - Create seed for star wars demo or different theme demo
-4 - Add sitrep
 6 - Add front page where names and info can be edited (with password)
 7 - Add text based personnel add/remove/update for manager
 8 - add acknowledgement texts when marked in transit and arrived

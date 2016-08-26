@@ -70,7 +70,7 @@ class MessageActions
 			Message.send_message(to, body)
 		end
 	end
-
+	
 	def self.sitrep(sender)
 		if Employee.find_by(phone_num1: sender).admin 
 			message = ''
