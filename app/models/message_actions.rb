@@ -55,6 +55,8 @@ class MessageActions
 		# if the message contains the word to 
 		if message =~ /\sto\s/
 			return message.split(' to ')[-1]
+		elsif message =~ /going\s/
+			return message.split('going ')[-1]
 		end
 	end
 
