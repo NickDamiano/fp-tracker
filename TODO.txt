@@ -3,7 +3,6 @@ TODO
 2 - Garbage cleaner rake task
 3 - Create seed for star wars demo or different theme demo
 4 - Add sitrep
-5 - Add solo
 6 - Add front page where names and info can be edited (with password)
 7 - Add text based personnel add/remove/update for manager
 8 - add acknowledgement texts when marked in transit and arrived
@@ -17,3 +16,15 @@ TODO
 16 - review
 17 - how it works video
 18 - texting light demo
+
+
+front end part
+- gets employees in controller before redirecting to the page
+- iterates through each employee and lists all fields across in some sort of table
+- edit button next to each one, if you click it, it changes all fields to be edited.
+- once you finish editing it you can click save and it gets that data and updates the database
+- you can also add a new employee or delete each employee
+
+
+ack message - if no duplicates call the ack message,
+if duplicates, after pending messages cleared call ack message

@@ -245,6 +245,14 @@ class MessageTest < ActiveSupport::TestCase
       refute_nil message
    end
 
+   test 'should send a sitrep' do 
+      # check employee boba fett is wherever
+      # update boba fetts position
+      # call sitrep with number
+      # expect the last message to contain regex of that location with boba fett: 
+
+   end
+
    test 'should respond to duplicate response with duplicate_message_responder method' do 
       # takes original message - the one sent by twilio asking which duplicate
       # takes the response message that is a number or series of numbers 

@@ -11,6 +11,9 @@ class Message < ActiveRecord::Base
 
 
 	# Covered
+	def self.acknowledge_changes(changes)
+		
+	end
 	def self.save_message(message, sender)
 		sender_employee = Employee.find_by(phone_num1: sender) || Employee.find_by(first_name: "not in the system") #TODO add seed for this
 		Message.create(from: sender, body: message, employee_id: sender_employee.id)

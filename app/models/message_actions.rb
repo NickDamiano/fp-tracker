@@ -70,6 +70,20 @@ class MessageActions
 	end
 
 	def self.sitrep(sender)
+		if Employee.find_by(phone_num1: sender).admin 
+			message = ''
+			employees = Employee.where(in_saudi: true).order(:last_name)
+			employees.each do |employee|
+				first = employee.first_name || "no first name"
+				last = employee.last_name || "no last name"
+				location = employee.location || "no location listed"
+				line = "#{first.capitalize} #{last.capitalize}: #{location.capitalize}\n"
+				message += line
+			end
+		else
+			message = "You need admin privledges to request a sitrep"
+		end
+		Message.send_message(sender, message)
 	end
 
 	def self.add_employee(message)
