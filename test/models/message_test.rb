@@ -45,7 +45,7 @@ class MessageTest < ActiveSupport::TestCase
       # showing them in transit to that point, and create transit employee records
       Message.store_departure(message, sender)
       luke = Employee.find_by(last_name: "skywalker")
-      assert_equal "driving to al yamama", luke["location"]
+      assert_equal "going to al yamama", luke["location"]
 
       # Assert that there are three employees in transit (as sent by luke)
       transit_employee_count = TransitEmployee.where(sender: "+15122223333").count
@@ -150,7 +150,7 @@ class MessageTest < ActiveSupport::TestCase
 
       boba = Employee.find_by(first_name: "boba", last_name: "fett")
 
-      assert_equal "driving to the death star", boba.location
+      assert_equal "going to the death star", boba.location
    end
 
    test 'should handle duplicates in text if there is equal number in country' do 
@@ -160,8 +160,8 @@ class MessageTest < ActiveSupport::TestCase
       Message.store_departure(message, sender)
       organas = Employee.where(last_name: "organa")
 
-      assert_equal "driving to naboo", organas[0].location 
-      assert_equal "driving to naboo", organas[1].location 
+      assert_equal "going to naboo", organas[0].location 
+      assert_equal "going to naboo", organas[1].location 
    end
 
    test 'should handle duplicates when equal number in text as in database' do 
@@ -273,7 +273,7 @@ class MessageTest < ActiveSupport::TestCase
 
       result = MessageActions.duplicate_message_responder(original_message, response_message)
       bail = Employee.find_by(first_name: "bail")
-      assert_equal "driving to hoth", bail.location
+      assert_equal "going to hoth", bail.location
    end
 
 

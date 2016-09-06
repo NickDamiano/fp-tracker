@@ -1,6 +1,5 @@
 
-
-1) Create Star Wars seed
+1) Change driving to, to going to
 2) Change in_saudi? to track/active something
 3) Add front page and authentication
 4) Gather messages
