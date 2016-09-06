@@ -1,8 +1,45 @@
+
+
+1) Create Star Wars seed
+2) Change in_saudi? to track/active something
+3) Add front page and authentication
+4) Gather messages
+5) Instructions for help message
+6) Name not found text message
+6) Acknowledge message for database update
+7) Garbage Cleaner
+8) Code Clean-up
+9) Review
+10) Texting demo
+11) How it works demo
+12) Done!
+
+Cron job to recreate database at 3 AM US
+Cron Job to 
+Bonus
+
+12) Fuzzy spell checker
+13) ETA
+14) Evening alert
+15) Create passthrough
+16) Toggle auto-forward
+
+
+
+
 TODO
-1 - spell checker
-2 - Garbage cleaner rake task
+1 - spell checker - fuzzy gem
+2 - Garbage cleaner rake task - 
+	figure out cleaner for each model
 3 - Create seed for star wars demo or different theme demo
+	It would be cool if the fake phones on there were like real
+	phones with pictures of the character so it replicated the 
+	texts well. including green and blue messages. 
 6 - Add front page where names and info can be edited (with password)
+	investigate on the right way to do this
+	Iterate through each record and display all stuff followed by edit, delete buttons and after you hit edit it makes a save button
+	make it look pretty
+	add authentication
 7 - Add text based personnel add/remove/update for manager
 8 - add acknowledgement texts when marked in transit and arrived
 9 - Add ETA feature
@@ -15,7 +52,10 @@ TODO
 16 - review
 17 - how it works video
 18 - texting light demo
+19 - create /demo path that has a thing you can type in, like
+chat window, and have it communicate with the controller
 
+Maybe there's a thing where if someone in country hasn't updated their status in more than a day it automatically asks them for an update?
 
 front end part
 - gets employees in controller before redirecting to the page
@@ -23,6 +63,9 @@ front end part
 - edit button next to each one, if you click it, it changes all fields to be edited.
 - once you finish editing it you can click save and it gets that data and updates the database
 - you can also add a new employee or delete each employee
+- each line/employee has an edit and a save button. 
+	- on edit, it changes that line to a bunch of forms. then on save it calls update on the database and does something to prevent sql injection
+- 
 
 
 ack message - if no duplicates call the ack message,

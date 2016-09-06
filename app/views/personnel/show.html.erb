@@ -1,2 +1,4 @@
 Hullo world
-<%= @personnel[0].first_name %>
+<% @personnel.each do |person| %>
+	<p><%= person.first_name %> <%= person.last_name %></p>
+<% end %>
