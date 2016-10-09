@@ -5,6 +5,12 @@ class MessageTest < ActiveSupport::TestCase
 
    Twilio_number_test = "+15005550006"
 
+   test 'should send an update message to user when database is updated with a change' do 
+      # send the message with a quick update 
+      # database should update and code should run sending out message to user saying the change was made
+      # pull out the last message and assert that it's updating that change. 
+   end
+
    test "should get depart info from a depart text" do 
       message = "boba, jango, and jarjar going to naboo"
 

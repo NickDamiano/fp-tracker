@@ -1,4 +1,11 @@
-Hullo world
+<h1>Force Protection Tracker Personnel List</h1>
+
+<div class=test>i am a test</div>
+
+
+
 <% @personnel.each do |person| %>
-	<p><%= person.first_name %> <%= person.last_name %></p>
+	<div class=employee> 
+		<%= person.last_name %>, <%= person.first_name %> 
+	</div>
 <% end %>

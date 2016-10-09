@@ -1,5 +1,4 @@
 
-1) Change driving to, to going to
 2) Change in_saudi? to track/active something
 3) Add front page and authentication
 4) Gather messages
@@ -12,6 +11,8 @@
 10) Texting demo
 11) How it works demo
 12) Done!
+13) Add simple regexer for last name misspelled
+14) Add accountability checker - messages all active and as answers come in, it gives the updated percentage to the managers
 
 Cron job to recreate database at 3 AM US
 Cron Job to 
@@ -23,7 +24,12 @@ Bonus
 15) Create passthrough
 16) Toggle auto-forward
 
+NEXT - Acknowledge message for database update
+Build /demo page that has a text box which scrolls as text is put into it. duplicate that. how does it send the number from the form. keep it from submitting after you type a text
+24 hour reset for database cronjob. 
 
+Maybe sitrep should group the locations rather than do alphabetical ?
+OR it can group names by the group they were texted with so you can see, damiano, sievert, hukill are at psab. maybe it writes it that way. 
 
 
 TODO

@@ -33,9 +33,15 @@ class MessageActions
 		transit_employees.each do | employee | 
 			temp_employee = Employee.find(employee.employee_id)
 			temp_employee.location = employee.destination
-			temp_employee.save
+			if temp_employee.save then sendAckMessage()
 			employee.destroy
 		end
+	end
+
+	def self.sendAckMessage
+		# get the message with names and destination
+		# send message with sender to and message "Acknowledge that Nicholas Damiano, Boba Fett, and Leia Organa are going to
+		# the mall"
 	end
 
 	# Covered
@@ -45,7 +51,7 @@ class MessageActions
 		employees.each do | employee | 
 			employee_temp = Employee.find_by(first_name: employee["first_name"], last_name: employee["last_name"])
 			employee_temp.location = "going to #{destination}"
-			employee_temp.save
+			if employee_temp.save then sendAckMessage()
 			TransitEmployee.create(sender: sender, destination: destination, employee_id: employee["id"])
 		end
 	end
