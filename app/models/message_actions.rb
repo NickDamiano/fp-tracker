@@ -29,19 +29,32 @@ class MessageActions
 	# is looked up, their destination is updated with the one in transit employee, and
 	# then they are saved back to the database. The transit record is then destroyed.
 	def self.updateDatabaseArrive(sender)
+		successes = []
+		temp_employee = ''
 		transit_employees = TransitEmployee.where(sender: sender)
 		transit_employees.each do | employee | 
 			temp_employee = Employee.find(employee.employee_id)
 			temp_employee.location = employee.destination
-			if temp_employee.save then sendAckMessage()
+			if temp_employee.save then successes.push(temp_employee) end
 			employee.destroy
 		end
+		sendAckMessage(successes, sender, "arrived at #{temp_employee.location}")
+
 	end
 
-	def self.sendAckMessage
+	def self.sendAckMessage(employees, sender, message)
 		# get the message with names and destination
 		# send message with sender to and message "Acknowledge that Nicholas Damiano, Boba Fett, and Leia Organa are going to
 		# the mall"
+		# Pop off first employee so additional ones can be iterated with a comma after them 
+		first_employee = employees.shift
+		names_string = "#{first_employee.first_name} #{first_employee.last_name}"
+		employees.each do | employee | 
+			binding.pry
+			names_string+= ", #{employee.first_name} #{employee.last_name}"
+		end
+		body = "I copy #{names_string} #{message}"
+		Message.send_message(sender, body)
 	end
 
 	# Covered
@@ -51,7 +64,7 @@ class MessageActions
 		employees.each do | employee | 
 			employee_temp = Employee.find_by(first_name: employee["first_name"], last_name: employee["last_name"])
 			employee_temp.location = "going to #{destination}"
-			if employee_temp.save then sendAckMessage()
+			# if employee_temp.save then sendAckMessage() end
 			TransitEmployee.create(sender: sender, destination: destination, employee_id: employee["id"])
 		end
 	end
