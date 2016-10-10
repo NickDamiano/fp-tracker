@@ -7,7 +7,7 @@ class CreateEmployees < ActiveRecord::Migration
     	t.string :phone_num2
     	t.string :location
     	t.string :permanent?
-    	t.string :in_country?
+    	t.string :in_saudi?
     	t.string :job_title
 
       t.timestamps null: false

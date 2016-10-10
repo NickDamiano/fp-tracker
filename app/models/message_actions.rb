@@ -85,7 +85,7 @@ class MessageActions
 
 	# Covered
 	def self.emergency(message, sender)
-		saudi_employees = Employee.where(in_country: true)
+		saudi_employees = Employee.where(in_saudi: true)
 		saudi_employees.each do | employee | 
 			to = employee.phone_num1
 			employee_name = employee.first_name + " " + employee.last_name
@@ -97,7 +97,7 @@ class MessageActions
 	def self.sitrep(sender)
 		if Employee.find_by(phone_num1: sender).admin 
 			message = ''
-			employees = Employee.where(in_country: true).order(:last_name, :first_name)
+			employees = Employee.where(in_saudi: true).order(:last_name, :first_name)
 			employees.each do |employee|
 				first = employee.first_name || "no first name"
 				last = employee.last_name || "no last name"
@@ -119,7 +119,7 @@ class MessageActions
 		duplicates = []
 		employees = []
 		names.each do | name | 
-			employee_check = Employee.where(last_name: name, in_country: true)
+			employee_check = Employee.where(last_name: name, in_saudi: true)
 			if employee_check.count == 1
 				employee = employee_check[0] # only entry in database
 				employees.push(employee)
@@ -149,7 +149,7 @@ class MessageActions
 		# Outputs {"skywalker"=>2, "fett"=>1} if there are two skywalkers in text and 1 fett (and there are more in db)
 		duplicate_count = duplicates.each_with_object(Hash.new(0)) {|name, counts | counts[name] +=1 }
 		duplicate_count.each do | name, count |
-			employees = Employee.where(last_name: "#{name}", in_country: true)
+			employees = Employee.where(last_name: "#{name}", in_saudi: true)
 			# If the number of employees listed in the text matches the number in country, no need to send
 			#  follow up text (two Smiths mentioned in text and only two smiths in country)
 			if employees.count == count 

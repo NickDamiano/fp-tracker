@@ -122,12 +122,12 @@ class MessageTest < ActiveSupport::TestCase
       sender = "+15005550006" # han solo
       initial_count = Message.count
       # Gets all personnel in saudi
-      number_in_country = Employee.where(in_country: true).count
+      number_in_saudi = Employee.where(in_saudi: true).count
       result = MessageActions.emergency(message, sender )
 
       final_count = Message.count
 
-      assert_equal initial_count, final_count - number_in_country
+      assert_equal initial_count, final_count - number_in_saudi
    end
 
    ################### Duplicate checker tests below #######################
