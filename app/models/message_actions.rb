@@ -50,7 +50,6 @@ class MessageActions
 		first_employee = employees.shift
 		names_string = "#{first_employee.first_name} #{first_employee.last_name}"
 		employees.each do | employee | 
-			binding.pry
 			names_string+= ", #{employee.first_name} #{employee.last_name}"
 		end
 		body = "I copy #{names_string} #{message}"
@@ -61,12 +60,14 @@ class MessageActions
 	def self.updateDatabaseDepart(employees, destination, sender)
 		# takes names and loops through updating database with new location for each one
 		# employees is array of hashes of employee objects
+		successes = []
 		employees.each do | employee | 
 			employee_temp = Employee.find_by(first_name: employee["first_name"], last_name: employee["last_name"])
 			employee_temp.location = "going to #{destination}"
-			# if employee_temp.save then sendAckMessage() end
+			if employee_temp.save then successes.push(employee_temp) end
 			TransitEmployee.create(sender: sender, destination: destination, employee_id: employee["id"])
 		end
+		sendAckMessage(successes, sender, "en route to #{destination}")
 	end
 
 	# Covered

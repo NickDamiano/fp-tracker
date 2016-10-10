@@ -1,11 +1,16 @@
 
+if the bot copies the message wrong, should they be able to undo it? fuck so MANY EDGE CASES. 
+Next Nick - add ack message for departure
+
+1) Error when unable to parse - "I did not understand your message or FpBot didn't understand your text. (resend the message) or type " Maybe a lot of the
+parse are wrapped in a try, catch ?
 2) Change in_saudi? to track/active something
 3) Add front page and authentication
 4) Gather messages
 5) Instructions for help message
 6) Name not found text message
 6) Acknowledge message for database update
-7) Garbage Cleaner
+7) Garbage Cleaner for pending en route stuff
 8) Code Clean-up
 9) Review
 10) Texting demo
