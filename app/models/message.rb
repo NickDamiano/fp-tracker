@@ -65,7 +65,7 @@ class Message < ActiveRecord::Base
 		if message == "arrived"
 			MessageActions.updateDatabaseArrive(sender)
 		else
-			result = parse_arrived_long(message, sender)
+			result = MessageActions.ParseArrivedLong(message, sender)
 		end
 	end
 

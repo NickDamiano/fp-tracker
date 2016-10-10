@@ -80,14 +80,14 @@ class MessageTest < ActiveSupport::TestCase
       assert_equal "dantooine", Employee.find_by(last_name: "vader").location
    end
 
-   test 'parse_arrived_long method' do 
+   test 'ParseArrivedLong method' do 
       # should take a message, parse out names and to location and return hash
       # {names: "leia, luke, chew, han", to: "the death star"}
       # should 
       message = "kenobi, skywalker, baca, and solo arrived at the death star"
       sender = "+15125556666" #solo
 
-      MessageActions.parse_arrived_long(message, sender)
+      MessageActions.ParseArrivedLong(message, sender)
       han = Employee.find_by(last_name: "solo")
       obi = Employee.find_by(last_name: "kenobi")
       luke = Employee.find_by(last_name: "skywalker")

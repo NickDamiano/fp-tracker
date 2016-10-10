@@ -2,6 +2,8 @@
 if the bot copies the message wrong, should they be able to undo it? fuck so MANY EDGE CASES. 
 Next Nick - add ack message for departure
 
+the response text for long arrived isn't storing the location. 
+
 1) Error when unable to parse - "I did not understand your message or FpBot didn't understand your text. (resend the message) or type " Maybe a lot of the
 parse are wrapped in a try, catch ?
 2) Change in_country? to track/active something

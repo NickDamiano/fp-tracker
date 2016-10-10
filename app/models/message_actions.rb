@@ -9,16 +9,22 @@ class MessageActions
 	end
 
 	# Covered
-	def self.parse_arrived_long(message, sender)
+	# works for non-duplicates. does not send ack message
+	def self.ParseArrivedLong(message, sender)
 		# parse by commas and arrived to get who and where. 
 		# send back to message.rb to update database with arrived
+		# first we parse the names out
+		successes = []
 		names = parse_names(message)
-		names_without_duplicates = checkDuplicateLastName(names, sender, nil)
+		#then we parse the location
 		location = message.split("arrived")[-1].split(" at ")[-1].lstrip
+		# then we run the duplicate checker to get non-duplicates
+		names_without_duplicates = checkDuplicateLastName(names, sender, location)
 		names_without_duplicates.each do | employee |
 			employee.location = location 
-			employee.save 
+			if employee.save then successes.push(employee) end
 		end
+		sendAckMessage(successes, sender, "arrived at #{location}")
 	end
 
 	# Covered
@@ -248,6 +254,11 @@ class MessageActions
 			last_name: first_and_last[1].downcase )
 			employee_objects.push(employee)
 		end
+		################_____----------!!!!!!!!!!!!!!!!!!
+		# TODO TODO TODO THIS is where you figure out if it's a depart or arrive by looking at the original message but the one listed above as original message
+		# is just the one asking which duplicate. so it needs to look at the one before that  
+		# Message.where(from: original_message.to).last.body (but how do i get the second to the last? how do you figure out which it is? fuck man. )
+		binding.pry
 		updateDatabaseDepart(employee_objects, location, sender_number)
 		# change the pending response for this particular message so when it pulls out the 
 			# next one it gets the right one
