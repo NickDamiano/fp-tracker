@@ -29,16 +29,20 @@ class MessageActions
 	# is looked up, their destination is updated with the one in transit employee, and
 	# then they are saved back to the database. The transit record is then destroyed.
 	def self.updateDatabaseArrive(sender)
+		successes = []
+		temp_employee = ''
 		transit_employees = TransitEmployee.where(sender: sender)
 		transit_employees.each do | employee | 
 			temp_employee = Employee.find(employee.employee_id)
 			temp_employee.location = employee.destination
-			if temp_employee.save then sendAckMessage()
+			if temp_employee.save then successes.push(temp_employee) end
 			employee.destroy
 		end
+		sendAckMessage(successes, sender, "arrived at #{temp_employee.location}")
+
 	end
 
-	def self.sendAckMessage
+	def self.sendAckMessage(employees, sender, message)
 		# get the message with names and destination
 		# send message with sender to and message "Acknowledge that Nicholas Damiano, Boba Fett, and Leia Organa are going to
 		# the mall"
