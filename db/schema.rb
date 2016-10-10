@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(version: 20160826183617) do
     t.string   "job_title"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
-    t.boolean  "in_saudi"
+    t.boolean  "in_country"
     t.boolean  "permanent"
     t.boolean  "queries_pending"
     t.boolean  "admin"

@@ -29,23 +29,20 @@ class MessageActions
 	# is looked up, their destination is updated with the one in transit employee, and
 	# then they are saved back to the database. The transit record is then destroyed.
 	def self.updateDatabaseArrive(sender)
-		successes = []
-		temp_employee = ''
 		transit_employees = TransitEmployee.where(sender: sender)
 		transit_employees.each do | employee | 
 			temp_employee = Employee.find(employee.employee_id)
 			temp_employee.location = employee.destination
-			if temp_employee.save then successes.push(temp_employee) end
+			if temp_employee.save then sendAckMessage()
 			employee.destroy
 		end
-		sendAckMessage(successes, sender, "arrived at #{temp_employee.location}")
-
 	end
 
-	def self.sendAckMessage(employees, sender, message)
+	def self.sendAckMessage
 		# get the message with names and destination
 		# send message with sender to and message "Acknowledge that Nicholas Damiano, Boba Fett, and Leia Organa are going to
 		# the mall"
+<<<<<<< HEAD
 		# Pop off first employee so additional ones can be iterated with a comma after them 
 		first_employee = employees.shift
 		names_string = "#{first_employee.first_name} #{first_employee.last_name}"
@@ -54,6 +51,8 @@ class MessageActions
 		end
 		body = "I copy #{names_string} #{message}"
 		Message.send_message(sender, body)
+=======
+>>>>>>> parent of 75df677... Adds ack message for arrived.
 	end
 
 	# Covered
@@ -64,7 +63,11 @@ class MessageActions
 		employees.each do | employee | 
 			employee_temp = Employee.find_by(first_name: employee["first_name"], last_name: employee["last_name"])
 			employee_temp.location = "going to #{destination}"
+<<<<<<< HEAD
 			if employee_temp.save then successes.push(employee_temp) end
+=======
+			if employee_temp.save then sendAckMessage()
+>>>>>>> parent of 75df677... Adds ack message for arrived.
 			TransitEmployee.create(sender: sender, destination: destination, employee_id: employee["id"])
 		end
 		sendAckMessage(successes, sender, "en route to #{destination}")
@@ -82,7 +85,7 @@ class MessageActions
 
 	# Covered
 	def self.emergency(message, sender)
-		saudi_employees = Employee.where(in_saudi: true)
+		saudi_employees = Employee.where(in_country: true)
 		saudi_employees.each do | employee | 
 			to = employee.phone_num1
 			employee_name = employee.first_name + " " + employee.last_name
@@ -94,7 +97,7 @@ class MessageActions
 	def self.sitrep(sender)
 		if Employee.find_by(phone_num1: sender).admin 
 			message = ''
-			employees = Employee.where(in_saudi: true).order(:last_name, :first_name)
+			employees = Employee.where(in_country: true).order(:last_name, :first_name)
 			employees.each do |employee|
 				first = employee.first_name || "no first name"
 				last = employee.last_name || "no last name"
@@ -116,7 +119,7 @@ class MessageActions
 		duplicates = []
 		employees = []
 		names.each do | name | 
-			employee_check = Employee.where(last_name: name, in_saudi: true)
+			employee_check = Employee.where(last_name: name, in_country: true)
 			if employee_check.count == 1
 				employee = employee_check[0] # only entry in database
 				employees.push(employee)
@@ -146,7 +149,7 @@ class MessageActions
 		# Outputs {"skywalker"=>2, "fett"=>1} if there are two skywalkers in text and 1 fett (and there are more in db)
 		duplicate_count = duplicates.each_with_object(Hash.new(0)) {|name, counts | counts[name] +=1 }
 		duplicate_count.each do | name, count |
-			employees = Employee.where(last_name: "#{name}", in_saudi: true)
+			employees = Employee.where(last_name: "#{name}", in_country: true)
 			# If the number of employees listed in the text matches the number in country, no need to send
 			#  follow up text (two Smiths mentioned in text and only two smiths in country)
 			if employees.count == count 
