@@ -1,6 +1,4 @@
-
-if the bot copies the message wrong, should they be able to undo it? fuck so MANY EDGE CASES. 
-Next Nick - add ack message for departure
+so if i text departures for one group, then i text departures for a second group to a different destination, they fucking arrive at the same place according to the text acknowledge but the database updates correctly. this ack message is a huge pain in my butt. 
 
 the response text for long arrived isn't storing the location. 
 

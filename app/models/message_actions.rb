@@ -54,6 +54,8 @@ class MessageActions
 		# the mall"
 		# Pop off first employee so additional ones can be iterated with a comma after them 
 		first_employee = employees.shift
+		# binding.pry
+		# p 'test'
 		names_string = "#{first_employee.first_name} #{first_employee.last_name}"
 		employees.each do | employee | 
 			names_string+= ", #{employee.first_name} #{employee.last_name}"
@@ -255,11 +257,19 @@ class MessageActions
 			employee_objects.push(employee)
 		end
 		################_____----------!!!!!!!!!!!!!!!!!!
-		# TODO TODO TODO THIS is where you figure out if it's a depart or arrive by looking at the original message but the one listed above as original message
-		# is just the one asking which duplicate. so it needs to look at the one before that  
-		# Message.where(from: original_message.to).last.body (but how do i get the second to the last? how do you figure out which it is? fuck man. )
-		binding.pry
-		updateDatabaseDepart(employee_objects, location, sender_number)
+		# get the last message inidicating arrived or departed
+
+		senders_message = Employee.find_by(phone_num1: original_message.to).messages.reverse_order.where("body ~* ?", "(going|arrived)").first
+		if senders_message.body =~ /arrive/
+			# process arrived - the only way to do this with existing flow is to create a transit
+			# employee and then call updateDatabaseArrive which is somewhat hacky but the best hackiest solution
+			employee_objects.each do | employee |
+				TransitEmployee.create(sender: sender_number, destination: location, employee_id: employee["id"])
+			end
+			updateDatabaseArrive(sender_number)
+		elsif senders_message.body =~ /going/
+			updateDatabaseDepart(employee_objects, location, sender_number)
+		end
 		# change the pending response for this particular message so when it pulls out the 
 			# next one it gets the right one
 		original_message.pending_response = false
