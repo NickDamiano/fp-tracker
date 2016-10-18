@@ -11,6 +11,10 @@ class MessageTest < ActiveSupport::TestCase
       # pull out the last message and assert that it's updating that change. 
    end
 
+   # test 'should return names that match over 60%' do 
+   #    original_name = "bett"
+   # end
+
    test "should get depart info from a depart text" do 
       message = "boba, jango, and jarjar going to naboo"
 

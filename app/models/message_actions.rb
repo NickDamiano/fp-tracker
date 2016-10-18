@@ -1,5 +1,24 @@
-
 class MessageActions
+
+	# def self.searchNames(last_name)
+	# 	# split last name into array
+	# 	# if i have an array of 100 names, i want to iterate through them to see
+	# 	# which ones match 80% 
+	# 	result = []
+	# 	last_name_split = last_name.split('')
+	# 	employees = Employees.where(in_country: true)
+	# 	employees.each do | employee |
+	# 		size_difference = (employee.last_name.size - )
+	# 		employee_name_split = employee.last_name.split('')
+	# 		result_size = (last_name_split - employee_name_split).size 
+	# 		original_size = employee_name_split.size
+	# 		result_percentage = (original_size - result_size) / original_size
+	# 		if result_percentage > .5
+	# 			result.push(employee)
+	# 		end
+	# 	end
+	# 	result
+	# end
 
 	# Covered
 	def self.get_depart_info(message)
@@ -20,7 +39,11 @@ class MessageActions
 		location = message.split("arrived")[-1].split(" at ")[-1].lstrip
 		# then we run the duplicate checker to get non-duplicates
 		names_without_duplicates = checkDuplicateLastName(names, sender, location)
+		if names_without_duplicates.empty?
+			return
+		end
 		names_without_duplicates.each do | employee |
+			# if the employee doesn't eist. send message that says not found. 
 			employee.location = location 
 			if employee.save then successes.push(employee) end
 		end
@@ -45,7 +68,6 @@ class MessageActions
 			employee.destroy
 		end
 		sendAckMessage(successes, sender, "arrived at #{temp_employee.location}")
-
 	end
 
 	def self.sendAckMessage(employees, sender, message)
@@ -53,9 +75,8 @@ class MessageActions
 		# send message with sender to and message "Acknowledge that Nicholas Damiano, Boba Fett, and Leia Organa are going to
 		# the mall"
 		# Pop off first employee so additional ones can be iterated with a comma after them 
+		employees = employees.uniq
 		first_employee = employees.shift
-		# binding.pry
-		# p 'test'
 		names_string = "#{first_employee.first_name} #{first_employee.last_name}"
 		employees.each do | employee | 
 			names_string+= ", #{employee.first_name} #{employee.last_name}"
@@ -132,6 +153,9 @@ class MessageActions
 				puts "There are duplicates!"
 				duplicates.push(name)
 			elsif employee_check == []
+				not_found_message = "#{name} was not found. Please check your spelling
+				or contact your system administrator."
+				Message.send_message(sender, "#{name} wasn't found")
 				puts "there was a problem and employee wasn't found"
 				#TODO call employee_spell_checker to get a list of names it 
 				# could possibly be and send a text asking
@@ -295,7 +319,10 @@ class MessageActions
 		# message is ["bart, lisa, marge left al yamama to psab"]
 		# remove "and" and replace with ',' which solves when it's two names like
 			#fett and skywalker without a comma since it splits it on the next line
-		message_without_ands = message.gsub(/\sand\s/, ',')
+		# split by arrived or going
+		if message =~ /going/ then message = message.split("going") end
+		if message =~ /arrive/ then message = message.split("arrived") end
+		message_without_ands = message[0].gsub(/\sand\s/, ',')
 		first = message_without_ands.split(',')
 		# necessary because of the fix above to handle and without commas in message 
 		first = first.reject { |name | name.blank? }
