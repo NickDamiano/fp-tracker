@@ -121,6 +121,11 @@ class Message < ActiveRecord::Base
 	end
 
 	def self.give_instructions(sender)
+		depart = "Departing: When departing, text 'lastname, lastname going to location'\n\n"
+		arrive = "Arriving: If a depart message was sent, text 'arrived' & FP-tracker will update based off depart message. If no depart was sent, text 'lastname, lastname arrived at location'\n\n"
+		emergency = "Emergency: In an emergency, text '911 message' & your message will be forwarded to everyone in country."
+		message = depart + arrive + emergency
+		Message.send_message(sender, message)
 		# maybe it pulls it from a yaml file and responds to the message
 		# 'return a message explaining how to report departure, arrival,
 		# 911, autoforward, sitrep (for those who have privledges'

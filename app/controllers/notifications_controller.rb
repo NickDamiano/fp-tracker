@@ -56,7 +56,8 @@ class NotificationsController < ApplicationController
 				MessageActions.duplicate_message_responder(original_message, message)
 			end
 		else
-			p 'forward the message to nick'
+			p 'send error message'
+			Message.send_message(sender, "I didn't understand your message. Text the word 'instructions' to this number for a list of instructions.")
 			Message.forward_unparsed(message, sender)
 		end
 

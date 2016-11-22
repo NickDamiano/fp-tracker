@@ -4,9 +4,9 @@
 
 
 1) Error when unable to parse - "I did not understand your message or FpBot didn't understand your text. (resend the message) or type " Maybe a lot of the
-parse are wrapped in a try, catch ?
-2) Change in_country? to track/active something
-3) Add front page and authentication
+	- the problem is, if the message is sent for that and there are duplicates waiting for a response? Somehow it blocks the duplicate response from happening - everything coming in gets run through the parse checker? but the logic is deeper for some. Try catch?
+
+	3) Add front page and authentication
 4) Gather messages
 5) Instructions for help message
 6) Name not found text message
@@ -19,6 +19,8 @@ parse are wrapped in a try, catch ?
 12) Done!
 13) Add simple regexer for last name misspelled
 14) Add accountability checker - messages all active and as answers come in, it gives the updated percentage to the managers
+15) Add middle name column that is then messed with if you have two of the exact same names. 
+16) So you can have a site showing the people being tracked and sort them by location that's updated by ajax every time the db is updated. on the left is a chat window for you to interact with the db like a tech demo. 
 
 Cron job to recreate database at 3 AM US
 Cron Job to 
