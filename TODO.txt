@@ -1,14 +1,6 @@
 
 
-
-
-
-1) Error when unable to parse - "I did not understand your message or FpBot didn't understand your text. (resend the message) or type " Maybe a lot of the
-	- the problem is, if the message is sent for that and there are duplicates waiting for a response? Somehow it blocks the duplicate response from happening - everything coming in gets run through the parse checker? but the logic is deeper for some. Try catch?
-
 	3) Add front page and authentication
-4) Gather messages
-5) Instructions for help message
 6) Name not found text message
 6) Acknowledge message for database update
 7) Garbage Cleaner for pending en route stuff
@@ -38,6 +30,11 @@ Build /demo page that has a text box which scrolls as text is put into it. dupli
 
 Maybe sitrep should group the locations rather than do alphabetical ?
 OR it can group names by the group they were texted with so you can see, damiano, sievert, hukill are at psab. maybe it writes it that way. 
+
+Stretch some day:
+
+4) Gather messages for duplicates and non-duplicates
+
 
 
 TODO

@@ -57,7 +57,7 @@ class NotificationsController < ApplicationController
 			end
 		else
 			p 'send error message'
-			Message.send_message(sender, "I didn't understand your message. Text the word 'instructions' to this number for a list of instructions.")
+			Message.send_message(sender, "I didn't understand your message.\n If you need help, text me the word 'instructions'.")
 			Message.forward_unparsed(message, sender)
 		end
 
