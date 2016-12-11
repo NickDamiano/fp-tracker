@@ -18,17 +18,17 @@
 	<div class="header">
 		Location
 	</div>
-	<% @personnel.each do |person| %>
-		<div class="employee-last"> 
-		<%= person.last_name %>
-		</div>
-		<div class="employee-first">
-			<%=	person.first_name %>
-		</div>
-		<div class="employee-location">
-			<%= person.location %>
-		</div>
-	<% end %>
+		<% @personnel.each do |person| %>
+				<div class="employee-info"> 
+					<%= person.last_name.capitalize %>
+				</div>
+				<div class="employee-info">
+					<%=	person.first_name.capitalize %>
+				</div>
+				<div class="employee-info">
+					<%= person.location.capitalize %>
+				</div>
+		<% end %>
 </div>
 
 <div class="chat-input clearfix">

@@ -1,5 +1,6 @@
 
-
+	2) Add input validation and make it so you can't save a blank first or last name or location
+	OWASP security sheeet
 	3) Add front page and authentication
 7) Garbage Cleaner for pending en route stuff
 8) Code Clean-up
