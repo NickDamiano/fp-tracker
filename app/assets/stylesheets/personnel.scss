@@ -44,12 +44,36 @@ input {
   float: left;
   width: 40%;
   border: solid .5px;
-  border-radius: 1%;
+  border-radius: 5%;
   margin-top: 2em;
   margin-right: 5%;
   margin-left: 5%;
 }
+th a {
+  text-decoration: none;
+  color: black;
+}
 
+table {
+  
+}
+
+table th {
+  background-color: #338CDB;
+  text-align: left;
+  padding: 5px;
+}
+
+table td {
+  padding: 5px;
+}
+
+tr:nth-child(odd) {
+  background-color: #F4F4F4
+}
+
+
+/*
 .header{
   float: left;
   width: 33.33%;
@@ -86,3 +110,4 @@ input {
 .employee-info:nth-child(6n + 3) {
   background-color: #F4F4F4;
 }
+*/

@@ -1,35 +1,29 @@
 
 <div class="chat-window">
   <div class="chat-list">
-    Chat history here
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque quas doloribus nostrum, architecto beatae. Perferendis cupiditate culpa itaque error necessitatibus, similique praesentium molestiae. Dolorem, ratione! Ipsam repudiandae atque, voluptate neque.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa fugit illo facere repellendus velit consequatur impedit eaque doloribus mollitia ad dicta cumque omnis aliquid, corporis atque, et ut cum maxime.
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita quis laboriosam velit sit. Minus veniam nostrum officiis! Ducimus nesciunt dicta deserunt ex architecto exercitationem vero nemo quas velit qui, consequatur?
+    <p>FP-Tracker: Welcome to Force Protection Tracker. Type your message below to begin.</p>
+    <p>FP-Tracker: If reporting a departure the format is "lastname, lastname going to destination".
+    <p>FP-Tracker: If reporting an arrival after a departure was reported simply type "arrived". If no departure was reported, type "lastname, lastname arrived at destination"
+    </p>
+    <p>FP-Tracker: For additional help, type "instructions" </p>
   </div>
  
 </div>
 
-<div class="personnel-list">
-	<div class="header">
-		Last Name
-	</div>	
-	<div class="header">
-		First Name
-	</div>
-	<div class="header">
-		Location
-	</div>
-		<% @personnel.each do |person| %>
-				<div class="employee-info"> 
-					<%= person.last_name.capitalize %>
-				</div>
-				<div class="employee-info">
-					<%=	person.first_name.capitalize %>
-				</div>
-				<div class="employee-info">
-					<%= person.location.capitalize %>
-				</div>
+<table class="personnel-list">
+	<tr>
+		<th><%= link_to "Last Name", :sort => "last_name" %></th>
+		<th><%= link_to "First Name", :sort => "first_name"%></th>
+		<th><%= link_to "Location", :sort => "location" %></th>
+	</tr>
+		<% for person in @personnel %>
+			<tr>
+				<td><%= person.last_name.capitalize %></td>
+				<td><%=	person.first_name.capitalize %></td>
+				<td><%= person.location.capitalize %></td>
+			</tr>
 		<% end %>
-</div>
+</table>
 
 <div class="chat-input clearfix">
   <input type="text" />

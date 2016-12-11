@@ -2,6 +2,7 @@
 	2) Add input validation and make it so you can't save a blank first or last name or location
 	OWASP security sheeet
 	3) Add front page and authentication
+	You can register by text and then at the end of a successful registration it give you instructions
 7) Garbage Cleaner for pending en route stuff
 8) Code Clean-up
 9) Review

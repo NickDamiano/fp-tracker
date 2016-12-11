@@ -92,6 +92,13 @@ End of CSS reset
   text-align: center;
 }
 
+table {
+  border: solid 1px;
+}
+td{
+  border: solid 1px;
+}
+
 /* add media queries to push all items in one column
 shift navbar too. 
 also move submit button */
