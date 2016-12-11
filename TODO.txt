@@ -1,8 +1,6 @@
 
 
 	3) Add front page and authentication
-6) Name not found text message
-6) Acknowledge message for database update
 7) Garbage Cleaner for pending en route stuff
 8) Code Clean-up
 9) Review

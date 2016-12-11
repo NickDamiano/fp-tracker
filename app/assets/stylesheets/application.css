@@ -13,3 +13,25 @@
  *= require_tree .
  *= require_self
  */
+* {
+	font-family: 'helvetica', sans-serif !important;
+}
+.navbar {
+	width: 100%;
+	border: solid 1px black;
+	height: 75px;
+	background-color: #F8F8F8;
+	text-align: center;
+	font-size: 4em;
+	line-height: 75px;
+}
+/* no navbar necessary
+/*.navbar li {
+	display: inline;
+	float: left;
+	padding: 10px;
+}*/
+
+/* add media queries to push all items in one column
+shift navbar too. 
+also move submit button */
