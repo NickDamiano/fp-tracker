@@ -9,9 +9,24 @@
 </div>
 
 <div class="personnel-list">
+	<div class="header">
+		Last Name
+	</div>	
+	<div class="header">
+		First Name
+	</div>
+	<div class="header">
+		Location
+	</div>
 	<% @personnel.each do |person| %>
-		<div class=employee> 
-		<%= person.last_name %>, <%= person.first_name %> 
+		<div class="employee-last"> 
+		<%= person.last_name %>
+		</div>
+		<div class="employee-first">
+			<%=	person.first_name %>
+		</div>
+		<div class="employee-location">
+			<%= person.location %>
 		</div>
 	<% end %>
 </div>
