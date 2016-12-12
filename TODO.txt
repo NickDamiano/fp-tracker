@@ -1,22 +1,23 @@
-	Tomorrow NICK. 
+	 
 	Make it so the input from the input field hits the controller and then table updates with ajax. 
 	Sanitize the input so it can't be over 160 characters and it can only contain letters numbers and certain punctuation. 
 	Validate both server side and client side. 
 
-	Tuesday NICK
+
 	Add the ability to register a new user through text messages with sanitation. 
 
-	Wednesday
+
 	Add garbage cleaner to clean up pending departs and pending responses after x amount of time
 	Add a cronjob to re-seed the database at 3 in the morning central time with a flash message afterwards
 
-	Thursday
+
 	Code cleanup
 	Write tests
 
-	Friday
+
 	Write tests
 
+SPan make text or name different colors in text box.
 
 	IT would be cool if the text interaction on the website looked like a phone or was inside of an iphone.
 	And on an actual phone, it filled up the width of the screen as just a textbox

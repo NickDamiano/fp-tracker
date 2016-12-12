@@ -27,7 +27,11 @@ class Message < ActiveRecord::Base
 	end
 
 	def self.send_message(to, body)
-		callback_address = 
+		# callback_address = 
+		# if to parameter matches demo number, then to do the stuff below
+		# instead, send the body to the the front end to be appended to chat
+		# but then i have to run the message capture and generate a random id for SID.
+		# really I have to create a Message object like twilio woul dreturn
 		account_sid = Rails.application.secrets.twilio_account_sid
 		auth_token = Rails.application.secrets.twilio_auth_token
 
@@ -38,10 +42,12 @@ class Message < ActiveRecord::Base
 			to: to,
 			body: body,
 			# statusCallback: "http://fptracker.herokuapp.com/twilio/callback"
+			# THIS IS WHAT'S CAUSING THE ERRORS!!! TODO fix this!
 			statusCallback: "http://8ad4a1ef.ngrok.io/twilio/callback"
 		})
 		p "MESSAGE SENT"
 		p "MESSAGE SID = #{message.sid}!!!!!!"
+		# Capture sent text message information into messages associated with my Twilio App
 		employee = Employee.find_by(first_name: "twilio_app")
 		employee.messages.create( messageSid: message.sid, from: Twilio_number, to: to, 
 			body: message.body, status: "webhook sent" )

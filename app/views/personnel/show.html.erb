@@ -1,7 +1,7 @@
 
 <div class="chat-window">
   <div class="chat-list">
-    <p>FP-Tracker: Welcome to Force Protection Tracker. Type your message below to begin.</p>
+    <p>FP-Tracker: Welcome to Force Protection Tracker Mr. Jar Jar Binks. Type your message below to begin.</p>
     <p>FP-Tracker: If reporting a departure the format is "lastname, lastname going to destination".
     <p>FP-Tracker: If reporting an arrival after a departure was reported simply type "arrived". If no departure was reported, type "lastname, lastname arrived at destination"
     </p>
@@ -27,7 +27,7 @@
 
 <div class="chat-input clearfix">
   <input type="text" />
-  <button class='submit'>Send Text</button>
-</div>
-
+  <%= button_to "Send Text", @message, remote: true, id: 'submit'%>
+<!--   <button class='submit'>Send Text</button>
+ --></div>
 

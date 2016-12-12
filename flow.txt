@@ -1,0 +1,19 @@
+When the submit button is click
+
+1) Grab what's in the textbox
+2) Reject it if it violates the length/characters
+3) Post a message, no special characters, must be less than 160 characters
+4) If it passes, send it to notifications controller as params
+5) Verify input of params to make sure no special characters and not too big
+6) Let it hit the controller and do its thing
+7) Where does the message that responds get sent? Somehow send that message back which is 
+appended to the text box messages. 
+8) When the backend database changes, it updates the front end using action cable?
+
+
+MVP
+
+1) no fake phone on front end, just a table with employee data
+updates are sent by phone. 
+when back end changes, action cable changes it.
+

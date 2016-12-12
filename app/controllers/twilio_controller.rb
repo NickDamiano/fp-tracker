@@ -19,6 +19,7 @@ class TwilioController < ApplicationController
 
   def callback
     # capture message status (comes as parameter MessageStatus)
+    # updates message saved to Twilio user to reflect if it was successful or not
     messageSid = params["MessageSid"]
     status = params["MessageStatus"]
     message = Message.find_by(messageSid: messageSid)
