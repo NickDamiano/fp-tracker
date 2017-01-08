@@ -5,57 +5,38 @@
 
 /*****Main CSS *****/
 
-.chat-list {
-  border: solid 1px;
-  float: left;
-  margin-left: 5%;
-  margin-top: 2em;
-  margin-bottom: 0px;
-  width: 40%;
-  height: 300px;
-  box-sizing: border-box;
-  overflow: auto;
-  padding: 8px;
-}
-
-.chat-input {
-  clear: both;
-  position: absolute;
-  border: solid 1px;
-  margin-left: 5%;
-  margin-top: 330px;
-  border-top: none;
-  height: 30px;
-  padding: 5px 5px;
-  width: 40%;
-  box-sizing: border-box;
-  overflow: au
-}
-
-input {
-  width: 80%;
-}
-
-#submit {
-  width: 15%;
-}
-
-.personnel-list {
-  float: left;
-  width: 40%;
+#personnel-list {
+  width: 50%;
   border: solid .5px;
   border-radius: 5%;
+  margin: 0 auto;
   margin-top: 2em;
-  margin-right: 5%;
-  margin-left: 5%;
 }
+
+@media (max-width: 1200px) {
+  #personnel-list {
+    width: 80%;
+    font-size: 1.5em;
+  }
+}
+
+@media (max-width: 600px) {
+  #personnel-list {
+    width: 95%;
+    font-size: 1.3em;
+  }
+}
+
+@media (max-width: 400px) {
+  #personnel-list {
+    width: 98%;
+    font-size: 1.3em;
+  }
+}
+
 th a {
   text-decoration: none;
   color: black;
-}
-
-table {
-  
 }
 
 table th {
@@ -110,4 +91,7 @@ tr:nth-child(odd) {
 .employee-info:nth-child(6n + 3) {
   background-color: #F4F4F4;
 }
+
+
 */
+

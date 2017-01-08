@@ -1,16 +1,6 @@
+<meta name="viewport" content="width=device-width">
 
-<div class="chat-window">
-  <div class="chat-list">
-    <p>FP-Tracker: Welcome to Force Protection Tracker Mr. Jar Jar Binks. Type your message below to begin.</p>
-    <p>FP-Tracker: If reporting a departure the format is "lastname, lastname going to destination".
-    <p>FP-Tracker: If reporting an arrival after a departure was reported simply type "arrived". If no departure was reported, type "lastname, lastname arrived at destination"
-    </p>
-    <p>FP-Tracker: For additional help, type "instructions" </p>
-  </div>
- 
-</div>
-
-<table class="personnel-list">
+<table id="personnel-list">
 	<tr>
 		<th><%= link_to "Last Name", :sort => "last_name" %></th>
 		<th><%= link_to "First Name", :sort => "first_name"%></th>
@@ -25,9 +15,4 @@
 		<% end %>
 </table>
 
-<div class="chat-input clearfix">
-  <input type="text" />
-  <%= button_to "Send Text", @message, remote: true, id: 'submit'%>
-<!--   <button class='submit'>Send Text</button>
- --></div>
 
