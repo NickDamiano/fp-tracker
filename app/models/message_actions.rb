@@ -8,7 +8,7 @@ class MessageActions
 	end
 
 	def self.register_user(sender)
-		message = "Please send me your first name"
+		message = "Please send me your first name for registration"
 		Message.send_message(sender, message)
 
 	end

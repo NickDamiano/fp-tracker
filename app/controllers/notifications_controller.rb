@@ -62,6 +62,9 @@ class NotificationsController < ApplicationController
 				MessageActions.duplicate_message_responder(original_message, message)
 			end
 		else
+			# TODO if the original message matches the word registration then it's responding
+			# call a messageActions method that parses first name, last name, location additionally but also regexes out
+			# special characters. only numbers, letters, dashes, and spaces
 			p 'send error message'
 			Message.send_message(sender, "I didn't understand your message.\n If you need help, text me the word 'instructions'.")
 			Message.forward_unparsed(message, sender)
