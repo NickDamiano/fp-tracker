@@ -18,6 +18,12 @@ class NotificationsController < ApplicationController
 		Message.save_message(message, sender)
 
 		case message
+		when /^register/
+			p 'User is registering a new number'
+			Message.register_user(sender)
+		when /^unregister/
+			p 'User wants to unregister themselves'
+			Message.unregister_user(sender)
 		when /^911/
 			p "It's an emergency"
 			Message.report_emergency(message, sender)

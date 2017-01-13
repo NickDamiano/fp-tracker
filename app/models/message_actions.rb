@@ -1,30 +1,16 @@
 class MessageActions
 
-	# def self.searchNames(last_name)
-	# 	# split last name into array
-	# 	# if i have an array of 100 names, i want to iterate through them to see
-	# 	# which ones match 80% 
-	# 	result = []
-	# 	last_name_split = last_name.split('')
-	# 	employees = Employees.where(in_country: true)
-	# 	employees.each do | employee |
-	# 		size_difference = (employee.last_name.size - )
-	# 		employee_name_split = employee.last_name.split('')
-	# 		result_size = (last_name_split - employee_name_split).size 
-	# 		original_size = employee_name_split.size
-	# 		result_percentage = (original_size - result_size) / original_size
-	# 		if result_percentage > .5
-	# 			result.push(employee)
-	# 		end
-	# 	end
-	# 	result
-	# end
-
 	# Covered
 	def self.get_depart_info(message)
 		names = parse_names(message)
 		to = parse_location_to(message)
 		result = { names: names, to: to }
+	end
+
+	def self.register_user(sender)
+		message = "Please send me your first name"
+		Message.send_message(sender, message)
+
 	end
 
 	# Covered

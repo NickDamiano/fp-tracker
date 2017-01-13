@@ -3,17 +3,27 @@ require 'twilio-ruby'
 class Message < ActiveRecord::Base
 	belongs_to :employee
 
+	# Default Rails test number for successful returns
 	if Rails.env.test? 
-		Twilio_number = "+15005550006"
+		Twilio_number = "+15005550006" 
 	else
 		Twilio_number = Rails.application.secrets.twilio_number.to_s
 	end
 
-
-	# Covered
-	def self.acknowledge_changes(changes)
+	# needs test
+	def self.register_user(sender)
+		# send a message to get last name
+		MessageActions.register_user(sender)
 		
+		# send a message to get first name
+		# ask current location and give examples like "home, walmart, dantooine"
 	end
+	# needs test
+	def self.unregister_user(sender)
+		#no confirmation needed just remove them
+		# Employee.find_by(phone_num1: sender).delete
+	end
+
 	def self.save_message(message, sender)
 		sender_employee = Employee.find_by(phone_num1: sender) || Employee.find_by(first_name: "not in the system") #TODO add seed for this
 		Message.create(from: sender, body: message, employee_id: sender_employee.id)
@@ -21,9 +31,8 @@ class Message < ActiveRecord::Base
 
 	def self.auto_reply(sender, message)
 		from = Twilio_number
-		p "in auto reply"
 		message = "test received"
-		send_message(sender, message, from)
+		send_message(sender, message)
 	end
 
 	def self.send_message(to, body)
