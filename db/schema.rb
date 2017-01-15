@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161010052208) do
+ActiveRecord::Schema.define(version: 20170115035146) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,8 @@ ActiveRecord::Schema.define(version: 20161010052208) do
     t.boolean  "queries_pending"
     t.boolean  "admin"
   end
+
+  add_index "employees", ["phone_num1"], name: "index_employees_on_phone_num1", unique: true, using: :btree
 
   create_table "message_queries", force: :cascade do |t|
     t.string   "body"

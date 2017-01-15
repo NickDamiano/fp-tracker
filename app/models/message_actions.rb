@@ -8,8 +8,7 @@ class MessageActions
 	end
 
 	def self.register_user(sender)
-		message = "Please send me your first name for registration"
-		Message.send_message(sender, message)
+		#delete me
 
 	end
 
@@ -317,6 +316,19 @@ class MessageActions
 		last = first[-1]
 		last_name = last.lstrip.split(' ')[0]
 		first[0...-1].each{ | name | name.strip!}.push(last_name)
+	end
+
+	# TODO break this out, save the record, assign message so next message is appropriate order. after last message
+	# verify record in database? and send a final success message. !!!
+	def self.parse_registration(message, sender, original_message)
+		employee = Employee.find_by(phone_num1: sender)
+		if original_message =~ /first/
+			first_name = message # filter out bullshit
+		elsif original_message =~ /last/
+			last_name = message 
+		elsif original_message =~ /location/
+			location = message 
+		end
 	end
 
 	def self.forward_unparsed(message, sender)

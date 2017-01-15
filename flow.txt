@@ -1,29 +1,41 @@
+1 - Register user finish
+2 - Unregister finish
+3 - clean up code and organize comments / 9- clean up comments and add comments to make it clear how it flows
 
+4 - tests!
 
-test data tables with new table. what the fuck is going on with it. create polling. 
-
-1- Get rid of the phone thing
-2- Just create the table with the datatables thing
-3- create the poller
-4- write the tests
-5- clean up code methods
 6- see about refactoring logic into a fat model? not sure if it makes sense to keep the model thin. or maybe i need to make the model super thin.
 7-See about the other types of test (controller test and integration test)
 8- clean up gemfile
-9- clean up comments and add comments to make it clear how it flows
-10 - update readme so anyone who wants to test it can make their own version
 11- Get rid of unused controllers and models
 12- Fix the callback method
 13 - delete message query model
-14 - see about spreading logic appropriately to each model?
 15 - update secret key and put it into env
 16 - delete non master branches
-17 - create input validation for server / client
+17 - create input validation for server / client - client isn't necessary since it's text messages not web form
 18 - create cron job for database seeder re-creation
-19 - add ability to create a new user through text message registration
-20 - possibly remove the admin piece that checks the location of everyone - at least get rid of the hacky thing you did and make it work right or just pull it out completely and modify the code that checks. just add a note that's where the code would be.
-21 - make a demo video for the quick version and long version
-22- make a tutorial on how to use the text messaging thing and do tests with it
-23 - Make a blog post on it.
+21 - make a demo video for the quick version 
 24 - FINISH? MOVE ON?
-25 - send it to ricci and jason
+
+stretch
+10 - update readme so anyone who wants to test it can make their own version
+23 - Make a blog post on it.
+22- make a tutorial on how to use the text messaging thing and do tests with it
+24 - Make a demo video for long explanation
+20 - possibly remove the admin piece that checks the location of everyone - at least get rid of the hacky thing you did and make it work right or just pull it out completely and modify the code that checks. just add a note that's where the code would be.
+
+
+For saturday
+register
+unregister
+clean up
+tests
+
+sunday
+gemfile
+controllers models
+callback
+other stuff cron job
+
+Monday demo video maybe blog post
+MOVE ON! YES FOR FUCKS SAKE. 
