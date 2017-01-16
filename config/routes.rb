@@ -1,11 +1,45 @@
 Rails.application.routes.draw do
-  get 'personnel_update/depart'
-
-  get 'personnel_update/arrive'
-
   root 'personnel#show'
+  post 'twilio/callback' => 'twilio#callback'
+  post 'twilio/voice' => 'twilio#voice'
+  post 'twilio/text' => 'messages#receive' 
+end
 
-  # The priority is based upon order of creation: first created -> highest priority.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+################################################################
+
+# The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
@@ -32,11 +66,7 @@ Rails.application.routes.draw do
   #     end
   #   end
 
-  post 'twilio/callback' => 'twilio#callback'
-  post 'twilio/voice' => 'twilio#voice'
-  post 'notifications/notify' => 'notifications#notify'
-  post 'twilio/text' => 'messages#receive' # gets initial message to parse to call
-  # appropriate methods
+
 
   # Example resource route with sub-resources:
   #   resources :products do
@@ -65,4 +95,3 @@ Rails.application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
-end

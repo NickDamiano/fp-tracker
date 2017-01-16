@@ -8,10 +8,10 @@ class MessageParser
 		case message
 		when /^register/
 			p 'User is registering a new number'
-			Message.register_user(sender)
+			Employee.register_employee(sender)
 		when /^unregister/
 			p 'User wants to unregister themselves'
-			Message.unregister_user(sender)
+			Message.unregister_employee(sender)
 		when /^911/
 			p "It's an emergency"
 			Message.report_emergency(message, sender)

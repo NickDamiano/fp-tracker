@@ -81,7 +81,7 @@ class MessageActions
 
 	# Covered
 	def self.parse_location_to(message)
-		# if the message contains the word to 
+		#if the message contains the word to
 		if message =~ /\sto\s/
 			return message.split(' to ')[-1]
 		elsif message =~ /going\s/

@@ -3,15 +3,15 @@ require 'twilio-ruby'
 class Message < ActiveRecord::Base
 	belongs_to :employee
 
+	@@account_sid = Rails.application.secrets.twilio_account_sid
+	@@auth_token = Rails.application.secrets.twilio_auth_token
+
 	# Default Twilio test number for successful returns
 	if Rails.env.test? 
 		Twilio_number = "+15005550006" 
 	else
 		Twilio_number = Rails.application.secrets.twilio_number.to_s
 	end
-
-	@@account_sid = Rails.application.secrets.twilio_account_sid
-	@@auth_token = Rails.application.secrets.twilio_auth_token
 
 	# Used to save all incoming / outgoing messages locally - Covered
 	def self.save_message(message, sender)
@@ -36,24 +36,17 @@ class Message < ActiveRecord::Base
 			body: message.body, status: "webhook sent" )
 	end
 
-	# needs test
-	def self.register_user(sender)
-		# send a message to get last name
-		message = Employee.create(phone_num1: sender).valid? ? "Please send me your first name for\
-		 registration" : message = "Your phone number already exists in the database"
+	def self.give_instructions(sender)
+		depart = "Departing: When departing, text 'lastname, lastname going to location'\n\n"
+		arrive = "Arriving: If a depart message was sent, text 'arrived' & FP-tracker will update based off depart message. If no depart was sent, text 'lastname, lastname arrived at location'\n\n"
+		emergency = "Emergency: In an emergency, text '911 message' & your message will be forwarded to everyone in country."
+		message = depart + arrive + emergency
 		Message.send_message(sender, message)
 	end
 
-	# needs test
-	def self.unregister_user(sender)
-		#no confirmation needed just remove them
-		Employee.find_by(phone_num1: sender).delete.
-		message = Employee.find_by(phone_num1: sender).nil? ? "You have been successfully deleted from\
-		 the database." : "There was a problem deleting you from the database."
-		Message.send_message(sender, message)
-	end
 
-	
+#############################################################################################
+#############################################################################################
 	
 	# Covered
 	def self.store_departure(message, sender)
@@ -93,13 +86,7 @@ class Message < ActiveRecord::Base
 		result = MessageActions.forward_unparsed(message, sender)
 	end
 
-	def self.give_instructions(sender)
-		depart = "Departing: When departing, text 'lastname, lastname going to location'\n\n"
-		arrive = "Arriving: If a depart message was sent, text 'arrived' & FP-tracker will update based off depart message. If no depart was sent, text 'lastname, lastname arrived at location'\n\n"
-		emergency = "Emergency: In an emergency, text '911 message' & your message will be forwarded to everyone in country."
-		message = depart + arrive + emergency
-		Message.send_message(sender, message)
-	end
+	
 end
 
 # For future improvements
