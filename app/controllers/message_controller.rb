@@ -1,6 +1,6 @@
 require 'twilio-ruby'
 
-class MessagesController < ApplicationController
+class MessageController < ApplicationController
 	include Webhookable
 
 	after_filter :set_header

@@ -12,15 +12,6 @@ class TwiliosControllerTest < ActionDispatch::IntegrationTest
 		assert_equal "delivered", final_message.status
 	end
 
-	test 'should notify admin if message fails to send' do 
-		# # makme sure it doesn't do it for a failed one to admin so it doesn't go into an endless loop
-  #     	to = "+15005550002" # invalid number
-  #     	message = "this message shouldn't work"
-
-  #     	result = Message.send_message(to, message) # sends out message, callback should hit
-
-	end
-
 	test 'should get a good response on voice path' do 
 		post '/twilio/voice'
 		assert_response :success

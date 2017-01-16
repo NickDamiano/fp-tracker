@@ -44,6 +44,7 @@ gem 'pry-byebug'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'simplecov', :require => false, :group => :test
+  gem 'minitest-reporters', :group => :test
 end
 
 group :development do

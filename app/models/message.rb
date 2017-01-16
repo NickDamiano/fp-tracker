@@ -13,10 +13,10 @@ class Message < ActiveRecord::Base
 		Twilio_number = Rails.application.secrets.twilio_number.to_s
 	end
 
-	# Used to save all incoming / outgoing messages locally - Covered
+	# Called when messages hit the parser
 	def self.save_message(message, sender)
 		sender_employee = Employee.find_by(phone_num1: sender) || Employee.find_by(first_name: "not in the system") #TODO add seed for this
-		Message.create(from: sender, body: message, employee_id: sender_employee.id)
+		Message.create(from: sender, body: message, employee_id: sender_employee.id, status: "parsed")
 	end
 
 	# Sends text message from Twilio app
@@ -27,7 +27,9 @@ class Message < ActiveRecord::Base
 			from: Twilio_number,
 			to: to,
 			body: body,
-			statusCallback: "http://fptracker.herokuapp.com/twilio/callback"
+			# statusCallback: "http://fptracker.herokuapp.com/twilio/callback"
+			statusCallback: "http://ee45814f.ngrok.io/twilio/callback"
+
 		})
 
 		# Capture sent text message information into messages associated with my Twilio App
@@ -44,53 +46,101 @@ class Message < ActiveRecord::Base
 		Message.send_message(sender, message)
 	end
 
-
-#############################################################################################
-#############################################################################################
-	
-	# Covered
-	def self.store_departure(message, sender)
-		sender_last_name = Employee.find_by(phone_num1: sender).last_name
-		parsed_data = MessageActions.get_depart_info(message)
-
-		# if the message starts with going then the only name is the sender
-		message =~ /^going/ ? names = [sender_last_name] : names = parsed_data[:names]
-		to = parsed_data[:to]
-		non_duplicate_names = MessageActions.checkDuplicateLastName(names, sender, to)
-		MessageActions.updateDatabaseDepart(non_duplicate_names, to, sender)
-	end
-
-	# Covered
-	def self.store_arrival(message, sender)
-		if message == "arrived"
-			MessageActions.updateDatabaseArrive(sender)
-		else
-			result = MessageActions.ParseArrivedLong(message, sender)
+	# Forwards message to all personnel 'in-country' - covered
+	def self.report_emergency(message, sender)
+		saudi_employees = Employee.where(in_country: true)
+		saudi_employees.each do | employee | 
+			to = employee.phone_num1
+			employee_name = employee.first_name + " " + employee.last_name
+			body = "Important message from #{employee_name}: #{message}"
+			Message.send_message(to, body)
 		end
 	end
 
-
-	# Forwards message to all personnel 'in-country'
-	def self.report_emergency(message, sender)
-		# sender is who needs help in an emergency
-		result = MessageActions.emergency(message, sender)
-	end
-
+	# Respond to sender with list of personnel and their locations
 	def self.send_sitrep(sender)
-		result = MessageActions.sitrep(sender)
-		# return message with all locations and names for everyone
+		if Employee.find_by(phone_num1: sender).admin 
+			message = ''
+			employees = Employee.where(in_country: true).order(:last_name, :first_name)
+			employees.each do |employee|
+				first = employee.first_name || "no first name"
+				last = employee.last_name || "no last name"
+				location = employee.location || "no location listed"
+				line = "#{last.capitalize}, #{first.capitalize}: #{location.capitalize}\n"
+				message += line
+			end
+		else
+			message = "You need admin privledges to request a sitrep"
+		end
+		send_message(sender, message)
 	end
 
-	def self.forward_unparsed(message, sender)
-		# send unparsed to admin to figure out why
-		result = MessageActions.forward_unparsed(message, sender)
+	def self.send_reject_message(original_message, response)
+		message = "#{response} is not one of the listed options. Please try again."
+		to = original_message.to 
+		send_message(to, message)
 	end
 
-	
+	# move to message class 
+	def self.sendAckMessage(employees, sender, message)
+		employees = employees.uniq
+		first_employee = employees.shift
+		names_string = "#{first_employee.first_name} #{first_employee.last_name}"
+		employees.each do | employee | 
+			names_string+= ", #{employee.first_name} #{employee.last_name}"
+		end
+		body = "I copy #{names_string} #{message}"
+		send_message(sender, body)
+	end
+
+	# Covered
+	def self.parse_names(message)
+		# message is ["bart, lisa, marge left al yamama to psab"]
+		# remove "and" and replace with ',' which solves when it's two names like
+			#fett and skywalker without a comma since it splits it on the next line
+		# split by arrived or going
+		if message =~ /going/ then message = message.split("going") end
+		if message =~ /arrive/ then message = message.split("arrived") end
+		message_without_ands = message[0].gsub(/\sand\s/, ',')
+		first = message_without_ands.split(',')
+		# necessary because of the fix above to handle and without commas in message 
+		first = first.reject { |name | name.blank? }
+		# gets last name and pushes them all together. 
+		# Returns ["bart, lisa, marge"]
+		last = first[-1]
+		last_name = last.lstrip.split(' ')[0]
+		first[0...-1].each{ | name | name.strip!}.push(last_name)
+	end
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # For future improvements
 
+	# In the future, maybe we want to send messages that are causing problems
+	# on to the manager so he can get all messages during an emergency sent to this
+	# number. This would be added at the bottom of the parse method under else block
+
+	# def self.forward_unparsed(message, sender)
+	# 	# send unparsed to admin to figure out why
+	# 	to = 
+	# 	Message.send_message(message)
+	# end
 	# Track message exchange
 	# def self.message_history(message, sender)
 	# 	result = MessageActions.history(message, sender)

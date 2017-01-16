@@ -41,7 +41,7 @@ class MessageTest < ActiveSupport::TestCase
    test "should get depart info from a depart text" do 
       message = "boba, jango, and jarjar going to naboo"
 
-      result = MessageActions.get_depart_info(message)
+      result = MessageDepart.get_depart_info(message)
 
       assert_equal ["boba", "jango", "jarjar"], result[:names]
       assert_equal "naboo", result[:to]
@@ -77,7 +77,7 @@ class MessageTest < ActiveSupport::TestCase
    	
       # Call method store_departure and it should change the location for employees
       # showing them in transit to that point, and create transit employee records
-      Message.store_departure(message, sender)
+      MessageDepart.store_departure(message, sender)
       luke = Employee.find_by(last_name: "skywalker")
       assert_equal "going to al yamama", luke["location"]
 
@@ -88,14 +88,14 @@ class MessageTest < ActiveSupport::TestCase
 
    end
 
-   test 'updateDatabaseArrive method' do 
+   test 'update_database_arrive method' do 
       # test that vader is at psab
       vader = Employee.find_by(last_name: "vader")
       assert_equal "psab", vader["location"]
 
       # call updatedatabaseArrive to have have his location updated through
       # transit messages
-      MessageActions.updateDatabaseArrive("+15122223333")
+      MessageArrive.update_database_arrive("+15122223333")
       assert_equal "dantooine", Employee.find_by(last_name: "vader").location
    end
 
@@ -103,19 +103,19 @@ class MessageTest < ActiveSupport::TestCase
    test 'should update database for short arrival' do 
       message = "arrived"
       sender = "+15122223333"
-      Message.store_arrival(message, sender)
+      MessageArrive.store_arrival(message, sender)
 
       assert_equal "dantooine", Employee.find_by(last_name: "vader").location
    end
 
-   test 'ParseArrivedLong method' do 
+   test 'parse_arrived_long method' do 
       # should take a message, parse out names and to location and return hash
       # {names: "leia, luke, chew, han", to: "the death star"}
       # should 
       message = "kenobi, skywalker, baca, and solo arrived at the death star"
       sender = "+15125556666" #solo
 
-      MessageActions.ParseArrivedLong(message, sender)
+      MessageArrive.parse_arrived_long(message, sender)
       han = Employee.find_by(last_name: "solo")
       obi = Employee.find_by(last_name: "kenobi")
       luke = Employee.find_by(last_name: "skywalker")
@@ -134,13 +134,13 @@ class MessageTest < ActiveSupport::TestCase
 
    test "should parse names" do 
    	message = "skywalker, vader, and solo going to psab"
-   	result = MessageActions.parse_names(message)
+   	result = Message.parse_names(message)
    	assert_equal ["skywalker", "vader", "solo"], result
    end
 
    test "should parse location to" do 
       message = "skywalker going to endor"
-      result = MessageActions.parse_location_to(message)
+      result = MessageDepart.parse_location_to(message)
       assert_equal result, "endor"
    end
 
@@ -151,7 +151,7 @@ class MessageTest < ActiveSupport::TestCase
       initial_count = Message.count
       # Gets all personnel in saudi
       number_in_country = Employee.where(in_country: true).count
-      result = MessageActions.emergency(message, sender )
+      result = Message.report_emergency(message, sender )
 
       final_count = Message.count
 
@@ -166,7 +166,7 @@ class MessageTest < ActiveSupport::TestCase
       names = ["solo", "organa", "skywalker", "fett"]
       sender = "+15125556666" #han
       destination = "dagobah"
-      result = MessageActions.checkDuplicateLastName(names, sender, destination)
+      result = DuplicateMessageAction.check_duplicate_last_name(names, sender, destination)
 
       assert_equal "han", result[0]["first_name"]
       assert_equal "luke", result[1]["first_name"]
@@ -180,7 +180,7 @@ class MessageTest < ActiveSupport::TestCase
       # message = "fett and solo going to jabbas place"
       message = "fett, solo, and skywalker going to the death star"
       from = "+15126667778" #boba fett
-      Message.store_departure(message, from)
+      MessageDepart.store_departure(message, from)
 
       boba = Employee.find_by(first_name: "boba", last_name: "fett")
 
@@ -191,7 +191,7 @@ class MessageTest < ActiveSupport::TestCase
       message = "organa, solo, and organa are going to naboo"
       sender = "+15126667777" # Leia
 
-      Message.store_departure(message, sender)
+      MessageDepart.store_departure(message, sender)
       organas = Employee.where(last_name: "organa")
 
       assert_equal "going to naboo", organas[0].location 
@@ -203,7 +203,7 @@ class MessageTest < ActiveSupport::TestCase
       sender = "+15129998890"
       destination = "coruscant"
       # returns an array of objects for the employees - normally passed back to checkDuplicates
-      results = MessageActions.handle_duplicates(duplicates, sender, destination)
+      results = DuplicateMessageAction.handle_duplicates(duplicates, sender, destination)
       organas = Employee.where(last_name: "organa")
       # Should return an array of active record objects for each organa. 
       assert_equal organas, results
@@ -214,7 +214,7 @@ class MessageTest < ActiveSupport::TestCase
       sender = "+15129998890" # bail
       destination = "not alderaan"
 
-      result = MessageActions.handle_duplicates(duplicates, sender, destination)
+      result = DuplicateMessageAction.handle_duplicates(duplicates, sender, destination)
       organa = Employee.where(last_name: "organa", first_name: "bail")
       # should return an array with one active record object matching bail organa
       assert_equal organa, result
@@ -229,7 +229,7 @@ class MessageTest < ActiveSupport::TestCase
       message = Message.find_by(pending_response: true)
       assert_nil message
 
-      MessageActions.handle_duplicates(duplicates, sender, destination)
+      DuplicateMessageAction.handle_duplicates(duplicates, sender, destination)
       message = Message.find_by(pending_response: true)
       refute_nil message
    end
@@ -274,7 +274,7 @@ class MessageTest < ActiveSupport::TestCase
       message = Message.find_by(pending_response: true)
       assert_nil message
 
-      MessageActions.duplicate_message_builder(name, sender, destination)
+      DuplicateMessageAction.duplicate_message_builder(name, sender, destination)
       message = Message.find_by(pending_response: true)
       refute_nil message
    end
@@ -295,7 +295,7 @@ class MessageTest < ActiveSupport::TestCase
       # takes original message - the one sent by twilio asking which duplicate
       # takes the response message that is a number or series of numbers 
          # identifying which duplicate
-      # calls updateDatabaseDepart with the array of employee objects, destination
+      # calls update_database_depart with the array of employee objects, destination
          # and sender of original text report. This in turn updates the database
          # with transit employees and Employee.location
       original_message = Message.create(from: "+15005550006", to: "+15129998888", 
@@ -305,7 +305,7 @@ class MessageTest < ActiveSupport::TestCase
 
       response_message = "2"
 
-      result = MessageActions.duplicate_message_responder(original_message, response_message)
+      result = DuplicateMessageAction.duplicate_message_responder(original_message, response_message)
       bail = Employee.find_by(first_name: "bail")
       assert_equal "going to hoth", bail.location
    end
