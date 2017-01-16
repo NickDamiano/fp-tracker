@@ -7,11 +7,6 @@ class MessageActions
 		result = { names: names, to: to }
 	end
 
-	def self.register_user(sender)
-		#delete me
-
-	end
-
 	# Covered
 	# works for non-duplicates. does not send ack message
 	def self.ParseArrivedLong(message, sender)
@@ -120,9 +115,6 @@ class MessageActions
 			message = "You need admin privledges to request a sitrep"
 		end
 		Message.send_message(sender, message)
-	end
-
-	def self.add_employee(message)
 	end
 
 	# Covered

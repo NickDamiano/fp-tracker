@@ -1,18 +1,6 @@
-require 'twilio-ruby'
+class MessageParser
 
-class NotificationsController < ApplicationController
-	include Webhookable
-
-	after_filter :set_header
-
-	skip_before_action :verify_authenticity_token
-
-	def parse
-		# log message to history
-		p params["Body"]
-		message = params["Body"]
-		sender = params["From"]
-		message.downcase! 
+	def self.parse(message, sender)
 		# gets the last message matching this criteria
 		original_message = Message.where(to: sender, pending_response: true).last
 		Message.save_message(message, sender)
@@ -52,10 +40,6 @@ class NotificationsController < ApplicationController
 			# asking for location of a specific person
 			p 'reporting location for specific person'
 			Message.report_location(message, sender)
-		when /^test/
-			p "test path called"
-			my_num = Rails.application.secrets.twilio_number
-			Message.auto_reply(sender, message)
 		when /^[0-9]/
 			if original_message
 				p "responding to a duplicate message"
@@ -69,9 +53,6 @@ class NotificationsController < ApplicationController
 			Message.send_message(sender, "I didn't understand your message.\n If you need help, text me the word 'instructions'.")
 			Message.forward_unparsed(message, sender)
 		end
-
-		# necessary because no page is rendered with this controller method
-		render :nothing => true
-
 	end
+
 end

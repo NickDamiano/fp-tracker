@@ -1,3 +1,5 @@
+Extract message model code into message actions except savemessage and sendmessage
+
 1 - Register user finish
 2 - Unregister finish
 3 - clean up code and organize comments / 9- clean up comments and add comments to make it clear how it flows

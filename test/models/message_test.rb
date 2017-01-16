@@ -11,14 +11,38 @@ class MessageTest < ActiveSupport::TestCase
       # pull out the last message and assert that it's updating that change. 
    end
 
-   # test 'should return names that match over 60%' do 
-   #    original_name = "bett"
-   # end
+   test "should create a new employee record by phone number" do 
+      # call method passing in new phone number
+      # assert the record was created
+      # assert that the message sent asks for first name
+   end
+
+   test "should notify user if number already exists in database during registration" do 
+      # call the method with an existing phone number
+      # assert the rejection message
+   end
+
+   test "should unregister and delete user upon their request" do 
+      # create user
+      # call method to unregister
+      # verify they were deleted
+      # verify correct message
+   end
+
+   test "should let user know when deregistration fails" do 
+      # no idea how to test this
+   end
+
+   test "should send a text message with instructions" do 
+      # call text message instructions method
+      # assert outbound message to number with contents of text
+   end
 
    test "should get depart info from a depart text" do 
       message = "boba, jango, and jarjar going to naboo"
 
       result = MessageActions.get_depart_info(message)
+
       assert_equal ["boba", "jango", "jarjar"], result[:names]
       assert_equal "naboo", result[:to]
    end
