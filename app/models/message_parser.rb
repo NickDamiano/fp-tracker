@@ -3,7 +3,7 @@ class MessageParser
 	def self.parse(message, sender)
 		# gets the last message matching this criteria
 		original_message = Message.where(to: sender, pending_response: true).last
-		this_message = Message.save_message(message, sender)
+		# this_message = Message.save_message(message, sender)
 
 		case message
 		when /^register/

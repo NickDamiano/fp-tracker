@@ -3,14 +3,17 @@ require 'pry-byebug'
 
 class MessageParserTest < ActiveSupport::TestCase
 	# hit all parser possible actions
-	# mock = Minitest::Mock.new
-	# mock.expect MessageParser.register_employee, nil, ["5129603333"]
+	register_mock = Minitest::Mock.new
+	# save_mock = Minitest::Mock.new
+	def register_mock.register_employee(number); nil; end
 
-	# Employee.stub :new, mock do 
-	# 	MessageParser.parse("register", "5129603333")
-	# end
+	Employee.stub :new, register_mock do 
+		# MessageParser.parse("register", "5129603333")
+		assert MessageParser.parse("register", "+15122223333")
+	end
+
+	assert_mock register_mock
 end
 
 
 
-# NICK FIGURE OUT HOW TO CALL A GOD DAMNED METHOD AND SEE IF IT CALLS ANOTHER FUCKING METHOD. WHY IS THIS SO HARD?
