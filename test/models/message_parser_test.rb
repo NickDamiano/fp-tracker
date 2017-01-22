@@ -39,6 +39,11 @@ class MessageParserTest < ActiveSupport::TestCase
 			result = MessageParser.parse("instructions", "+15122223333")
 			assert_equal result, "give_instructions"
 		end
+
+		#
+		DuplicateMessageAction.stub :duplicate_message_responder, "duplicate_message_responder" do
+			# pick up here
+		end
 	end
 end
 
