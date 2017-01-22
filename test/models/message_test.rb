@@ -302,6 +302,14 @@ class MessageTest < ActiveSupport::TestCase
       assert_match "Skywalker, Luke: Dagobah", last_message.body
    end
 
+   test 'should send rejection message for sitrep if not admin' do
+      sender = "+15123334444" # Darth Vader is not an admin
+      Message.send_sitrep(sender)
+      last_message = Message.last
+
+      assert_match "You need admin privledges to request a sitrep", last_message.body
+   end
+
    test 'should respond to duplicate response with duplicate_message_responder method' do 
       # takes original message - the one sent by twilio asking which duplicate
       # takes the response message that is a number or series of numbers 
