@@ -34,8 +34,12 @@ class MessageTest < ActiveSupport::TestCase
    end
 
    test "should send a text message with instructions" do 
-      # call text message instructions method
-      # assert outbound message to number with contents of text
+      sender = "+15122223333"
+      Message.give_instructions(sender)
+      result = Message.where(to: sender).last.body
+      assert_match /Departing/, result
+      assert_match /Arriving/, result
+      assert_match /Emergency/, result
    end
 
    test "should get depart info from a depart text" do 
