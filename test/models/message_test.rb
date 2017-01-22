@@ -22,6 +22,13 @@ class MessageTest < ActiveSupport::TestCase
       # assert the rejection message
    end
 
+   test 'should send reject message' do 
+      saved_message = Message.create(body: "some string", to:"+15122223333", from: 
+         Twilio_number_test)
+      Message.send_reject_message(saved_message, "5")
+      assert_equal "5 is not one of the listed options. Please try again.", Message.last.body 
+   end
+
    test "should unregister and delete user upon their request" do 
       # create user
       # call method to unregister
