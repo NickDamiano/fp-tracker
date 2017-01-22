@@ -119,6 +119,14 @@ class MessageTest < ActiveSupport::TestCase
       assert_equal "dantooine", Employee.find_by(last_name: "vader").location
    end
 
+   test 'store arrival should call parse_arrived_long when needed' do 
+      message = "kenobi, vader, and skywalker arrived at the death star"
+      sender = "+15122223333"
+      MessageArrive.stub :parse_arrived_long, "parse_arrived_long" do 
+         result = MessageArrive.store_arrival(message, sender)
+      end
+   end
+
    test 'parse_arrived_long method' do 
       # should take a message, parse out names and to location and return hash
       # {names: "leia, luke, chew, han", to: "the death star"}
