@@ -27,15 +27,24 @@ class EmployeeTest < ActiveSupport::TestCase
    		Employee.unregister_employee("+15129919343")
 
    		refute Employee.find_by(phone_num1: "+15129919343")
-
-      # create user
-      # call method to unregister
-      # verify they were deleted
-      # verify correct message
    end
 
-   test "should let user know when deregistration fails" do 
-      # no idea how to test this
+   test "should parse registration response and send correct follow-up message" do 
+   		# send a message asking for "first name for registration" and store into "original_message"
+   		# call parse registration with first name, sender number, and "original_message"
+   		# find user by sender number and save into user
+   		# assert user has the same first name as passed
+   		# assert that Message.last has the follow up question for last name
+
+   		# call parse registration with last_name, sender, and Message.last
+   		# find user by sender and save into user
+   		# assert user has last name same as what was sent
+   		# assert that Message.last has follow up for location
+
+   		# call parse registration with location, sender, and Message.last
+   		# find user and save into variable
+   		# assert user has location same as sent
+   		# assert that registration successful message has been sent
    end
 
 end
