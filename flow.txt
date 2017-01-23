@@ -1,9 +1,16 @@
-Extract message model code into message actions except savemessage and sendmessage
+Message - 
+1 - Register user finish and test
+2 - duplicates test
+3 - parser bottom of the test for else statements
 
-1 - Register user finish
+Possibly add an intercept checker to parse out characters that aren't allowed and send a rejection message - this would be for all incoming messages. 
 
+Go through all comments
+erase prybyebug stuff
 
-4 - tests!
+run owasp things?
+
+seed a few more star wars characters in. maybe some rogue one or episode 7
 
 8- clean up gemfile
 11- Get rid of unused controllers and models

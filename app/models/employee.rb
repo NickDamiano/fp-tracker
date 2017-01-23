@@ -3,7 +3,6 @@ require 'pry-byebug'
 class Employee < ActiveRecord::Base
 	has_many :messages
 
-	# needs test
 	def self.register_employee(sender)
 		# send a message to get last name
 		begin
@@ -19,7 +18,6 @@ class Employee < ActiveRecord::Base
 		Message.send_message(sender, message)
 	end
 
-	# needs test
 	def self.unregister_employee(sender)
 		#no confirmation needed just remove them
 		Employee.find_by(phone_num1: sender).delete
@@ -32,8 +30,6 @@ class Employee < ActiveRecord::Base
 		Message.send_message(sender, message)
 	end
 	
-	# TODO break this out, save the record, assign message so next message is appropriate order. after last message
-	# verify record in database? and send a final success message. !!!
 	def self.parse_registration(message, sender, original_message)
 		employee = Employee.find_by(phone_num1: sender)
 		if original_message =~ /first/

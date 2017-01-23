@@ -138,4 +138,5 @@ class DuplicateMessageActionTest < ActiveSupport::TestCase
 	  assert_equal "going to hoth", bail.location
 	end
 
+
 end
