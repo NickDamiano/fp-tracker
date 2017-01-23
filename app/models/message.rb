@@ -81,7 +81,6 @@ class Message < ActiveRecord::Base
 		send_message(to, message)
 	end
 
-	# move to message class 
 	def self.sendAckMessage(employees, sender, message)
 		employees = employees.uniq
 		first_employee = employees.shift
