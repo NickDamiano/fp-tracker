@@ -19,7 +19,15 @@ class EmployeeTest < ActiveSupport::TestCase
 		assert "Your phone number already exists in the database", Message.last.body
    end
 
-   test "should unregister and delete user upon their request" do 
+   test "should unregister and delete user upon their request" do
+   		Employee.create(first_name: "poe", last_name: "dameron", phone_num1: "+15129919343")
+
+   		assert Employee.find_by(last_name: "dameron")
+
+   		Employee.unregister_employee("+15129919343")
+
+   		refute Employee.find_by(phone_num1: "+15129919343")
+
       # create user
       # call method to unregister
       # verify they were deleted
