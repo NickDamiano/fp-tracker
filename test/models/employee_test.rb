@@ -47,4 +47,6 @@ class EmployeeTest < ActiveSupport::TestCase
    		# assert that registration successful message has been sent
    end
 
+   test "should filter out suspicious characters from text message "
+
 end
