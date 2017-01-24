@@ -1,3 +1,12 @@
+Unfuck registration and unregister
+unregister isn't working anymore
+register works and parse registration works but it won't hit the parse registration method because original message isn't hit because pending response isn't true. figure out how to get pending response to flag or find another way to match. I guess you could try Message.find_by(to: sender).last and if that matches to registration then hit it up.
+
+Then do the duplicates test and then the else stuff at the bottom of the message parser.
+
+
+
+
 Message - 
 2 - duplicates test
 3 - parser bottom of the test for else statements

@@ -11,7 +11,7 @@ class Employee < ActiveRecord::Base
 			employee = nil
 		end
 		if employee 
-			message = "Please send me your first name for registration"
+			message = "Registration: Please reply with your first name"
 		else
 			message = "Your phone number already exists in the database"
 		end
@@ -20,6 +20,8 @@ class Employee < ActiveRecord::Base
 
 	def self.unregister_employee(sender)
 		#no confirmation needed just remove them
+		# add a begin and catch to see if they are already unregistered
+		# then send a message if they aren't in the system.
 		Employee.find_by(phone_num1: sender).delete
 		employee = Employee.find_by(phone_num1: sender)
 		if employee.nil?
@@ -37,10 +39,10 @@ class Employee < ActiveRecord::Base
 		employee = Employee.find_by(phone_num1: sender)
 		if original_message.body =~ /first/
 			employee.first_name = message
-			Message.send_message(sender, "Registration: Please send your last name")
+			Message.send_message(sender, "Registration: Please reply with your last name")
 		elsif original_message.body =~ /last/
 			employee.last_name = message 
-			Message.send_message(sender, "Registration: Please send your location (alderaan, 
+			Message.send_message(sender, "Registration: Please reply with your location (alderaan, 
 				home, Prince Sultan Air Base, etc")
 		elsif original_message.body =~ /location/
 			employee.location = message 

@@ -36,13 +36,18 @@ class MessageParser
 				DuplicateMessageAction.duplicate_message_responder(original_message, message)
 			end
 		else
+			binding.pry
 			if original_message =~ /registration/
 				Employee.parse_registration(message, sender, original_message)
 			end
 			this_message.status = 'unable to parse'
 			this_message.save
 			# Send back error message
-			Message.send_message(sender, "I didn't understand your message.\n If you need help, text me the word 'instructions'.")
+			if Employee.find_by(phone_num1: sender)	
+				Message.send_message(sender, "I didn't understand your message.\n If you need help, text me the word 'instructions'.")
+			else
+				Message.send_message(sender, "You are not registered. text 'register' to begin registration.")
+			end
 		end
 	end
 end
