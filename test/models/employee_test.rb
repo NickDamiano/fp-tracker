@@ -49,7 +49,6 @@ class EmployeeTest < ActiveSupport::TestCase
 
    		assert_equal "mos eisley", Employee.find_by(phone_num1: sender).location
    		assert_match /Registration Complete/, Message.last.body
-
    end
 
    test "should filter out suspicious characters from text message " do 

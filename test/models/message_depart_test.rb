@@ -32,4 +32,11 @@ class MessageTest < ActiveSupport::TestCase
       assert_equal 6, transit_employee_count
    end
 
+   test 'should parse location for departing when to not present' do 
+      message = "skywalker going dagobah"
+      result = MessageDepart.parse_location_to(message)
+
+      assert_equal "dagobah", result
+   end
+
 end
