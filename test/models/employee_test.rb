@@ -30,23 +30,29 @@ class EmployeeTest < ActiveSupport::TestCase
    end
 
    test "should parse registration response and send correct follow-up message" do 
-   		# send a message asking for "first name for registration" and store into "original_message"
-   		# call parse registration with first name, sender number, and "original_message"
-   		# find user by sender number and save into user
-   		# assert user has the same first name as passed
-   		# assert that Message.last has the follow up question for last name
+   		sender = "+15122223399"
+   		employee = Employee.create(phone_num1: sender)
+   		message = Message.send_message(sender, "Registration: Please send your first name")
+   		Employee.parse_registration("biggs", sender, message)
 
-   		# call parse registration with last_name, sender, and Message.last
-   		# find user by sender and save into user
-   		# assert user has last name same as what was sent
-   		# assert that Message.last has follow up for location
+   		assert_equal "biggs", Employee.find_by(phone_num1: sender).first_name
+   		assert_match /last name/, Message.last.body
 
-   		# call parse registration with location, sender, and Message.last
-   		# find user and save into variable
-   		# assert user has location same as sent
-   		# assert that registration successful message has been sent
+   		message = Message.last
+   		Employee.parse_registration("darklighter", sender, message)
+
+   		assert_equal "darklighter", Employee.find_by(phone_num1: sender).last_name
+   		assert_match /location/, Message.last.body
+
+   		message = Message.last
+   		Employee.parse_registration("mos eisley", sender, message)
+
+   		assert_equal "mos eisley", Employee.find_by(phone_num1: sender).location
+   		assert_match /Registration Complete/, Message.last.body
+
    end
 
-   test "should filter out suspicious characters from text message "
+   test "should filter out suspicious characters from text message " do 
+   end
 
 end

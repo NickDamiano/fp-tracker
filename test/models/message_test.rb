@@ -5,12 +5,6 @@ class MessageTest < ActiveSupport::TestCase
 
    Twilio_number_test = "+15005550006"
 
-   test 'should sendAckMessage' do 
-      # send the message with a quick update 
-      # database should update and code should run sending out message to user saying the change was made
-      # pull out the last message and assert that it's updating that change. 
-   end
-
    test 'should send reject message' do 
       saved_message = Message.create(body: "some string", to:"+15122223333", from: 
          Twilio_number_test)
