@@ -27,6 +27,8 @@ class EmployeeTest < ActiveSupport::TestCase
    		Employee.unregister_employee("+15129919343")
 
    		refute Employee.find_by(phone_num1: "+15129919343")
+
+   		
    end
 
    test "should parse registration response and send correct follow-up message" do 

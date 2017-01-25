@@ -3,6 +3,9 @@ class MessageParser
 	def self.parse(message, sender)
 		# gets the last message matching this criteria
 		original_message = Message.where(to: sender, pending_response: true).last
+		if Message.find_by(to: sender)
+			registration_message = Message.where(to: sender).last=~ /^Registration/
+		end
 		this_message = Message.save_message(message, sender)
 
 		case message
@@ -36,17 +39,20 @@ class MessageParser
 				DuplicateMessageAction.duplicate_message_responder(original_message, message)
 			end
 		else
-			binding.pry
-			if original_message =~ /registration/
-				Employee.parse_registration(message, sender, original_message)
-			end
-			this_message.status = 'unable to parse'
-			this_message.save
-			# Send back error message
-			if Employee.find_by(phone_num1: sender)	
-				Message.send_message(sender, "I didn't understand your message.\n If you need help, text me the word 'instructions'.")
+			# listen carefully nick. registration message is a fixnum. it needs to be a
+			# message object. make this look less ugly tomorrow and fix it!
+			if registration_message
+				# incoming message isn not matched
+				Employee.parse_registration(message, sender, registration_message)
 			else
-				Message.send_message(sender, "You are not registered. text 'register' to begin registration.")
+				this_message.status = 'unable to parse'
+				this_message.save
+				# Send back error message
+				if Employee.find_by(phone_num1: sender)	
+					Message.send_message(sender, "I didn't understand your message.\n If you need help, text me the word 'instructions'.")
+				else
+					Message.send_message(sender, "You are not registered. text 'register' to begin registration.")
+				end
 			end
 		end
 	end

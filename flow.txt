@@ -4,7 +4,7 @@ register works and parse registration works but it won't hit the parse registrat
 
 Then do the duplicates test and then the else stuff at the bottom of the message parser.
 
-
+maybe add some fucking code so that when twilios shitty ass program fails to send a text it actually fucking sends it. piece of shit ass fucking this api, nothing is working fuck fuck fuck. 
 
 
 Message - 

@@ -22,7 +22,8 @@ class Employee < ActiveRecord::Base
 		#no confirmation needed just remove them
 		# add a begin and catch to see if they are already unregistered
 		# then send a message if they aren't in the system.
-		Employee.find_by(phone_num1: sender).delete
+		employee = Employee.find_by(phone_num1: sender)
+		employee ? employee.delete : Message.send_message(sender, "You aren't in the database.")
 		employee = Employee.find_by(phone_num1: sender)
 		if employee.nil?
 			message = "You have been successfully deleted from the database."
