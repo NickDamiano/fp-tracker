@@ -61,7 +61,8 @@ class DuplicateMessageAction
 		names.each do | name_array |
 			name = name_array[0]
 			number_of_unique_name = name_array[1] # really this probably doesn't matter
-
+			# delay it for a second to let confirmation hit first for others in party
+			sleep(1)
 			message="Which #{name} do you mean?\n"
 			employees = Employee.where(last_name: name) 
 			employees.each.with_index(1) do | employee, index | 

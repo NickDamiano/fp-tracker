@@ -1,7 +1,6 @@
 	 
 	Sanitize the input so it can't be over 160 characters and it can only contain letters numbers and certain punctuation. 
-	Validate both server side and client side. 
-
+	get rid of the "not in the system text" and whatever it was hackily covering up
 
 	Add the ability to register a new user through text messages with sanitation. 
 

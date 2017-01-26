@@ -43,12 +43,12 @@ class Employee < ActiveRecord::Base
 			Message.send_message(sender, "Registration: Please reply with your last name")
 		elsif original_message.body =~ /last/
 			employee.last_name = message 
-			Message.send_message(sender, "Registration: Please reply with your location (alderaan, 
-				home, Prince Sultan Air Base, etc")
+			Message.send_message(sender, "Registration: Please reply with your location")
 		elsif original_message.body =~ /location/
 			employee.location = message 
-			Message.send_message(sender, "Registration Complete: #{employee.first_name} 
-				#{employee.last_name} located at #{employee.location}")
+			notification = "Registered: #{employee.first_name} #{employee.last_name} located at #{employee.location}"
+			employee.in_country = true
+			Message.send_message(sender, notification)
 			set_admin(sender)
 		end
 		employee.save

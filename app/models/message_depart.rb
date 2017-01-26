@@ -38,6 +38,7 @@ class MessageDepart
 		#if the message contains the word to
 		if message =~ /\sto\s/
 			return message.split(' to ')[-1]
+		# sometimes it's just a message like "skywalker going downtown" or "skywalker going home"
 		elsif message =~ /going\s/
 			return message.split('going ')[-1]
 		end
