@@ -28,7 +28,7 @@ class EmployeeTest < ActiveSupport::TestCase
 
    		refute Employee.find_by(phone_num1: "+15129919343")
 
-   		
+
    end
 
    test "should parse registration response and send correct follow-up message" do 
@@ -50,7 +50,7 @@ class EmployeeTest < ActiveSupport::TestCase
    		Employee.parse_registration("mos eisley", sender, message)
 
    		assert_equal "mos eisley", Employee.find_by(phone_num1: sender).location
-   		assert_match /Registration Complete/, Message.last.body
+   		assert_match /Registered/, Message.last.body
    end
 
    test "should filter out suspicious characters from text message " do 
