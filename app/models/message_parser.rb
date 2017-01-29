@@ -2,6 +2,7 @@ class MessageParser
 
 	def self.parse(message, sender)
 		# gets the last message matching this criteria
+		# TODO TOMORROW IF NOT IN SYSTEM HANDLE IT BRO
 		original_message = Message.where(to: sender, pending_response: true).last
 		last_message = Message.where(to: sender).last
 		# if the last message sent to this employee begins with the word registration, then we 
