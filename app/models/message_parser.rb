@@ -1,14 +1,16 @@
 class MessageParser
 
 	def self.parse(message, sender)
-		# gets the last message matching this criteria
-		# TODO TOMORROW IF NOT IN SYSTEM HANDLE IT BRO
+		if Employee.find_by(phone_num1: sender) == nil && message !~ /^register/i
+			Message.send_message(sender, "You are not registered. text 'register' to begin registration.")
+			return
+		end
 		original_message = Message.where(to: sender, pending_response: true).last
 		last_message = Message.where(to: sender).last
 		# if the last message sent to this employee begins with the word registration, then we 
 		# need to set this as a flag for the conditional at the bottom to then call parse_registration
-		if last_message && registration_message = last_message.body
-			registration_message =~ /^Registration/ ? registration_message = last_message : nil
+		if last_message
+			last_message.body =~ /Registration/ ? registration_message = last_message : nil
 		end
 		this_message = Message.save_message(message, sender)
 
@@ -17,6 +19,7 @@ class MessageParser
 			# New employee is registering themselves via text
 			Employee.register_employee(sender)
 		when /^unregister/
+			binding.pry
 			# Employee wants to be deleted from database
 			Employee.unregister_employee(sender)
 		when /^911/

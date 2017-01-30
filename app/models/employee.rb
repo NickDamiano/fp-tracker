@@ -19,18 +19,21 @@ class Employee < ActiveRecord::Base
 	end
 
 	def self.unregister_employee(sender)
-		#no confirmation needed just remove them
-		# add a begin and catch to see if they are already unregistered
-		# then send a message if they aren't in the system.
 		employee = Employee.find_by(phone_num1: sender)
-		employee ? employee.delete : Message.send_message(sender, "You aren't in the database.")
+		TransitEmployee.where(employee_id: employee.id).delete_all
+		employee.delete
+		message = verify_unregister(sender)
+		Message.send_message(sender, message)
+	end
+
+	def self.verify_unregister(sender)
+		# check if deletion worked
 		employee = Employee.find_by(phone_num1: sender)
 		if employee.nil?
-			message = "You have been successfully deleted from the database."
+			"You have been successfully deleted from the database."
 		elsif employee
-			message = "There was a problem deleting you from the database."
+			"There was a problem deleting you from the database."
 		end
-		Message.send_message(sender, message)
 	end
 	
 	# Message is reply from user containing either first or last name, or location
