@@ -19,7 +19,6 @@ class MessageParser
 			# New employee is registering themselves via text
 			Employee.register_employee(sender)
 		when /^unregister/
-			binding.pry
 			# Employee wants to be deleted from database
 			Employee.unregister_employee(sender)
 		when /^911/
