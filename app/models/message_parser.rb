@@ -1,16 +1,18 @@
 class MessageParser
 
 	def self.parse(message, sender)
+		# If the employee is not registered and is not sending registration message, reject them.
 		if Employee.find_by(phone_num1: sender) == nil && message !~ /^register/i
 			Message.send_message(sender, "You are not registered. text 'register' to begin registration.")
 			return
 		end
+		# Original message is required to parse responses to challenges from FP-Tracker
 		original_message = Message.where(to: sender, pending_response: true).last
 		last_message = Message.where(to: sender).last
-		# if the last message sent to this employee begins with the word registration, then we 
-		# need to set this as a flag for the conditional at the bottom to then call parse_registration
+		# This code checks to see if a Registration prompt was sent by FP-Tracker, in which 
+		#   case it flags registration_message and later calls parse_registration
 		if last_message
-			last_message.body =~ /Registration/ ? registration_message = last_message : nil
+			last_message.body =~ /^Registration/ ? registration_message = last_message : nil
 		end
 		this_message = Message.save_message(message, sender)
 
@@ -33,12 +35,9 @@ class MessageParser
 		when /arrive/
 			# Employee reporting arrival
 			MessageArrive.store_arrival(message, sender)
-		when /instructions/
+		when /^instructions/
 			# Employee requesting instructions on app
 			Message.give_instructions(sender)
-		when /^where/
-			# asking for location of a specific person
-			Message.report_location(message, sender)
 		when /^[0-9]/
 			if original_message
 				# The Employee is responding to a message asking about duplicate names
