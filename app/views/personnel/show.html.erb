@@ -1,1 +1,18 @@
-testy
+<meta name="viewport" content="width=device-width">
+
+<table id="personnel-list">
+	<tr>
+		<th><%= link_to "Last Name", :sort => "last_name" %></th>
+		<th><%= link_to "First Name", :sort => "first_name"%></th>
+		<th><%= link_to "Location", :sort => "location" %></th>
+	</tr>
+		<% for person in @personnel %>
+			<tr>
+				<td><%= person.last_name.capitalize %></td>
+				<td><%=	person.first_name.capitalize %></td>
+				<td><%= person.location.capitalize %></td>
+			</tr>
+		<% end %>
+</table>
+
+
