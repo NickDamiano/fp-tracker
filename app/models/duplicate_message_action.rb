@@ -72,7 +72,6 @@ class DuplicateMessageAction
 
 			message += "\nRespond with the corresponding number " 
 			if number_of_unique_name > 1 then message +=  "for the #{number_of_unique_name} #{name}'s separated by commas" end
-
 			Message.create(to: sender.phone_num1, body: message, status: "pending", location: destination)
 		end
 		# set the query pending flag

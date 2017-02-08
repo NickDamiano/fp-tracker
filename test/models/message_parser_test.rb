@@ -64,10 +64,11 @@ class MessageParserTest < ActiveSupport::TestCase
 	end
 
 	test "case statement calls duplicate message responder" do 
-
-		# TODO
+		sender = "+15122223333"
 		DuplicateMessageAction.stub :duplicate_message_responder, "duplicate_message_responder" do
-			# pick up here
+			Message.create(to: sender, pending_response: true, body: "message" )
+			result = MessageParser.parse("1", sender)
+			assert_equal "duplicate_message_responder", result
 		end
 
 	end
