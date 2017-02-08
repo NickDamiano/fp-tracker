@@ -1,6 +1,4 @@
-	 
-    
-	create a message retry after a message is sent do a callback and if the message is undelivered, try 5 more times before failing. 
+
 
 	Add garbage cleaner to clean up pending departs and pending responses after x amount of time
 	Add a cronjob to re-seed the database at 3 in the morning central time with a flash message afterwards

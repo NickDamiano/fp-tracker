@@ -6,7 +6,13 @@
 		<th><%= link_to "First Name", :sort => "first_name"%></th>
 		<th><%= link_to "Location", :sort => "location" %></th>
 	</tr>
-		<%= @personnel %>
+		<% for person in @personnel %>
+			<tr>
+				<td><%= person.last_name.capitalize %></td>
+				<td><%=	person.first_name.capitalize %></td>
+				<td><%= person.location.capitalize %></td>
+			</tr>
+		<% end %>
 </table>
 
 
