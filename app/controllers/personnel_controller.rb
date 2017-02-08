@@ -3,6 +3,9 @@ class PersonnelController < ApplicationController
 		@personnel = Employee.where(in_country: true).order(sort_column)
 	end
 
+	def test
+	end
+
 	private
 
 	# Sanitize input for params to prevent SQL injection
