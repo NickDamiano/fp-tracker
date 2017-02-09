@@ -1,14 +1,19 @@
-TODO tomorrow - finish adding bold to the table header by modifying javascript 
-respond with a number that's not listed to test the send reject message if nil?
+Make table columns look sortable
+Finish testing
+Add cron job to clean up database once a day
+Review code to clean up comments and unfinished tests
+Review duplicate sender to understand for demo
+Create short demo explaining why it was developed and examples of it in use. future use
+Create long demo where you walk through the entire thing for mostly future nick benefit
 
-	Add garbage cleaner to clean up pending departs and pending responses after x amount of time
-	Add a cronjob to re-seed the database at 3 in the morning central time with a flash message afterwards
 
-	Code cleanup
-	Write tests
 
-	Stretch goals
-	- it can only contain letters numbers and certain punctuation. 
+
+
+
+
+
+
 
 
 10) Texting demo
