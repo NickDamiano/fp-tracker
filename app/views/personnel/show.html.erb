@@ -2,9 +2,9 @@
 
 <table id="personnel-list">
 	<tr>
-		<th><%= link_to "Last Name", :sort => "last_name" %></th>
-		<th><%= link_to "First Name", :sort => "first_name"%></th>
-		<th><%= link_to "Location", :sort => "location" %></th>
+		<th id="last_name_header"><%= link_to "Last Name", :sort => "last_name" %></th>
+		<th id="first_name_header"><%= link_to "First Name", :sort => "first_name"%></th>
+		<th id="location_header"><%= link_to "Location", :sort => "location" %></th>
 	</tr>
 		<% for person in @personnel %>
 			<tr>

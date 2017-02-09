@@ -1,4 +1,4 @@
-
+TODO tomorrow - finish adding bold to the table header by modifying javascript 
 
 	Add garbage cleaner to clean up pending departs and pending responses after x amount of time
 	Add a cronjob to re-seed the database at 3 in the morning central time with a flash message afterwards

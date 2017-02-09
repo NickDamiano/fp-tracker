@@ -44,17 +44,15 @@ class MessageParser
 				DuplicateMessageAction.duplicate_message_responder(original_message, message)
 			end
 		else
+			# Matches if sender is responding to a registration message from FP-Tracker
 			if registration_message
 				Employee.parse_registration(message, sender, registration_message)
 			else
+				# Message didn't match any, send rejection message
 				this_message.status = 'unable to parse'
 				this_message.save
 				# Send back error message
-				if Employee.find_by(phone_num1: sender)	
-					Message.send_message(sender, "I didn't understand your message.\n If you need help, text me the word 'instructions'.")
-				else
-					Message.send_message(sender, "You are not registered. text 'register' to begin registration.")
-				end
+				Message.send_message(sender, "I didn't understand your message.\n If you need help, text me the word 'instructions'.")
 			end
 		end
 	end

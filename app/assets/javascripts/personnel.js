@@ -1,4 +1,6 @@
+$('#last_name_header').style.fontWeight= 'bold'
 
-
-$(document).ready( function () {
+$('tr').click( function (){
+	$('tr.selected').removeClass('selected');
+	$(this).addClass('selected');
 });
