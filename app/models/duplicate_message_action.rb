@@ -13,10 +13,9 @@ class DuplicateMessageAction
 				puts "There are duplicates!"
 				duplicates.push(name)
 			elsif employee_check == []
-				not_found_message = "#{name} was not found. Please check your spelling
-				or contact your system administrator."
-				Message.send_message(sender, "#{name} wasn't found")
-				puts "there was a problem and employee wasn't found"
+				not_found_message = "#{name} was not found. Please check your spelling" \
+					" or contact your system administrator."
+				Message.send_message(sender, not_found_message)
 			end
 		end
 		if duplicates[0]

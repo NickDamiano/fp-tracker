@@ -1,31 +1,16 @@
 TODO tomorrow - finish adding bold to the table header by modifying javascript 
+respond with a number that's not listed to test the send reject message if nil?
 
 	Add garbage cleaner to clean up pending departs and pending responses after x amount of time
 	Add a cronjob to re-seed the database at 3 in the morning central time with a flash message afterwards
 
-
 	Code cleanup
 	Write tests
-
-
-	Write tests
-
-
 
 	Stretch goals
 	- it can only contain letters numbers and certain punctuation. 
 
-SPan make text or name different colors in text box.
 
-	IT would be cool if the text interaction on the website looked like a phone or was inside of an iphone.
-	And on an actual phone, it filled up the width of the screen as just a textbox
-	2) Add input validation and make it so you can't save a blank first or last name or location
-	OWASP security sheeet
-	3) Add front page and authentication
-	You can register by text and then at the end of a successful registration it give you instructions
-7) Garbage Cleaner for pending en route stuff
-8) Code Clean-up
-9) Review
 10) Texting demo
 11) How it works demo
 12) Done!
@@ -34,9 +19,6 @@ SPan make text or name different colors in text box.
 15) Add middle name column that is then messed with if you have two of the exact same names. 
 16) So you can have a site showing the people being tracked and sort them by location that's updated by ajax every time the db is updated. on the left is a chat window for you to interact with the db like a tech demo. 
 
-Cron job to recreate database at 3 AM US
-Cron Job to 
-Bonus
 
 12) Fuzzy spell checker
 13) ETA

@@ -93,5 +93,11 @@ class MessageParserTest < ActiveSupport::TestCase
 			assert_equal result, "parse_registration"
 		end
 	end
+
+	test "rejection message sent when unparsable message from existing user" do 
+		MessageParser.parse("yub nub", "+15122223333")
+		last_message = Message.last.body
+		assert_match /^I didn't understand your message/, last_message
+	end
 end
 

@@ -13,6 +13,14 @@ class DuplicateMessageActionTest < ActiveSupport::TestCase
       assert_equal "luke", result[1]["first_name"]   
     end
 
+    test "should send rejection message if name not in database" do 
+    	message = "solo and porkins going to the death star"
+    	MessageDepart.store_departure(message, "+15125556666")
+    	
+    	assert Message.find_by(body: "porkins was not found. Please check your spelling" \
+    		" or contact your system administrator.")
+    end
+
 	test 'should handle duplicates if there is one in text and multiples in country and
 	the senders phone number matches the duplicate name' do
 	#for example - if fett, solo, and skywalker are going somewhere and boba fett texts
