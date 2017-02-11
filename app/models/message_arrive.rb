@@ -26,7 +26,11 @@ class MessageArrive
 			if temp_employee.save then successes.push(temp_employee) end
 			employee.destroy
 		end
-		Message.sendAckMessage(successes, sender, "arrived at #{temp_employee.location}")
+		if transit_employees.empty?
+			Message.send_message(sender, "No departure reported. Please send a full arrive message with names.")
+		else
+			Message.sendAckMessage(successes, sender, "arrived at #{temp_employee.location}")
+		end
 	end
 
 	# Covered
