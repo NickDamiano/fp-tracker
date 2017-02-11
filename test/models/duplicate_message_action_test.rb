@@ -16,9 +16,18 @@ class DuplicateMessageActionTest < ActiveSupport::TestCase
     test "should send rejection message if name not in database" do 
     	message = "solo and porkins going to the death star"
     	MessageDepart.store_departure(message, "+15125556666")
-    	
+
     	assert Message.find_by(body: "porkins was not found. Please check your spelling" \
     		" or contact your system administrator.")
+    end
+    #TODO 12 FEBRUARY
+    test 'should handle duplicates for long arrival' do 
+    	# create the senders message which is them reporting skywalker and damiano arrived at
+    	# the store
+    	original_message = # which skywalker is it?
+    	response = "1"
+
+    	# assert pending response is false
     end
 
 	test 'should handle duplicates if there is one in text and multiples in country and
