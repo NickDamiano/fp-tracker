@@ -34,6 +34,23 @@ class DuplicateMessageActionTest < ActiveSupport::TestCase
     	refute original_message.pending_response
     end
 
+    test 'should respond to duplicates for departure' do 
+    	sender = "+15123334444"
+    	employee = Employee.find_by(phone_num1: sender)
+    	# create the senders message pulled half-way through test method
+    	employee.messages.create(from: sender, body: "vader and fett going to dagobah")
+
+    	original_message = Message.create(body: "Which fett do you mean?\n1. Jango Fett\n2. Boba Fett\n\nRespond with the corresponding number ",
+    		to: sender, pending_response: true, location: "dagobah")
+    	response = "1"
+    	DuplicateMessageAction.duplicate_message_responder(original_message, response)
+    	transit_employee = TransitEmployee.find_by(employee_id: 8)
+
+    	refute original_message.pending_response
+    	assert transit_employee
+
+    end
+
 	test 'should handle duplicates if there is one in text and multiples in country and
 	the senders phone number matches the duplicate name' do
 	#for example - if fett, solo, and skywalker are going somewhere and boba fett texts
