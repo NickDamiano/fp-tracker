@@ -138,7 +138,6 @@ class DuplicateMessageAction
 		end
 		################_____----------!!!!!!!!!!!!!!!!!!
 		# get the last message inidicating arrived or departed
-
 		senders_message = Employee.find_by(phone_num1: original_message.to).messages.reverse_order.where("body ~* ?", "(going|arrived)").first
 		if senders_message && senders_message.body =~ /arrive/
 			# process arrived - the only way to do this with existing flow is to create a transit

@@ -22,12 +22,16 @@ class DuplicateMessageActionTest < ActiveSupport::TestCase
     end
     #TODO 12 FEBRUARY
     test 'should handle duplicates for long arrival' do 
-    	# create the senders message which is them reporting skywalker and damiano arrived at
-    	# the store
-    	original_message = # which skywalker is it?
-    	response = "1"
+    	sender = "+15122223333"
+    	employee = Employee.find_by(phone_num1: sender)
+    	# create the senders message pulled half-way through test method
+    	employee.messages.create(from: sender, body: "skywalker and fett arrived at dagobah")
 
-    	# assert pending response is false
+    	original_message = Message.create(body: "Which fett do you mean?\n1. Jango Fett\n2. Boba Fett\n\nRespond with the corresponding number ",
+    		to: sender, pending_response: true, location: "dagobah")
+    	response = "1"
+    	DuplicateMessageAction.duplicate_message_responder(original_message, response)
+    	refute original_message.pending_response
     end
 
 	test 'should handle duplicates if there is one in text and multiples in country and
