@@ -13,6 +13,14 @@ class MessageArriveTest < ActiveSupport::TestCase
       assert_equal "dantooine", Employee.find_by(last_name: "vader").location
    end
 
+   test "should send rejection message for short arrived message when no departure reported" do 
+      sender = "+15123334444"
+
+      MessageArrive.update_database_arrive(sender)
+
+      assert_match /^No departure reported./, Message.last.body
+    end
+
    # when sender just puts "arrived"
    test 'should update database for short arrival' do 
       message = "arrived"

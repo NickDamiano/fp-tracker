@@ -20,7 +20,7 @@ class DuplicateMessageActionTest < ActiveSupport::TestCase
     	assert Message.find_by(body: "porkins was not found. Please check your spelling" \
     		" or contact your system administrator.")
     end
-    #TODO 12 FEBRUARY
+
     test 'should handle duplicates for long arrival' do 
     	sender = "+15122223333"
     	employee = Employee.find_by(phone_num1: sender)
