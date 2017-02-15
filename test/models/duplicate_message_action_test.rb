@@ -60,7 +60,31 @@ class DuplicateMessageActionTest < ActiveSupport::TestCase
     	refute original_message.pending_response
     end
 
-    
+    test 'should handle two groups of duplicates with 1 duplicate and two duplicates' do 
+    	duplicates = ["organa", "fett"]  
+    	sender = "+15122223333"
+    	destination = "hoth"
+
+    	DuplicateMessageAction.handle_duplicates(duplicates, sender, destination)
+
+    	assert_match /^Which organa/, Message.last.body
+    	assert_match /^Which fett/, Message.find_by(status: "pending").body
+	end
+
+	test 'should send rejection message if duplicate response is incorrect' do 
+    	duplicates = ["organa", "fett"]  
+    	sender = "+15122223333"
+    	destination = "hoth"
+
+    	DuplicateMessageAction.handle_duplicates(duplicates, sender, destination)
+
+    	original_message = Message.where(to: sender, pending_response: true).last
+    	message = "5"
+    	DuplicateMessageAction.duplicate_message_responder(original_message, message)
+
+    	assert_match /5 is not one of the listed options/, Message.last.body
+
+	end
 
 	test 'should handle duplicates if there is one in text and multiples in country and
 	the senders phone number matches the duplicate name' do
@@ -121,20 +145,6 @@ class DuplicateMessageActionTest < ActiveSupport::TestCase
 	  DuplicateMessageAction.handle_duplicates(duplicates, sender, destination)
 	  message = Message.find_by(pending_response: true)
 	  refute_nil message
-	end
-
-	test 'should handle two groups of duplicates with 1 duplicate and two duplicates' do 
-	  duplicates = ["organa", "fett"]
-	  
-	end
-
-	test 'should handle a text with 2 multiples in text and more than 2 in database' do 
-	  duplicates = ["fett", "fett"]
-
-	end
-
-	test 'should respond to a text with which personnel for more than 1 personnel and update database' do 
-
 	end
 
 	test 'should send duplicate message via duplicate_message_sender method' do 

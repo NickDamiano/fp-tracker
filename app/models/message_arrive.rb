@@ -9,7 +9,6 @@ class MessageArrive
 		end
 	end
 
-	# Covered
 	# There are transit employee records for anyone who has departed but not yet
 	# arrived. Transit employees are saved with an employee id and a phone number
 	# related to who sent the departure message. Here, transit employees are looked
@@ -33,7 +32,6 @@ class MessageArrive
 		end
 	end
 
-	# Covered
 	# works for non-duplicates. does not send ack message
 	def self.parse_arrived_long(message, sender)
 		# parse by commas and arrived to get who and where. 
