@@ -1,7 +1,7 @@
 
 # This class flows like this: first we separate the unique names from the ones that are duplicates by doing 
-#   check_duplicate_last_name and handle_duplicates. We return an array of AR objects for unique names and 
-#   continue to process the duplicates with duplicate message builder. Duplicate message builder takes each name
+#   check_duplicate_last_name and handle_duplicates. We return an array of AR objects for unique names which are updated in database and 
+#   continue to process the duplicates with duplicate message builder (if there are any). Duplicate message builder takes each name
 #   that we need to figure out who the sender meant and builds a message asking "Which name did you mean...". It marks
 #   them as pending messages and calls retrieve and send message. Retrieve and send message is called and pulls out a 
 #   pending message previously built and sends it to the user. When the user responds with a number for which duplicate name
