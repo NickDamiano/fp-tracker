@@ -2,15 +2,11 @@ class MessageDepart
 
 	# Covered
 	def self.store_departure(message, sender)
-		sender_last_name = Employee.find_by(phone_num1: sender).last_name
 		parsed_data = get_depart_info(message)
-
-		# if the message starts with going meaning no names was reported, then the only one
-		#   going anywhere is the sender
 		names = parsed_data[:names]
 		to = parsed_data[:to]
 		non_duplicate_names = DuplicateMessageAction.check_duplicate_last_name(names, sender, to)
-		update_database_depart(non_duplicate_names, to, sender)
+		if non_duplicate_names then update_database_depart(non_duplicate_names, to, sender) end
 	end
 	
 	# Covered

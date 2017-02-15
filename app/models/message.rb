@@ -28,7 +28,7 @@ class Message < ActiveRecord::Base
 			to: to,
 			body: body,
 			# statusCallback: "http://fptracker.herokuapp.com/twilio/callback"
-			statusCallback: "http://ee45814f.ngrok.io/twilio/callback"
+			statusCallback: "http://41b6f7ac.ngrok.io/twilio/callback"
 
 		})
 
