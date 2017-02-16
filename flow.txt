@@ -37,3 +37,62 @@ stretch
 22- make a tutorial on how to use the text messaging thing and do tests with it
 24 - Make a demo video for long explanation
 20 - possibly remove the admin piece that checks the location of everyone - at least get rid of the hacky thing you did and make it work right or just pull it out completely and modify the code that checks. just add a note that's where the code would be.
+
+
+
+
+
+
+
+
+
+
+# For future improvements for message class
+
+	# In the future, maybe we want to send messages that are causing problems
+	# on to the manager so he can get all messages during an emergency sent to this
+	# number. This would be added at the bottom of the parse method under else block
+
+	# def self.forward_unparsed(message, sender)
+	# 	# send unparsed to admin to figure out why
+	# 	to = 
+	# 	Message.send_message(message)
+	# end
+	# Track message exchange
+	# def self.message_history(message, sender)
+	# 	result = MessageActions.history(message, sender)
+	# 	# send all messages back to sender from now until hours back
+	# end
+
+	# Admin register users via text
+	# This could be tied into the employee register. which could be extracted to serve both that and this purpose
+	# def self.add_employee(message)
+	# 	result = MessageActions.add_employee(message)
+	# 	# maybe this is done by the employee by texting and it asks a series of questions 
+	# 		# and then registers them after confirming all information is correct. 
+	# 	# admin message
+	# end
+
+	# Admin deletes user by text
+	# def self.remove_employee(message)
+	# 	# removes employees leaving permanently
+	# 	# admin message
+	# end
+
+	# when an employee leaves country, update system via text. Also change saudi to 'country'
+	# def self.toggle_employee_saudi_presence(employee)
+	# 	# if employee leaves the country or arrives, toggle their status so they
+	# 	# don't receive alerts and are marked as out of saudi
+	# 	# admin message
+	# end
+
+	# Admin can have all texts coming into system get forwarded to him so he has full visibility like he used to.
+	# def self.toggle_autoforward(sender)
+	# 	# look at sender. check autoforward status and toggle
+	# 	# check to see if user has autoforward privledges?
+	# end
+
+	# Gets specific employee's location
+	# def self.report_location(message, sender)
+	# 	result = MessageActions.report_location(message)
+	# end

@@ -13,13 +13,11 @@ class Message < ActiveRecord::Base
 		Twilio_number = Rails.application.secrets.twilio_number.to_s
 	end
 
-	# Called when messages hit the parser
 	def self.save_message(message, sender)
 		sender_employee = Employee.find_by(phone_num1: sender) || Employee.find_by(first_name: "not in the system") #TODO add seed for this
 		Message.create(from: sender, body: message, employee_id: sender_employee.id, status: "parsed")
 	end
 
-	# Sends text message from Twilio app
 	def self.send_message(to, body)
 		@client = Twilio::REST::Client.new(@@account_sid, @@auth_token)
 
@@ -39,17 +37,20 @@ class Message < ActiveRecord::Base
 	end
 
 	def self.give_instructions(sender)
+		employee = Employee.find_by(phone_num1: sender)
 		depart = "Departing: When departing, text 'lastname, lastname going to location'\n\n"
 		arrive = "Arriving: If a depart message was sent, text 'arrived' & FP-tracker will update based off depart message. If no depart was sent, text 'lastname, lastname arrived at location'\n\n"
-		emergency = "Emergency: In an emergency, text '911 message' & your message will be forwarded to everyone in country."
-		message = depart + arrive + emergency
+		emergency = "Emergency: In an emergency, text '911 your message here' & your message will be forwarded to everyone in country.\n\n"
+		sitrep = "Sitrep: to request a list of all employees and their location text 'sitrep' (situation report)"
+		# if user has admin privledge to receive sitrep, send that additional line
+		employee.admin ? message = depart + arrive + emergency + sitrep : message = depart + arrive + emergency
 		Message.send_message(sender, message)
 	end
 
-	# Forwards message to all personnel 'in-country' - covered
+	# Forwards message to all personnel 'in-country'
 	def self.report_emergency(message, sender)
-		saudi_employees = Employee.where(in_country: true)
-		saudi_employees.each do | employee | 
+		in_country_employees = Employee.where(in_country: true)
+		in_country_employees.each do | employee | 
 			to = employee.phone_num1
 			employee_name = employee.first_name + " " + employee.last_name
 			body = "Important message from #{employee_name}: #{message}"
@@ -92,12 +93,11 @@ class Message < ActiveRecord::Base
 		send_message(sender, body)
 	end
 
-	# Covered
 	def self.parse_names(message)
-		# message is ["bart, lisa, marge left al yamama to psab"]
-		# remove "and" and replace with ',' which solves when it's two names like
-			#fett and skywalker without a comma since it splits it on the next line
-		# split by arrived or going
+		# message is ["bart, lisa, marge going to psab"]
+		#   remove "and" and replace with ',' which solves when it's two names like
+		#   fett and skywalker without a comma since it splits it on the next line
+		#   split by arrived or going
 		if message =~ /going/ then message = message.split("going") end
 		if message =~ /arrive/ then message = message.split("arrived") end
 		message_without_ands = message[0].gsub(/\sand\s/, ',')
@@ -111,70 +111,3 @@ class Message < ActiveRecord::Base
 		first[0...-1].each{ | name | name.strip!}.push(last_name)
 	end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# For future improvements
-
-	# In the future, maybe we want to send messages that are causing problems
-	# on to the manager so he can get all messages during an emergency sent to this
-	# number. This would be added at the bottom of the parse method under else block
-
-	# def self.forward_unparsed(message, sender)
-	# 	# send unparsed to admin to figure out why
-	# 	to = 
-	# 	Message.send_message(message)
-	# end
-	# Track message exchange
-	# def self.message_history(message, sender)
-	# 	result = MessageActions.history(message, sender)
-	# 	# send all messages back to sender from now until hours back
-	# end
-
-	# Admin register users via text
-	# This could be tied into the employee register. which could be extracted to serve both that and this purpose
-	# def self.add_employee(message)
-	# 	result = MessageActions.add_employee(message)
-	# 	# maybe this is done by the employee by texting and it asks a series of questions 
-	# 		# and then registers them after confirming all information is correct. 
-	# 	# admin message
-	# end
-
-	# Admin deletes user by text
-	# def self.remove_employee(message)
-	# 	# removes employees leaving permanently
-	# 	# admin message
-	# end
-
-	# when an employee leaves country, update system via text. Also change saudi to 'country'
-	# def self.toggle_employee_saudi_presence(employee)
-	# 	# if employee leaves the country or arrives, toggle their status so they
-	# 	# don't receive alerts and are marked as out of saudi
-	# 	# admin message
-	# end
-
-	# Admin can have all texts coming into system get forwarded to him so he has full visibility like he used to.
-	# def self.toggle_autoforward(sender)
-	# 	# look at sender. check autoforward status and toggle
-	# 	# check to see if user has autoforward privledges?
-	# end
-
-	# Gets specific employee's location
-	# def self.report_location(message, sender)
-	# 	result = MessageActions.report_location(message)
-	# end

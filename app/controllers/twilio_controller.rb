@@ -1,4 +1,3 @@
-
 require 'twilio-ruby'
  
 class TwilioController < ApplicationController
@@ -11,7 +10,7 @@ class TwilioController < ApplicationController
   def voice
   	response = Twilio::TwiML::Response.new do |r|
   	  r.Say 'This is the Force Protection Tracker Application, created by Nick Damiano. 
-      For help in using this application please text the word help to the number you just 
+      For help in using this application please text the word instructions to the number you just 
       dialed. Goodbye ', :voice => 'alice'
     end
   	render_twiml response

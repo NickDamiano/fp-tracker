@@ -6,7 +6,8 @@ class MessageParser
 			Message.send_message(sender, "You are not registered. text 'register' to begin registration.")
 			return
 		end
-		# Original message is required to parse responses to challenges from FP-Tracker
+		# Original message is required to parse responses to challenges from FP-Tracker. It is the message FP tracker
+		#   sent to the employee to ask which employee they meant when there are duplicates
 		original_message = Message.where(to: sender, pending_response: true).last
 		last_message = Message.where(to: sender).last
 		# This code checks to see if a Registration prompt was sent by FP-Tracker, in which 

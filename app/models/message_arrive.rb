@@ -1,6 +1,5 @@
 class MessageArrive
 
-	# Covered
 	def self.store_arrival(message, sender)
 		if message == "arrived"
 			update_database_arrive(sender)
@@ -32,16 +31,11 @@ class MessageArrive
 		end
 	end
 
-	# works for non-duplicates. does not send ack message
+	# Parses if message is "vader and fett arrived at the death star"
 	def self.parse_arrived_long(message, sender)
-		# parse by commas and arrived to get who and where. 
-		# send back to message.rb to update database with arrived
-		# first we parse the names out
 		successes = []
 		names = Message.parse_names(message)
-		#then we parse the location
 		location = message.split("arrived")[-1].split(" at ")[-1].lstrip
-		# then we run the duplicate checker to get non-duplicates
 		names_without_duplicates = DuplicateMessageAction.check_duplicate_last_name(names, sender, location)
 		if names_without_duplicates.empty?
 			return

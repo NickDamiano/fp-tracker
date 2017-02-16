@@ -1,6 +1,5 @@
 class MessageDepart
 
-	# Covered
 	def self.store_departure(message, sender)
 		parsed_data = get_depart_info(message)
 		names = parsed_data[:names]
@@ -9,14 +8,12 @@ class MessageDepart
 		if non_duplicate_names then update_database_depart(non_duplicate_names, to, sender) end
 	end
 	
-	# Covered
 	def self.get_depart_info(message)
 		names = Message.parse_names(message)
 		to = parse_location_to(message)
 		result = { names: names, to: to }
 	end
 
-	# Covered
 	def self.update_database_depart(employees, destination, sender)
 		# takes names and loops through updating database with new location for each one
 		# employees is array of hashes of employee objects
@@ -30,12 +27,11 @@ class MessageDepart
 		Message.sendAckMessage(successes, sender, "en route to #{destination}")
 	end
 
-	# Covered
 	def self.parse_location_to(message)
 		#if the message contains the word to
 		if message =~ /\sto\s/
 			return message.split(' to ')[-1]
-		# sometimes it's just a message like "skywalker going downtown" or "skywalker going home"
+		# sometimes it's just a message without to like "skywalker going downtown" or "skywalker going home"
 		elsif message =~ /going\s/
 			return message.split('going ')[-1]
 		end

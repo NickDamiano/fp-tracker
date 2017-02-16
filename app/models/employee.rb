@@ -1,10 +1,8 @@
-require 'pry-byebug'
-
 class Employee < ActiveRecord::Base
 	has_many :messages
 
+	# send a message to get last name
 	def self.register_employee(sender)
-		# send a message to get last name
 		begin
 			employee = Employee.create(phone_num1: sender)
 		rescue ActiveRecord::RecordNotUnique
@@ -18,6 +16,7 @@ class Employee < ActiveRecord::Base
 		Message.send_message(sender, message)
 	end
 
+	# deletes the employee record and any pending TransitEmployee objects
 	def self.unregister_employee(sender)
 		employee = Employee.find_by(phone_num1: sender)
 		TransitEmployee.where(employee_id: employee.id).delete_all
@@ -26,6 +25,7 @@ class Employee < ActiveRecord::Base
 		Message.send_message(sender, message)
 	end
 
+	# helper method for unregister to verify unregistration
 	def self.verify_unregister(sender)
 		# check if deletion worked
 		employee = Employee.find_by(phone_num1: sender)
@@ -36,9 +36,10 @@ class Employee < ActiveRecord::Base
 		end
 	end
 	
-	# Message is reply from user containing either first or last name, or location
-	# sender is the person we are requesting info from, 
-	# original message is the message we sent asking for the information in message (message class)
+	# Called from MessageParser.parse after employee responds to initial registration reply
+	#   Message is reply from user containing either first or last name, or location
+	#   sender is the person we are requesting info from
+	#   original message is the message we sent asking for the information in message (message class)
 	def self.parse_registration(message, sender, original_message)
 		employee = Employee.find_by(phone_num1: sender)
 		if original_message.body =~ /first/
