@@ -1,5 +1,4 @@
 require 'test_helper'
-require 'pry-byebug'
 
 class EmployeeTest < ActiveSupport::TestCase
 
@@ -51,9 +50,6 @@ class EmployeeTest < ActiveSupport::TestCase
 
    		assert_equal "mos eisley", Employee.find_by(phone_num1: sender).location
    		assert_match /Registered/, Message.last.body
-   end
-
-   test "should filter out suspicious characters from text message " do 
    end
 
 end

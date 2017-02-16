@@ -146,22 +146,4 @@ class DuplicateMessageActionTest < ActiveSupport::TestCase
 	  message = Message.find_by(pending_response: true)
 	  refute_nil message
 	end
-
-	test 'should send duplicate message via duplicate_message_sender method' do 
-	  # Takes the name that needs to be resolved, the sender of the original
-	     # report, and destination
-	  # composes the text message that is sent out listing the people it could be
-	  # Saves the message with the location
-	  skip("TODO below needs to be completely rewritten because method has radically")
-	  name = "fett"
-	  sender = Employee.find_by(phone_num1: "+15129998888")
-	  destination = "that water planet with the jumping bird-whale things"
-
-	  message = Message.find_by(pending_response: true)
-	  assert_nil message
-
-	  DuplicateMessageAction.duplicate_message_builder(name, sender, destination)
-	  message = Message.find_by(pending_response: true)
-	  refute_nil message
-	end
 end

@@ -1,5 +1,4 @@
 require 'test_helper'
-require 'pry-byebug'
 
 class MessageTest < ActiveSupport::TestCase
 

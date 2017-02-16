@@ -7,8 +7,6 @@ class MessageArriveTest < ActiveSupport::TestCase
       vader = Employee.find_by(last_name: "vader")
       assert_equal "psab", vader["location"]
 
-      # call updatedatabaseArrive to have have his location updated through
-      # transit messages
       MessageArrive.update_database_arrive("+15122223333")
       assert_equal "dantooine", Employee.find_by(last_name: "vader").location
    end
@@ -38,10 +36,8 @@ class MessageArriveTest < ActiveSupport::TestCase
       end
    end
 
+   # should take a message, parse out names and to location and return hash
 	test 'parse_arrived_long method' do 
-      # should take a message, parse out names and to location and return hash
-      # {names: "leia, luke, chew, han", to: "the death star"}
-      # should 
       message = "kenobi, skywalker, baca, and solo arrived at the death star"
       sender = "+15125556666" #solo
 

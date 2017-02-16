@@ -1,3 +1,44 @@
+
+unregister isn't working anymore
+register works and parse registration works but it won't hit the parse registration method because original message isn't hit because pending response isn't true. figure out how to get pending response to flag or find another way to match. I guess you could try Message.find_by(to: sender).last and if that matches to registration then hit it up.
+
+Then do the duplicates test and then the else stuff at the bottom of the message parser.
+
+
+
+Message - 
+2 - duplicates test
+3 - parser bottom of the test for else statements
+
+Possibly add an intercept checker to parse out characters that aren't allowed and send a rejection message - this would be for all incoming messages. 
+
+Go through all comments
+erase prybyebug stuff
+
+run owasp things?
+
+seed a few more star wars characters in. maybe some rogue one or episode 7
+
+8- clean up gemfile
+11- Get rid of unused controllers and models
+12- Fix the callback method
+
+15 - update secret key and put it into env
+16 - delete non master branches
+17 - create input validation for server / client - client isn't necessary since it's text messages not web form
+18 - create cron job for database seeder re-creation
+21 - make a demo video for the quick version 
+24 - FINISH? MOVE ON?
+
+stretch
+10 - update readme so anyone who wants to test it can make their own version
+23 - Make a blog post on it.
+22- make a tutorial on how to use the text messaging thing and do tests with it
+24 - Make a demo video for long explanation
+20 - possibly remove the admin piece that checks the location of everyone - at least get rid of the hacky thing you did and make it work right or just pull it out completely and modify the code that checks. just add a note that's where the code would be.
+
+
+
 Make table columns look sortable
 Finish testing
 Add cron job to clean up database once a day
@@ -87,3 +128,59 @@ front end part
 
 ack message - if no duplicates call the ack message,
 if duplicates, after pending messages cleared call ack message
+
+
+
+
+
+
+
+# For future improvements for message class
+
+	# In the future, maybe we want to send messages that are causing problems
+	# on to the manager so he can get all messages during an emergency sent to this
+	# number. This would be added at the bottom of the parse method under else block
+
+	# def self.forward_unparsed(message, sender)
+	# 	# send unparsed to admin to figure out why
+	# 	to = 
+	# 	Message.send_message(message)
+	# end
+	# Track message exchange
+	# def self.message_history(message, sender)
+	# 	result = MessageActions.history(message, sender)
+	# 	# send all messages back to sender from now until hours back
+	# end
+
+	# Admin register users via text
+	# This could be tied into the employee register. which could be extracted to serve both that and this purpose
+	# def self.add_employee(message)
+	# 	result = MessageActions.add_employee(message)
+	# 	# maybe this is done by the employee by texting and it asks a series of questions 
+	# 		# and then registers them after confirming all information is correct. 
+	# 	# admin message
+	# end
+
+	# Admin deletes user by text
+	# def self.remove_employee(message)
+	# 	# removes employees leaving permanently
+	# 	# admin message
+	# end
+
+	# when an employee leaves country, update system via text. Also change saudi to 'country'
+	# def self.toggle_employee_saudi_presence(employee)
+	# 	# if employee leaves the country or arrives, toggle their status so they
+	# 	# don't receive alerts and are marked as out of saudi
+	# 	# admin message
+	# end
+
+	# Admin can have all texts coming into system get forwarded to him so he has full visibility like he used to.
+	# def self.toggle_autoforward(sender)
+	# 	# look at sender. check autoforward status and toggle
+	# 	# check to see if user has autoforward privledges?
+	# end
+
+	# Gets specific employee's location
+	# def self.report_location(message, sender)
+	# 	result = MessageActions.report_location(message)
+	# end

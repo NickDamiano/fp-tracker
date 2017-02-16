@@ -9,6 +9,7 @@ class MessageTest < ActiveSupport::TestCase
       saved_message = Message.create(body: "some string", to:"+15122223333", from: 
          Twilio_number_test)
       Message.send_reject_message(saved_message, "5")
+
       assert_equal "5 is not one of the listed options. Please try again.", Message.last.body 
    end
 
@@ -16,6 +17,7 @@ class MessageTest < ActiveSupport::TestCase
       sender = "+15122223333"
       Message.give_instructions(sender)
       result = Message.where(to: sender).last.body
+
       assert_match /Departing/, result
       assert_match /Arriving/, result
       assert_match /Emergency/, result
@@ -37,20 +39,23 @@ class MessageTest < ActiveSupport::TestCase
    	message = "skywalker, vader, and solo going to psab"
    	sender = "+15122223333"
    	saved_message = Message.save_message(message, sender)
+
    	assert saved_message.id
-   	assert saved_message["from"], "+15122223333"
+   	assert "+15122223333", saved_message["from"]
    end
 
    test "should parse names" do 
    	message = "skywalker, vader, and solo going to psab"
    	result = Message.parse_names(message)
+
    	assert_equal ["skywalker", "vader", "solo"], result
    end
 
    test "should parse location to" do 
       message = "skywalker going to endor"
       result = MessageDepart.parse_location_to(message)
-      assert_equal result, "endor"
+
+      assert_equal "endor", result
    end
 
    test 'Should forward the message to all personnel in saudi' do 
@@ -58,10 +63,8 @@ class MessageTest < ActiveSupport::TestCase
       message = "you did it kid, now let's go home!"
       sender = "+15005550006" # han solo
       initial_count = Message.count
-      # Gets all personnel in saudi
       number_in_country = Employee.where(in_country: true).count
       result = Message.report_emergency(message, sender )
-
       final_count = Message.count
 
       assert_equal initial_count, final_count - number_in_country

@@ -1,12 +1,17 @@
 require 'minitest/autorun'
 require 'test_helper'
 
+# This tests the message parser which has a large case statement that parses a text using regex
+#   to determine what the intent of the message is, then calls the appropriate method to handlee that
+#   these tests mostly just test to make sure when a certain text comes in, the right method is called
+#   these tests are not concerned with the return of the methods as the message parser class starts a sequence
+#   of methods to handle the text rather than taking returns from methods. 
 class MessageParserTest < ActiveSupport::TestCase
 
 	test "case statement calls register employee" do 
 		Employee.stub :register_employee, ("register_employee") do 
 			result = MessageParser.parse("register", "+15122223333")
-			assert_equal result, "register_employee"
+			assert_equal "register_employee", result
 		end
 	end
 
@@ -14,7 +19,7 @@ class MessageParserTest < ActiveSupport::TestCase
 
 		Employee.stub :unregister_employee, ("unregister_employee") do 
 			result = MessageParser.parse("unregister", "+15122223333")
-			assert_equal result, "unregister_employee"
+			assert_equal "unregister_employee", result
 		end
 	end
 
@@ -22,7 +27,7 @@ class MessageParserTest < ActiveSupport::TestCase
 
 		Message.stub :report_emergency, ("report_emergency") do 
 			result = MessageParser.parse("911", "+15122223333")
-			assert_equal result, "report_emergency"
+			assert_equal "report_emergency", result
 		end
 
 	end
@@ -31,7 +36,7 @@ class MessageParserTest < ActiveSupport::TestCase
 
 		Message.stub :send_sitrep, ("send_sitrep") do 
 			result = MessageParser.parse("sitrep", "+15122223333")
-			assert_equal result, "send_sitrep"
+			assert_equal "send_sitrep", result
 		end
 
 	end
@@ -40,7 +45,7 @@ class MessageParserTest < ActiveSupport::TestCase
 
 		MessageDepart.stub :store_departure, ("store_departure") do 
 			result = MessageParser.parse("fett going to cloud city", "+15122223333")
-			assert_equal result, "store_departure"
+			assert_equal "store_departure", result
 		end
 
 	end
@@ -49,7 +54,7 @@ class MessageParserTest < ActiveSupport::TestCase
 
 		MessageArrive.stub :store_arrival, ("store_arrival") do 
 			result = MessageParser.parse("arrived", "+15122223333")
-			assert_equal result, "store_arrival"
+			assert_equal "store_arrival", result
 		end
 
 	end
@@ -58,7 +63,7 @@ class MessageParserTest < ActiveSupport::TestCase
 
 		Message.stub :give_instructions, ("give_instructions") do 
 			result = MessageParser.parse("instructions", "+15122223333")
-			assert_equal result, "give_instructions"
+			assert_equal "give_instructions", result
 		end
 
 	end
@@ -90,7 +95,7 @@ class MessageParserTest < ActiveSupport::TestCase
 
 		Employee.stub :parse_registration, ("parse_registration") do
 			result = MessageParser.parse("fisto", sender)
-			assert_equal result, "parse_registration"
+			assert_equal "parse_registration", result
 		end
 	end
 
