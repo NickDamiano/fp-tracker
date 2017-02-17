@@ -41,8 +41,9 @@ class Message < ActiveRecord::Base
 		arrive = "Arriving: If a depart message was sent, text 'arrived' & FP-tracker will update based off depart message. If no depart was sent, text 'lastname, lastname arrived at location'\n\n"
 		emergency = "Emergency: In an emergency, text '911 your message here' & your message will be forwarded to everyone in country.\n\n"
 		sitrep = "Sitrep: to request a list of all employees and their location text 'sitrep' (situation report)"
+		unregister = "Unregister: text 'unregister' to remove yourself from the system"
 		# if user has admin privledge to receive sitrep, send that additional line
-		employee.admin ? message = depart + arrive + emergency + sitrep : message = depart + arrive + emergency
+		employee.admin ? message = depart + arrive + emergency + sitrep + unregister : message = depart + arrive + emergency + unregister
 		Message.send_message(sender, message)
 	end
 
