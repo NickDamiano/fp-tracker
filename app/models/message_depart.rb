@@ -30,7 +30,8 @@ class MessageDepart
 	def self.parse_location_to(message)
 		#if the message contains the word to
 		if message =~ /\sto\s/
-			return message.split(' to ')[-1]
+			# returns this way in case message is "damiano going to the bank to make a deposit" there are two to's! 
+			return message.split(' to ')[1..-1].join(' to ')
 		# sometimes it's just a message without to like "skywalker going downtown" or "skywalker going home"
 		elsif message =~ /going\s/
 			return message.split('going ')[-1]
