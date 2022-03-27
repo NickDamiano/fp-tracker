@@ -1,4 +1,5 @@
-## Background
+## Backgroupnd
+
 When I arrived in Saudi Arabia I was the first person in country for our contract. I had one in-country supervisor and each day when we left our compound to drive 90 minutes to the Saudi air base he expected us to text him when we departed the compound, arrived at the base and vice-versa. This system became difficult to maintain as my team grew upward to 20 people rotating in for as little as a week. Because of this I built FP Tracker in my own time to improve the ability to accurately track personnel in country to make sure they arrived on time. 
 
 I chose text messaging as the basis of the app rather than a web or phone app because most employees rotating in had only a personal phone with text and call packages but no data due to cost, and because many of the places we found ourselves had no data coverage but enough signal bars to send a text. 
